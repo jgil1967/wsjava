@@ -6,6 +6,7 @@
 package com.uas.properties;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -37,6 +38,24 @@ public class PropertiesDAO implements PropertiesInterface{
 		}
 	}
         return null;
+    }
+
+    @Override
+    public void cambiarValorPropiedad(String nombrePropiedad, String valor) {
+        try{
+        FileInputStream in = new FileInputStream("config.properties");
+Properties props = new Properties();
+props.load(in);
+in.close();
+
+FileOutputStream out = new FileOutputStream("config.properties");
+props.setProperty("yaConverti", "true");
+props.store(out, null);
+out.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+                }
     }
     
 }

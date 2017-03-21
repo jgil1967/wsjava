@@ -23,6 +23,7 @@ import com.uas.transactionRecord.TransactionRecordFacade;
 import com.uas.usuarios.UsuarioDTO;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.beanutils.BeanUtils;
 
 /**
  *
@@ -1092,9 +1094,19 @@ if (document.getFolder().getId() != 0){
             
             
         DocumentFacade doFac = new DocumentFacade(); 
-          DocumentDTOWithFolderDTO documentoOriginal = documents.get(0);
+        DocumentDTOWithFolderDTO documentoOriginal = new DocumentDTOWithFolderDTO();
+        DocumentDTOWithFolderDTO documentoDestino = new DocumentDTOWithFolderDTO();
+            try {
+                BeanUtils.copyProperties(documentoOriginal, documents.get(0));
+                BeanUtils.copyProperties(documentoDestino,  documents.get(1));  
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvocationTargetException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
             
-          DocumentDTOWithFolderDTO documentoDestino = documents.get(1);
+          
           ///////////////////////////////////
           documentoOriginal = doFac.getDocument(documentoOriginal);
           System.out.println("documentoOriginal : " + documentoOriginal.getFullPathToFolder());

@@ -21,5 +21,10 @@ PropertiesInterface dao = null;
     public String obtenerValorPropiedad(String nombrePropiedad) {
         return dao.obtenerValorPropiedad(nombrePropiedad);
     }
+
+    @Override
+    public void cambiarValorPropiedad(String nombrePropiedad, String valor) {
+       dao.cambiarValorPropiedad(nombrePropiedad, valor);
+    }
     
 }

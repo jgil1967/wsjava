@@ -17,7 +17,7 @@ public class ObjectDTO {
         return "ObjectDTO{" + "name=" + name + ", description=" + description + ", color=" + color + ", kind=" + kind + ", id=" + id + ", createdOn=" + createdOn + '}';
     }
      
-    public String name, description, color,kind,query,message;
+    public String name, description, color ="",kind,query,message;
    public int id, createdBy;
     public Date createdOn;
 

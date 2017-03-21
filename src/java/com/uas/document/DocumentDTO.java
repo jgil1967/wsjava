@@ -178,10 +178,7 @@ public class DocumentDTO extends ObjectDTO implements Serializable {
         this.keywords = keywords;
     }
 
-    @Override
-    public String toString() {
-        return "DocumentDTO{" + "filename=" + filename + ", keywords=" + keywords + ", fileDate=" + fileDate + ", fileDateDate=" + fileDateDate + '}';
-    }
+  
 
     public UsuarioDTO getUser() {
         return user;
@@ -205,6 +202,11 @@ public class DocumentDTO extends ObjectDTO implements Serializable {
 
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    @Override
+    public String toString() {
+        return "DocumentDTO{" + "filename=" + filename + ", keywords=" + keywords + ", fileDate=" + fileDate + ", fileDateDate=" + fileDateDate + ", idArea=" + idArea + ", user=" + user + ", area=" + area + ", visible=" + visible + ", deleted=" + deleted + ", backedUp=" + backedUp + ", isFolder=" + isFolder + ", isInsideFolder=" + isInsideFolder + ", ascendenteBorrado=" + ascendenteBorrado + ", vengoDeRootYPuedoCambiarDeArea=" + vengoDeRootYPuedoCambiarDeArea + ", idUsuario=" + idUsuario + ", fullPathToFolder=" + fullPathToFolder + ", fullPathToFolderInDeleted=" + fullPathToFolderInDeleted + ", subFullPathToFolder=" + subFullPathToFolder + ", children=" + children + '}';
     }
 
    

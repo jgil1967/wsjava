@@ -11,4 +11,5 @@ package com.uas.properties;
  */
 public interface PropertiesInterface {
     public String obtenerValorPropiedad (String nombrePropiedad);
+    public void cambiarValorPropiedad (String nombrePropiedad, String valor);
 }

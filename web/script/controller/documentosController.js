@@ -241,12 +241,12 @@ $scope.llenarTodos = function (){
          
           topBannerService.setTitle("Documentos");
             $scope.createDocument = function ($event){
-             $scope.document = { id:0, isFolder:false,isInsideFolder:false,vengoDeRootYPuedoCambiarDeArea:true, fileDate:new Date(), name:'', description:'',idArea:0,createdBy: $("#idUsuario").val(), color:"#01579b",kind:"document" };
+             $scope.document = { id:0, isFolder:false,isInsideFolder:false,vengoDeRootYPuedoCambiarDeArea:true, fileDate:new Date(), name:'', description:'',idArea:0,createdBy: parseInt ($("#idUsuario").val()),kind:"document"};
               documentosService.updateDocumentDialog($event,$scope.document );
             };
             
               $scope.createDocumentFolder = function ($event){
-             $scope.document = { id:0, isFolder:true,isInsideFolder:false,fileDate:new Date(), name:'',vengoDeRootYPuedoCambiarDeArea:true, description:'',idArea:0,createdBy: $("#idUsuario").val(), color:"#01579b",kind:"document" };
+             $scope.document = { id:0, isFolder:true,isInsideFolder:false,fileDate:new Date(), name:"",vengoDeRootYPuedoCambiarDeArea:true, description:'',idArea:0,createdBy: parseInt ($("#idUsuario").val()), color:"",kind:"document" };
               documentosService.updateDocumentDialog($event,$scope.document );
             };
             

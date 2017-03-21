@@ -359,15 +359,16 @@ $scope.trabajando = false;
 
 
 $scope.nuevoDocumentFolder = function () {
-                window.console.log($scope.document);
-                
+               
      $scope.trabajando = true;
       $scope.document.fileDate = new Date($("#fileDate").val());
           $scope.document.filename = $scope.document.name; 
-      
+                
        documentosService.createDocument($scope.document).then(function (data) {
+                    window.console.log("1");
                                 $mdDialog.hide();
                                 $scope.document = data;
+                                window.console.log("2");
                                 angular.forEach($scope.tags, function (tag, key) {
                                     if ("id" in tag) {
                                         $scope.dDto = {
@@ -444,8 +445,11 @@ $scope.trabajando = false;
                     headers: {'Content-Type': undefined}
                 })
                         .success(function (response) {
+                                window.console.log(response);
                            $scope.trabajando= true;
-                            $scope.document.filename = response;
+                            $scope.document.filename = response.filename;
+                                window.console.log("YA LLEGUE");
+                                window.console.log(JSON.stringify($scope.document));
                             documentosService.createDocument($scope.document).then(function (data) {
                                 $mdDialog.hide();
                                 $scope.document = data;

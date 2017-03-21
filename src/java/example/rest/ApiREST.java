@@ -50,10 +50,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
+import org.apache.commons.beanutils.BeanUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 /**
  *
  * @author jonathangil
@@ -248,69 +248,69 @@ public class ApiREST {
              return aFac.getAreas();
                 }
     
-     @GET
-    @Path("/rnd")
-    @Produces(MediaType.APPLICATION_JSON)    
-    /**
-     * genera y retorna un numero aleatorio
-     * @return Response
-     */
-    public Response generateRndNumber(){
-        Random rnd = new Random();        
-        return Response.ok(
-                response("Numero Aleatorio", "", String.valueOf(rnd.nextDouble())), 
-                MediaType.APPLICATION_JSON).build();
-    }
-    
-    @GET
-    @Path("/fibo/{value}")
-    @Produces(MediaType.APPLICATION_JSON)
-    /**
-     * Sucesion de fibonacci
-     * @param value numero entero
-     * @return Response
-     */
-    public Response getFibo(@PathParam("value") int value) {
-        if(value<=0){                        
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(
-                    response("Fibonacci", String.valueOf(value), "El numero debe ser mayor que cero")).build();
-        }               
-        int fibo1 = 1;
-        int fibo2 = 1;
-        int aux = 1;
-        String cadena = "1";
-        for (int i = 2; i <= value; i++) {
-            fibo2 += aux;
-            aux = fibo1;
-            fibo1 = fibo2;
-            cadena += " " + aux;
-        }        
-        return Response.ok(
-                response("Fibonacci", String.valueOf(value), cadena), 
-                MediaType.APPLICATION_JSON).build();
-    }
-    
-    /**
-     * metodo privado para dar formato al JSON de respuesta
-     * @param operation Operacion que se realiza en el APIREST
-     * @param paramater parametro de entrada
-     * @param result resultado de la operacion realizada
-     * @return String Respuesta en formato JSON
-     */
-    private String response(String operation, String parameter, String result) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("operation", operation);
-            obj.put("parameter", parameter);
-            obj.put("result", result);            
-            return obj.toString(4);
-        } catch (JSONException ex) {
-            System.err.println("JSONException: " + ex.getMessage());
-        }
-        return "";
-    }
-    
+//     @GET
+//    @Path("/rnd")
+//    @Produces(MediaType.APPLICATION_JSON)    
+//    /**
+//     * genera y retorna un numero aleatorio
+//     * @return Response
+//     */
+//    public Response generateRndNumber(){
+//        Random rnd = new Random();        
+//        return Response.ok(
+//                response("Numero Aleatorio", "", String.valueOf(rnd.nextDouble())), 
+//                MediaType.APPLICATION_JSON).build();
+//    }
+//    
+//    @GET
+//    @Path("/fibo/{value}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    /**
+//     * Sucesion de fibonacci
+//     * @param value numero entero
+//     * @return Response
+//     */
+//    public Response getFibo(@PathParam("value") int value) {
+//        if(value<=0){                        
+//            return Response.status(Response.Status.BAD_REQUEST)
+//                    .entity(
+//                    response("Fibonacci", String.valueOf(value), "El numero debe ser mayor que cero")).build();
+//        }               
+//        int fibo1 = 1;
+//        int fibo2 = 1;
+//        int aux = 1;
+//        String cadena = "1";
+//        for (int i = 2; i <= value; i++) {
+//            fibo2 += aux;
+//            aux = fibo1;
+//            fibo1 = fibo2;
+//            cadena += " " + aux;
+//        }        
+//        return Response.ok(
+//                response("Fibonacci", String.valueOf(value), cadena), 
+//                MediaType.APPLICATION_JSON).build();
+//    }
+//    
+//    /**
+//     * metodo privado para dar formato al JSON de respuesta
+//     * @param operation Operacion que se realiza en el APIREST
+//     * @param paramater parametro de entrada
+//     * @param result resultado de la operacion realizada
+//     * @return String Respuesta en formato JSON
+//     */
+//    private String response(String operation, String parameter, String result) {
+//        JSONObject obj = new JSONObject();
+//        try {
+//            obj.put("operation", operation);
+//            obj.put("parameter", parameter);
+//            obj.put("result", result);            
+//            return obj.toString(4);
+//        } catch (JSONException ex) {
+//            System.err.println("JSONException: " + ex.getMessage());
+//        }
+//        return "";
+//    }
+//    
     
                   @GET
 		 @Produces(MediaType.APPLICATION_JSON)
@@ -429,27 +429,32 @@ public class ApiREST {
       }
     
     
-    
+              
               @POST
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/createDocument")
-    public DocumentDTOWithFolderDTO createDocument(DocumentDTOWithFolderDTO dDto) throws Exception
+    public DocumentDTOWithFolderDTO createDocument(Object dDto) throws Exception
     { 
-        
+        System.out.println("Hello");
+        DocumentDTOWithFolderDTO d = new DocumentDTOWithFolderDTO();
+        BeanUtils.copyProperties(d, dDto);
          
           DocumentDTOWithFolderDTO newDto = null;
           DocumentFacade fac = new DocumentFacade(); 
-      if (dDto.getIsFolder()){
+      if (d.getIsFolder()){
                
-               fac.createFolder(dDto);
+               fac.createFolder(d);
       }else{
           
-          fac.createDocument2(dDto);
+          fac.createDocument2(d);
+            File f = new File(returnPath("pathForTemporaryFiles"));
+            deleteFolder(f);
         
       }
      
        return newDto;
+
   
     }
     
@@ -887,10 +892,26 @@ if (i > 0) {
         return null;
     }
     
+    
+    public static void deleteFolder(File folder) {
+    File[] files = folder.listFiles();
+    if(files!=null) { //some JVMs return null for empty dirs
+        for(File f: files) {
+            if(f.isDirectory()) {
+                deleteFolder(f);
+            } else {
+                f.delete();
+            }
+        }
+    }
+    
+}
+    
+    
         @POST
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadFile(
+	public DocumentDTO uploadFile(
 		@FormDataParam("file") InputStream uploadedInputStream,
 		@FormDataParam("file") FormDataContentDisposition fileDetail) {
         num=0;
@@ -902,11 +923,15 @@ if (i > 0) {
                  System.out.println("nuevo nombre : " + nuevoNombre);
                  
                  
-              String rutaAGuardar =  checkIfExistsAndReturnValid(uploadedFileLocation,nuevoNombre);
-              System.out.println("rutaAGuardar : " + rutaAGuardar);   
-              writeToFile(uploadedInputStream, rutaAGuardar);
-		 output = rutaAGuardar;
-	return Response.status(200).entity(nombreFinal).build();
+              
+              System.out.println("rutaAGuardar : " + uploadedFileLocation);   
+              writeToFile(uploadedInputStream, uploadedFileLocation);
+		 output = uploadedFileLocation;
+                 
+                 DocumentDTO dto = new DocumentDTO();
+                 dto.setFilename(uploadedFileLocation.substring(uploadedFileLocation.lastIndexOf("/")+1, uploadedFileLocation.length()));
+               
+	return dto;
 
 	}
                 

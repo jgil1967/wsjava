@@ -24,6 +24,18 @@ import java.util.ArrayList;
  */
 public class areaDAO implements areaInterface {
 
+    public areaDAO() {
+        PropertiesFacade fac = new PropertiesFacade();
+        if (fac.obtenerValorPropiedad("yaConverti").equals("false")){
+            
+      ArrayList<areaDTO> list = getAreas();
+     crearCarpetasAPartirDeAreas(list);
+     fac.cambiarValorPropiedad("yaConverti", "true");
+        }
+          
+    }
+
+      
     @Override
     public areaDTO createArea(areaDTO dto) {
         fac = new areaFacade();

@@ -73,22 +73,7 @@
         <servlet-name>wsjava</servlet-name>
         <url-pattern>/fimrest/*</url-pattern>
     </servlet-mapping>
-    <!--    <servlet>
-        <servlet-name>UsuarioServlet</servlet-name>
-        <servlet-class>com.uas.usuarios.UsuarioServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DocumentosServlet</servlet-name>
-        <servlet-class>com.uas.document.DocumentosServlet</servlet-class>
-          <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UsuarioServlet</servlet-name>
-        <url-pattern>/UsuarioServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DocumentosServlet</servlet-name>
-        <url-pattern>/DocumentosServlet</url-pattern>
-    </servlet-mapping>-->
+       
+    
     
 </web-app>
