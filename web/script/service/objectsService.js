@@ -10,7 +10,7 @@ app.service('objectsService', function($http){
            searchTerm = dDto.query ;
    return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/searchDocuments",
+    url: "/wsjava/fimrest/restapi/searchDocuments",
     data: JSON.stringify(dDto)
         }).then(function(result)
         {

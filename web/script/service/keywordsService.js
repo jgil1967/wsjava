@@ -9,7 +9,7 @@ app.service('keywordsService',function($http){
     
     var keywordsService = {
          getKeywords: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getKeywords').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getKeywords').then(function (response) {
       keywords = response.data;
       });
       return promise;
@@ -32,7 +32,7 @@ app.service('keywordsService',function($http){
       createKeyword: function(keyword) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createTag",
+    url: "/wsjava/fimrest/restapi/createTag",
     data: JSON.stringify(keyword)
 }).then(function(result){
     
@@ -42,7 +42,7 @@ app.service('keywordsService',function($http){
         //console.log( JSON.stringify(keyword));
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/updateKeyword",
+    url: "/wsjava/fimrest/restapi/updateKeyword",
     data: JSON.stringify(keyword)
 }).then(function(result){
     

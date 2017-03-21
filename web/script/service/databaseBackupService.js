@@ -5,7 +5,7 @@ app.service('databaseBackupService',function($http){
       createDatabaseBackup: function(databaseBackupData) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createDatabaseBackup",
+    url: "/wsjava/fimrest/restapi/createDatabaseBackup",
     data: JSON.stringify(databaseBackupData)
 }).then(function(result){
     

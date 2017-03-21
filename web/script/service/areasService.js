@@ -9,7 +9,7 @@ app.service('areasService',function($http){
     
     var areasService = {
          getAreas: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getAreas').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getAreas').then(function (response) {
       areas = response.data;
       });
       return promise;
@@ -17,7 +17,7 @@ app.service('areasService',function($http){
    getPossibleAreasByArea: function(area) {
             return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getPossibleAreasByArea",
+    url: "/wsjava/fimrest/restapi/getPossibleAreasByArea",
     data: JSON.stringify(area)
 }).then(function(result){
      
@@ -28,7 +28,7 @@ app.service('areasService',function($http){
      getAreasByArea: function(area) {
        return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getAreasByArea",
+    url: "/wsjava/fimrest/restapi/getAreasByArea",
     data: JSON.stringify(area)
 }).then(function(result){
      
@@ -39,7 +39,7 @@ app.service('areasService',function($http){
       getAreasByArea2: function(area) {
        return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getAreasByArea2",
+    url: "/wsjava/fimrest/restapi/getAreasByArea2",
     data: JSON.stringify(area)
 }).then(function(response){
             
@@ -68,7 +68,7 @@ app.service('areasService',function($http){
       createArea: function(area) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createArea",
+    url: "/wsjava/fimrest/restapi/createArea",
     data: JSON.stringify(area)
 }).then(function(result){
     
@@ -78,7 +78,7 @@ app.service('areasService',function($http){
         
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/updateArea",
+    url: "/wsjava/fimrest/restapi/updateArea",
     data: JSON.stringify(area)
 }).then(function(result){
     
@@ -87,7 +87,7 @@ app.service('areasService',function($http){
     createAreaRelationship: function(area) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createAreaRelationship",
+    url: "/wsjava/fimrest/restapi/createAreaRelationship",
     data: JSON.stringify(area)
 }).then(function(result){
     
@@ -96,7 +96,7 @@ app.service('areasService',function($http){
      uploadAndEdit: function(area) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/uploadAndEdit",
+    url: "/wsjava/fimrest/restapi/uploadAndEdit",
     data: JSON.stringify(area)
 }).then(function(result){
     
@@ -105,7 +105,7 @@ app.service('areasService',function($http){
     deleteAreaRelationship: function(area) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/deleteAreaRelationship",
+    url: "/wsjava/fimrest/restapi/deleteAreaRelationship",
     data: JSON.stringify(area)
 }).then(function(result){
     

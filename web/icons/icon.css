@@ -3,7 +3,7 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: local('Material Icons'), local('MaterialIcons-Regular'), url(/FIMWebServices/icons/iconos.woff2) format('woff2');
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(/wsjava/icons/iconos.woff2) format('woff2');
 }
 
 .material-icons {

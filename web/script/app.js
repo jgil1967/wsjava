@@ -15,68 +15,68 @@ var app = angular.module('appApp', ['ngRoute','ngMaterial', 'ngMessages','md.dat
 app.config(function($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl : '/FIMWebServices/pages/documentos.html',
+                templateUrl : '/wsjava/pages/documentos.html',
                 controllerAs: 'ctrl',
                 controller  : ''
             })
              .when('/userSettings', {
-                templateUrl : '/FIMWebServices/pages/userSettings.html',
+                templateUrl : '/wsjava/pages/userSettings.html',
                 controllerAs: 'ctrl',
                 controller  : 'userSettingsController'
             })
             
                .when('/transactions', {
-                templateUrl : '/FIMWebServices/pages/transactions.html',
+                templateUrl : '/wsjava/pages/transactions.html',
                 controllerAs: 'ctrl',
                 controller  : 'transactionsController'
             })
              .when('/databaseBackup', {
-                templateUrl : '/FIMWebServices/pages/databaseBackup.html',
+                templateUrl : '/wsjava/pages/databaseBackup.html',
                 controllerAs: 'ctrl',
                 controller  : 'databaseBackupController'
             })
             
             .when('/documentsBackup', {
-                templateUrl : '/FIMWebServices/pages/documentsBackup.html',
+                templateUrl : '/wsjava/pages/documentsBackup.html',
                 controllerAs: 'ctrl',
                 controller  : 'documentsBackupController'
             })
               .when('/documentos', {
-                templateUrl : '/FIMWebServices/pages/documentos.html',
+                templateUrl : '/wsjava/pages/documentos.html',
                 controllerAs: 'ctrl',
                 controller  : ''
             })
               .when('/usuarios', {
-                templateUrl : '/FIMWebServices/pages/usuarios.html',
+                templateUrl : '/wsjava/pages/usuarios.html',
                 controllerAs: 'ctrl',
                 controller  : 'usuariosController'
             })
              .when('/subidospormi', {
-                templateUrl : '/FIMWebServices/pages/subidospormi.html',
+                templateUrl : '/wsjava/pages/subidospormi.html',
                 controllerAs: 'ctrl',
                 controller  : 'subidospormiController'
             })
             .when('/keywords', {
-                templateUrl : '/FIMWebServices/pages/keywords.html',
+                templateUrl : '/wsjava/pages/keywords.html',
                 controllerAs: 'ctrl',
                 controller  : 'keywordsController'
             })
             .when('/areas', {
-                templateUrl : '/FIMWebServices/pages/areas.html',
+                templateUrl : '/wsjava/pages/areas.html',
                 controllerAs: 'ctrl',
                 controller  : 'areasController'
             })
              .when('/busqueda', {
-                templateUrl : '/FIMWebServices/pages/busqueda.html',
+                templateUrl : '/wsjava/pages/busqueda.html',
                 controllerAs: 'ctrl',
                 controller  : 'searchController'
             })
              .when('/documentos/:id', {
-                templateUrl : '/FIMWebServices/pages/documento.html',
+                templateUrl : '/wsjava/pages/documento.html',
                 controller  : 'documentoController'
             })
             .when('/searchResults/:searchTerm', {
-                templateUrl : '/FIMWebServices/pages/searchResults.html',
+                templateUrl : '/wsjava/pages/searchResults.html',
                 controller  : 'searchController'
             })
           

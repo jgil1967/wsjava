@@ -595,7 +595,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
          
  
    <td md-cell>
-       <md-button  ng-href="/FIMWebServices/FIMRest/hello/downloadDocumentOrFolder/{{document.id}}" class="md-fab md-primary" aria-label="Ver columnas">
+       <md-button  ng-href="/wsjava/fimrest/restapi/downloadDocumentOrFolder/{{document.id}}" class="md-fab md-primary" aria-label="Ver columnas">
        <i class="material-icons">file_download</i>
         </md-button>
        </td>
@@ -798,7 +798,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
               
         <li  class="bold" id="boton{{opcion.name}}"><a ng-href="#/{{opcion.url}}" class="waves-effect waves-paquetexpress">{{opcion.name}}</a></li>
         </div>
-                   <li class="bold"><a ng-href="http://localhost:8080/FIMWebServices/UsuarioServlet?task=cerrarsesionhttp" class="waves-effect waves-paquetexpress">Cerrar sesión</a></li>
+                   <li class="bold"><a ng-href="http://localhost:8080/wsjava/UsuarioServlet?task=cerrarsesionhttp" class="waves-effect waves-paquetexpress">Cerrar sesión</a></li>
            
           </div>
          

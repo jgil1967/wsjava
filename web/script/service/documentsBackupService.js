@@ -9,7 +9,7 @@ app.service('documentsBackupService',function($http){
     
     var documentsBackupService = {
           getDocumentsBackups: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getDocumentBackups').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getDocumentBackups').then(function (response) {
       documentsBackups = response.data;
       });
       return promise;
@@ -23,7 +23,7 @@ app.service('documentsBackupService',function($http){
       createDocumentsBackup: function() {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createDocumentsBackup",
+    url: "/wsjava/fimrest/restapi/createDocumentsBackup",
  
 }).then(function(result){
     
@@ -39,7 +39,7 @@ app.service('documentsBackupService',function($http){
      backupDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/backupDocument",
+    url: "/wsjava/fimrest/restapi/backupDocument",
     data: JSON.stringify(document)
 }).then(function(result){
     

@@ -12,7 +12,7 @@ app.service('documentKeywordRelationshipService',function($http){
       createdocumentKeywordRelationship: function(tag) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createDocumentKeywordRelationship",
+    url: "/wsjava/fimrest/restapi/createDocumentKeywordRelationship",
     data: JSON.stringify(tag)
 }).then(function(result){
     
@@ -21,7 +21,7 @@ app.service('documentKeywordRelationshipService',function($http){
       deleteDocumentKeywordRelationshipsByDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/deleteDocumentKeywordRelationshipsByDocument",
+    url: "/wsjava/fimrest/restapi/deleteDocumentKeywordRelationshipsByDocument",
     data: JSON.stringify(document)
 }).then(function(result){
     

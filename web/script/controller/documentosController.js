@@ -291,7 +291,7 @@ $scope.llenarTodos = function (){
     var countries = [];
     
   $scope.loadCountries = function($query) {
-    return $http.get('/FIMWebServices/FIMRest/hello/getKeywords', { cache: false}).then(function(response) {
+    return $http.get('/wsjava/fimrest/restapi/getKeywords', { cache: false}).then(function(response) {
                 
         countries = response.data;
                 //window.console.log(countries);

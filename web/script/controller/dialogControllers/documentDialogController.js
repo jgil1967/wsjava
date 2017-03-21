@@ -271,7 +271,7 @@ app.controller('documentDialogController', ['$scope', '$http', '$filter', '$time
     page: 1
   };
             $scope.loadCountries = function ($query) {
-                return $http.get('/FIMWebServices/FIMRest/hello/getKeywords', {cache: false}).then(function (response) {
+                return $http.get('/wsjava/fimrest/restapi/getKeywords', {cache: false}).then(function (response) {
                     countries = response.data;
                     return countries.filter(function (country) {
                         return country.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
@@ -432,7 +432,7 @@ $scope.trabajando = false;
                     var file = $scope.myFile;
                 $scope.document.filename = $scope.myFile.name;
                 $scope.document.fileDate = new Date($("#fileDate").val());
-                var uploadUrl = "/FIMWebServices/FIMRest/hello/upload";
+                var uploadUrl = "/wsjava/fimrest/restapi/upload";
                 var fields = [{"name": "name", "data": document.name}, {"name": "description", "data": document.description}];
                 var fd = new FormData();
                 fd.append('file', file);

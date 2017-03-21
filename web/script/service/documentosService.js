@@ -18,13 +18,13 @@ app.service('documentosService',function($http){
     
     var documentosService = {
          getDocuments: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getDocuments').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getDocuments').then(function (response) {
       documents = response.data;
       });
       return promise;
     },
       getDocumentGovernment: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getDocumentGovernment').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getDocumentGovernment').then(function (response) {
       documentGovernment = response.data;
       });
       return promise;
@@ -33,7 +33,7 @@ app.service('documentosService',function($http){
    
        return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getDocumentsOnlyEnabled",
+    url: "/wsjava/fimrest/restapi/getDocumentsOnlyEnabled",
     data: JSON.stringify(areas)
 }).then(function(result){
     
@@ -46,7 +46,7 @@ app.service('documentosService',function($http){
    
        return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getDocumentsByFolder",
+    url: "/wsjava/fimrest/restapi/getDocumentsByFolder",
     data: JSON.stringify(folder)
 }).then(function(result){
     
@@ -59,7 +59,7 @@ app.service('documentosService',function($http){
    
        return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getDocumentsByUser",
+    url: "/wsjava/fimrest/restapi/getDocumentsByUser",
     data: JSON.stringify(user)
 }).then(function(result){
     
@@ -72,7 +72,7 @@ app.service('documentosService',function($http){
             window.console.log("Filters: " + JSON.stringify(filters));
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getDocumentsFilters",
+    url: "/wsjava/fimrest/restapi/getDocumentsFilters",
     data: JSON.stringify(filters)
 }).then(function(result){
     
@@ -80,7 +80,7 @@ app.service('documentosService',function($http){
             
         });  },
      getDatesDTO: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getDatesDTO').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getDatesDTO').then(function (response) {
       dates = response.data;
       });
       return promise;
@@ -108,7 +108,7 @@ app.service('documentosService',function($http){
     downloadDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/downloadDocument",
+    url: "/wsjava/fimrest/restapi/downloadDocument",
     data: JSON.stringify(document)
 }).then(function(result){
     window.console.dir(result);
@@ -119,7 +119,7 @@ app.service('documentosService',function($http){
     moveDocuments: function(documents) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/moveDocuments",
+    url: "/wsjava/fimrest/restapi/moveDocuments",
     data: JSON.stringify(documents)
 }).then(function(result){
     
@@ -129,7 +129,7 @@ app.service('documentosService',function($http){
      updateDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/updateDocument",
+    url: "/wsjava/fimrest/restapi/updateDocument",
     data: JSON.stringify(document)
 }).then(function(result){
     
@@ -139,7 +139,7 @@ app.service('documentosService',function($http){
     deleteDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/deleteDocument",
+    url: "/wsjava/fimrest/restapi/deleteDocument",
     data: JSON.stringify(document)
 }).then(function(result){
     
@@ -148,7 +148,7 @@ app.service('documentosService',function($http){
       restoreDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/restoreDocument",
+    url: "/wsjava/fimrest/restapi/restoreDocument",
     data: JSON.stringify(document)
 }).then(function(result){
     
@@ -157,7 +157,7 @@ app.service('documentosService',function($http){
       createDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createDocument",
+    url: "/wsjava/fimrest/restapi/createDocument",
     data: JSON.stringify(document)
 }).then(function(result){
     

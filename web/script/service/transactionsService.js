@@ -9,7 +9,7 @@ app.service('transactionsService',function($http){
     
     var transactionsService = {
          getTransactions: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getTransactionRecords').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getTransactionRecords').then(function (response) {
       transactions = response.data;
       });
       return promise;
@@ -32,7 +32,7 @@ app.service('transactionsService',function($http){
       createTransaction: function(transaction) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createTag",
+    url: "/wsjava/fimrest/restapi/createTag",
     data: JSON.stringify(transaction)
 }).then(function(result){
     
@@ -42,7 +42,7 @@ app.service('transactionsService',function($http){
         //console.log( JSON.stringify(transaction));
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/updateTransaction",
+    url: "/wsjava/fimrest/restapi/updateTransaction",
     data: JSON.stringify(transaction)
 }).then(function(result){
     

@@ -9,7 +9,7 @@ app.service('tagsService',function($http){
     
     var tagsService = {
          getTags: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getKeywords').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getKeywords').then(function (response) {
       tags = response.data;
       });
       return promise;
@@ -23,7 +23,7 @@ app.service('tagsService',function($http){
       createTag: function(tag) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createTag",
+    url: "/wsjava/fimrest/restapi/createTag",
     data: JSON.stringify(tag)
 }).then(function(result){
     

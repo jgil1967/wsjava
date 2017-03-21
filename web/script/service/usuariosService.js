@@ -13,7 +13,7 @@ app.service('usuariosService',function($http){
             
              return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getUsuarioByID",
+    url: "/wsjava/fimrest/restapi/getUsuarioByID",
     data: JSON.stringify(usuario)
 }).then(function(result){
     
@@ -30,7 +30,7 @@ app.service('usuariosService',function($http){
              
        return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/getUsuarios",
+    url: "/wsjava/fimrest/restapi/getUsuarios",
     data: JSON.stringify(usuario)
 }).then(function(result){
     
@@ -41,7 +41,7 @@ app.service('usuariosService',function($http){
              
     },
     getUsuariosForAdministrator: function() {
-      var promise = $http.get('/FIMWebServices/FIMRest/hello/getUsuariosForAdministrator').then(function (response) {
+      var promise = $http.get('/wsjava/fimrest/restapi/getUsuariosForAdministrator').then(function (response) {
       usuarios = response.data;
       });
       return promise;
@@ -63,7 +63,7 @@ app.service('usuariosService',function($http){
     updateUser: function(usuario) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/updateUsuario",
+    url: "/wsjava/fimrest/restapi/updateUsuario",
     data: JSON.stringify(usuario)
 }).then(function(result){
     
@@ -72,7 +72,7 @@ app.service('usuariosService',function($http){
       createUsuario: function(usuario) {
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/createUsuario",
+    url: "/wsjava/fimrest/restapi/createUsuario",
     data: JSON.stringify(usuario)
 }).then(function(result){
     
@@ -82,7 +82,7 @@ app.service('usuariosService',function($http){
          //   window.console.log("verificaDisponibilidadUsuario");
  return  $http({
     method: 'POST',
-    url: "/FIMWebServices/FIMRest/hello/verificaDisponibilidadUsuario",
+    url: "/wsjava/fimrest/restapi/verificaDisponibilidadUsuario",
     data: JSON.stringify(usuario)
 }).then(function(result){
     
