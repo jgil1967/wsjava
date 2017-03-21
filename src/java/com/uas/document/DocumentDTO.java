@@ -28,13 +28,22 @@ public class DocumentDTO extends ObjectDTO implements Serializable {
     ArrayList <KeywordDTO> keywords;
     String fileDate;
     Date fileDateDate;
-    int idArea;
+    int idArea, idFolderPadre;
     UsuarioDTO user;
     areaDTO area;
     Boolean visible = true, deleted = false,backedUp=false, isFolder=false,isInsideFolder=false, ascendenteBorrado=false,vengoDeRootYPuedoCambiarDeArea=false;
     int idUsuario;
     String fullPathToFolder,fullPathToFolderInDeleted, subFullPathToFolder;
     List <DocumentDTO> children;
+
+    public int getIdFolderPadre() {
+        return idFolderPadre;
+    }
+
+    public void setIdFolderPadre(int idFolderPadre) {
+        this.idFolderPadre = idFolderPadre;
+    }
+    
     public String getSubFullPathToFolder() {
         return subFullPathToFolder;
     }

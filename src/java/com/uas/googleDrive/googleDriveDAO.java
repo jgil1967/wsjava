@@ -22,7 +22,7 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.uas.document.DocumentDTO;
-import com.uas.document.DocumentDTOWithFolderDTO;
+import com.uas.document.DocumentDTO;
 import com.uas.document.DocumentFacade;
 import com.uas.googleDriveBackups.googleDriveBackupFacade;
 import com.uas.properties.PropertiesFacade;
@@ -301,7 +301,7 @@ zos.putNextEntry(new ZipEntry(f.getName())); //"image.jpg"
      String OUTPUT_ZIP_FILE = "";
    String SOURCE_FOLDER = "";
 
-   public void uploadFile (DocumentDTOWithFolderDTO dto, String nombreBackup, String zipFilePath) throws IOException{
+   public void uploadFile (DocumentDTO dto, String nombreBackup, String zipFilePath) throws IOException{
           java.io.File f =new  java.io.File(OUTPUT_ZIP_FILE);
        Drive service = getDriveService();
 File fileMetadata = new File();
@@ -329,7 +329,7 @@ System.out.println("File ID: " + file.getId());
    
    
      @Override
-    public DocumentDTOWithFolderDTO backupDocument(DocumentDTOWithFolderDTO dto) {
+    public DocumentDTO backupDocument(DocumentDTO dto) {
     try {
         
       String nombreBackup = dto.getFilename().substring(0, dto.getFilename().lastIndexOf('.'));
@@ -404,7 +404,7 @@ System.out.println("File ID: " + file.getId());
     }
     PropertiesFacade pFac= null;
     @Override
-    public DocumentDTOWithFolderDTO backupFolder(DocumentDTOWithFolderDTO dto) {
+    public DocumentDTO backupFolder(DocumentDTO dto) {
      try {pFac = new PropertiesFacade();
    String  zipFilePathFolder = pFac.obtenerValorPropiedad("pathForDocumentBackups")+dto.getFilename()+".zip";
    String source ="";

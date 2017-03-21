@@ -6,7 +6,7 @@
 package com.uas.googleDrive;
 
 import com.uas.document.DocumentDTO;
-import com.uas.document.DocumentDTOWithFolderDTO;
+import com.uas.document.DocumentDTO;
 import com.uas.googleDriveBackups.googleDriveBackupDTO;
 import java.io.IOException;
 
@@ -17,8 +17,8 @@ import java.io.IOException;
 public interface googleDriveInterface {
       public void pruebaDrive ();
       public googleDriveBackupDTO subirArchivos ();
-     public DocumentDTOWithFolderDTO backupDocument  (DocumentDTOWithFolderDTO dto);
-     public DocumentDTOWithFolderDTO backupFolder  (DocumentDTOWithFolderDTO dto);
+     public DocumentDTO backupDocument  (DocumentDTO dto);
+     public DocumentDTO backupFolder  (DocumentDTO dto);
        public void zipFolder(String srcFolder, String destZipFile) throws Exception;
-       public void uploadFile (DocumentDTOWithFolderDTO dto, String nombreBackup, String zipFilePath) throws IOException;
+       public void uploadFile (DocumentDTO dto, String nombreBackup, String zipFilePath) throws IOException;
 }

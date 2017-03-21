@@ -22,16 +22,16 @@ dDao = new DocumentDAO ();
     }
 
     @Override
-    public DocumentDTOWithFolderDTO getDocument(DocumentDTOWithFolderDTO dDto) {
+    public DocumentDTO getDocument(DocumentDTO dDto) {
   return dDao.getDocument(dDto) ; }
 
     @Override
-    public ArrayList<DocumentDTOWithFolderDTO> getDocuments() {
+    public ArrayList<DocumentDTO> getDocuments() {
         return dDao.getDocuments();
     }
 
     @Override
-    public DocumentDTOWithFolderDTO createDocument(DocumentDTOWithFolderDTO dDto) {
+    public DocumentDTO createDocument(DocumentDTO dDto) {
         return dDao.createDocument(dDto);
     }
 
@@ -46,12 +46,12 @@ dDao = new DocumentDAO ();
     }
 
     @Override
-    public DocumentDTOWithFolderDTO updateDocument(DocumentDTOWithFolderDTO dDto) {
+    public DocumentDTO updateDocument(DocumentDTO dDto) {
         return dDao.updateDocument(dDto);
     }
 
     @Override
-    public ArrayList<DocumentDTOWithFolderDTO> getDocuments(FiltersDTO dto) {
+    public ArrayList<DocumentDTO> getDocuments(FiltersDTO dto) {
    return dDao.getDocuments(dto);
     }
 
@@ -65,41 +65,41 @@ dDao = new DocumentDAO ();
     return dDao.getDocumentsByUser(dto); }
 
     @Override
-    public ArrayList<DocumentDTOWithFolderDTO> getDocumentsByFolder(DocumentDTOWithFolderDTO dto) {
+    public ArrayList<DocumentDTO> getDocumentsByFolder(DocumentDTO dto) {
     return dDao.getDocumentsByFolder(dto); }
 
     @Override
-    public DocumentDTOWithFolderDTO createFolder(DocumentDTOWithFolderDTO dDto) {
+    public DocumentDTO createFolder(DocumentDTO dDto) {
         return dDao.createFolder(dDto);
     }
 
     @Override
-    public DocumentDTOWithFolderDTO createDocument2(DocumentDTOWithFolderDTO dDto) {
+    public DocumentDTO createDocument2(DocumentDTO dDto) {
         return dDao.createDocument2(dDto);
     }
 
     @Override
-    public ArrayList<DocumentDTO> getFolders() {
-        return dDao.getFolders();
+    public ArrayList<DocumentDTO> getFolders(FilterForGovernmentDTO dto) {
+        return dDao.getFolders(dto);
     }
 
     @Override
-    public DocumentGovernmentDTO getDocumentGovernment() {
-      return dDao.getDocumentGovernment();
+    public DocumentGovernmentDTO getDocumentGovernment(FilterForGovernmentDTO dto) {
+      return dDao.getDocumentGovernment(dto);
     }
 
     @Override
-    public ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto) {
-        return dDao.getFoldersChildren(dto);
+    public ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto,FilterForGovernmentDTO fDto) {
+        return dDao.getFoldersChildren(dto,fDto);
     }
 
     @Override
-    public String moveDocuments(ArrayList<DocumentDTOWithFolderDTO> documents) {
+    public String moveDocuments(ArrayList<DocumentDTO> documents) {
         return dDao.moveDocuments(documents);
     }
 
     @Override
-    public Boolean verificaSiEsDescendiente(ArrayList<DocumentDTOWithFolderDTO> documents) {
+    public Boolean verificaSiEsDescendiente(ArrayList<DocumentDTO> documents) {
            return dDao.verificaSiEsDescendiente(documents);
     }
     

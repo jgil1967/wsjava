@@ -44,7 +44,7 @@ public class DocumentDAO implements DocumentInterface {
 KeywordFacade kFac = null;
 
     @Override
-    public DocumentDTOWithFolderDTO getDocument(DocumentDTOWithFolderDTO document) {
+    public DocumentDTO getDocument(DocumentDTO document) {
    
       ascendientes = new ArrayList<Boolean>();
         PropertiesFacade pDto = new PropertiesFacade();
@@ -52,7 +52,7 @@ KeywordFacade kFac = null;
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement ps = null;
-       DocumentDTOWithFolderDTO dtoNew=null;
+       DocumentDTO dtoNew=null;
            try {
           c = DataSourceSingleton.getInstance().getConnection(); 
            String SQL = "SELECT \"object\".\"id\", \"object\".\"name\", \"document\".\"fileName\", \"document\".\"isFolder\", \"document\".\"deleted\", \"document\".\"fileDate\", \"document\".\"backedUp\", \"document\".\"idArea\", \"object3\".\"name\" AS \"nameArea\", \"area\".\"folderName\" FROM \"document\" JOIN \"object\" ON \"document\".\"id\" = \"object\".\"id\" JOIN \"object\" AS \"object2\" ON \"object\".\"createdBy\" = \"object2\".\"id\" JOIN \"area\" ON \"document\".\"idArea\" = \"area\".\"id\" JOIN \"object\" AS \"object3\" ON \"area\".\"id\" = \"object3\".\"id\" WHERE \"object\".\"id\" = ?";
@@ -60,7 +60,7 @@ KeywordFacade kFac = null;
                ps.setInt(1,document.getId());
                  rs = ps.executeQuery();
                    while (rs.next()) {
-                       dtoNew = new DocumentDTOWithFolderDTO();
+                       dtoNew = new DocumentDTO();
                        dtoNew.setIsFolder(rs.getBoolean("isFolder"));
                        dtoNew.setId(rs.getInt("id"));
                        dtoNew.setName(rs.getString("name"));
@@ -123,22 +123,22 @@ KeywordFacade kFac = null;
     }
 
     @Override
-    public ArrayList<DocumentDTOWithFolderDTO> getDocuments() {
+    public ArrayList<DocumentDTO> getDocuments() {
        kFac = new KeywordFacade ();
-        ArrayList<DocumentDTOWithFolderDTO> documents = null;
-     DocumentDTOWithFolderDTO document = null;
+        ArrayList<DocumentDTO> documents = null;
+     DocumentDTO document = null;
        
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement ps = null;
-       documents = new ArrayList<DocumentDTOWithFolderDTO> ();
+       documents = new ArrayList<DocumentDTO> ();
          try {
           c = DataSourceSingleton.getInstance().getConnection(); 
            String SQL = "SELECT \"object\".\"id\",\"object\".\"createdBy\", \"object\".\"name\", \"object\".\"description\", \"object\".\"createdOn\", \"object\".\"createdBy\", \"object\".\"color\", \"object\".\"kind\", \"document\".\"fileName\", \"document\".\"isFolder\", \"document\".\"fileDate\", \"document\".\"deleted\", \"document\".\"backedUp\", \"document\".\"idArea\", \"object3\".\"name\" AS \"nameArea\", \"object2\".\"name\" AS \"nameCreatedBy\" FROM \"document\" JOIN \"object\" ON \"document\".\"id\" = \"object\".\"id\" JOIN \"object\" AS \"object3\" ON \"document\".\"idArea\" = \"object3\".\"id\" JOIN \"object\" AS \"object2\" ON \"object\".\"createdBy\" = \"object2\".\"id\"  WHERE  \"object\".\"id\" NOT IN (SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\")  ORDER BY \"object\".\"createdOn\" ASC";
                ps = c.prepareStatement(SQL);
                  rs = ps.executeQuery();
                    while (rs.next()) {
-                       document = new DocumentDTOWithFolderDTO();
+                       document = new DocumentDTO();
                        document.setIsFolder(rs.getBoolean("isFolder"));
                        document.setId(rs.getInt("id"));
                        document.setCreatedBy(rs.getInt("createdBy"));
@@ -186,7 +186,7 @@ KeywordFacade kFac = null;
     }
 
     @Override
-    public DocumentDTOWithFolderDTO createDocument(DocumentDTOWithFolderDTO dDto) {
+    public DocumentDTO createDocument(DocumentDTO dDto) {
       PreparedStatement preparedStmt = null;
         Connection c = null;
         ResultSet rs =null;
@@ -294,7 +294,7 @@ KeywordFacade kFac = null;
         return documents;}
 
     @Override
-    public DocumentDTOWithFolderDTO updateDocument(DocumentDTOWithFolderDTO dDto) {
+    public DocumentDTO updateDocument(DocumentDTO dDto) {
      
         
         System.out.println("dDto.getDeleted() : " + dDto.getDeleted());
@@ -371,11 +371,11 @@ KeywordFacade kFac = null;
          return dDto; }
 
     @Override
-    public ArrayList<DocumentDTOWithFolderDTO> getDocuments(FiltersDTO filters) {
+    public ArrayList<DocumentDTO> getDocuments(FiltersDTO filters) {
      PreparedStatement ps = null;
              Connection c = null;
         ResultSet rs =null;
-        ArrayList<DocumentDTOWithFolderDTO> documents = null;
+        ArrayList<DocumentDTO> documents = null;
         
         try{
              
@@ -453,16 +453,16 @@ KeywordFacade kFac = null;
         
        System.out.println("SQL : " + SQL);
         if (!SQL.equals("")){
-        DocumentDTOWithFolderDTO document = null;
+        DocumentDTO document = null;
              
           c = DataSourceSingleton.getInstance().getConnection(); 
          
         ps = c.prepareStatement(SQL);
         rs = ps.executeQuery();
         kFac = new KeywordFacade ();
-        documents = new ArrayList<DocumentDTOWithFolderDTO> ();
+        documents = new ArrayList<DocumentDTO> ();
          while (rs.next()) {
-                       document = new DocumentDTOWithFolderDTO();
+                       document = new DocumentDTO();
                        document.setId(rs.getInt("id"));
                        document.setCreatedBy(rs.getInt("createdBy"));
                         document.setIsFolder(rs.getBoolean("isFolder"));
@@ -670,7 +670,7 @@ KeywordFacade kFac = null;
        }
         System.out.println(" dto.getId() : " + dto.getId() + " " + dto.getFilename());
      ////########## VERIFICAR SI TIENE PADRES
-     DocumentDTOWithFolderDTO document = null;
+     DocumentDTO document = null;
        
         ResultSet rs = null;
         Connection c = null;
@@ -686,7 +686,7 @@ KeywordFacade kFac = null;
 
 if (rs.next()) {
     do {
-                       document = new DocumentDTOWithFolderDTO();
+                       document = new DocumentDTO();
                    document.setId(rs.getInt("idDocumentParent"));
                    document.setFilename(rs.getString("fileName") + "/" +aSumar);
                    aSumar =rs.getString("fileName") + "/" +aSumar;
@@ -731,17 +731,17 @@ if (rs.next()) {
     }
 
     @Override
-    public ArrayList<DocumentDTOWithFolderDTO> getDocumentsByFolder(DocumentDTOWithFolderDTO dto) {
+    public ArrayList<DocumentDTO> getDocumentsByFolder(DocumentDTO dto) {
         
         
      kFac = new KeywordFacade ();
-        ArrayList<DocumentDTOWithFolderDTO> documents = null;
-     DocumentDTOWithFolderDTO document = null;
+        ArrayList<DocumentDTO> documents = null;
+     DocumentDTO document = null;
        
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement ps = null;
-       documents = new ArrayList<DocumentDTOWithFolderDTO> ();
+       documents = new ArrayList<DocumentDTO> ();
          try{
              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"document\".\"id\", \"document\".\"fileName\", \"document\".\"fileDate\", \"document\".\"idArea\", \"document\".\"deleted\", \"document\".\"backedUp\", \"document\".\"isFolder\", \"object\".\"name\", \"object\".\"description\", \"object\".\"createdOn\", \"object\".\"createdBy\", \"object\".\"kind\", \"documentRelationships\".\"idDocumentChild\", \"documentRelationships\".\"idDocumentParent\", \"object2\".\"name\" AS \"nameArea\", \"object3\".\"name\" AS \"nameCreatedBy\" FROM \"documentRelationships\" JOIN \"document\" ON \"documentRelationships\".\"idDocumentChild\" = \"document\".\"id\" JOIN \"object\" ON \"document\".\"id\" = \"object\".\"id\" JOIN \"area\" ON \"document\".\"idArea\" = \"area\".\"id\" JOIN \"object\" AS \"object2\" ON \"area\".\"id\" = \"object2\".\"id\" JOIN \"usuario\" ON \"object\".\"createdBy\" = \"usuario\".\"id\" JOIN \"object\" AS \"object3\" ON \"usuario\".\"id\" = \"object3\".\"id\" WHERE \"documentRelationships\".\"idDocumentParent\" = ?";
@@ -749,7 +749,7 @@ if (rs.next()) {
                 ps.setInt(1, dto.getId()); 
                  rs = ps.executeQuery();
                    while (rs.next()) {
-                       document = new DocumentDTOWithFolderDTO();
+                       document = new DocumentDTO();
                        document.setIsFolder(rs.getBoolean("isFolder"));
                        document.setId(rs.getInt("id"));
                        document.setCreatedBy(rs.getInt("createdBy"));
@@ -794,21 +794,21 @@ if (rs.next()) {
   
 
     @Override
-    public DocumentDTOWithFolderDTO createFolder(DocumentDTOWithFolderDTO document) {
-        System.out.println("Carpeta padre : " + document.getFolder().getId());
+    public DocumentDTO createFolder(DocumentDTO document) {
+        System.out.println("Carpeta padre : " + document.getIdFolderPadre());
         System.out.println("Carpeta nombre : " + document.getName());
         System.out.println("Carpeta area ID : " + document.getIdArea());
         PropertiesFacade pDto = new PropertiesFacade();
-        System.out.println("padre - id : " + document.getFolder().getId() );
+        
        Boolean ascendienteBorrado = false;
-       DocumentDTOWithFolderDTO dtoFolder = null;
+       DocumentDTO dtoFolder = null;
         fullPath = getFullPath(document,document.getFilename());
-        if (document.getFolder().getId() != 0){
+        if (document.getIdFolderPadre() != 0){
             ascendientes = new ArrayList<Boolean>();
             System.out.println("Estamos hablando que esta dentro de una carpeta");
             /////////////
-            dtoFolder = new DocumentDTOWithFolderDTO();
-            dtoFolder.setId(document.getFolder().getId());
+            dtoFolder = new DocumentDTO();
+            dtoFolder.setId(document.getIdFolderPadre());
             DocumentFacade fac = new DocumentFacade();
             //Obtenemos info de la carpeta 
             dtoFolder = fac.getDocument(dtoFolder);
@@ -855,7 +855,7 @@ if (rs.next()) {
          document.setId(oFac.createObject(document).getId()); 
       DocumentFacade dFac = new DocumentFacade();
        document =  dFac.createDocument(document);
-     if (document.getFolder().getId() != 0){
+     if (document.getIdFolderPadre() != 0){
        DocumentRelationshipFacade  drfac = new DocumentRelationshipFacade();
        DocumentRelationshipDTO dDto = new DocumentRelationshipDTO ();
        dDto.setIdDocumentChild(document.getId());
@@ -867,8 +867,8 @@ if (rs.next()) {
     }
 
     @Override
-    public DocumentDTOWithFolderDTO createDocument2(DocumentDTOWithFolderDTO document) {
-         System.out.println("Carpeta padre : " + document.getFolder().getId());
+    public DocumentDTO createDocument2(DocumentDTO document) {
+         System.out.println("Carpeta padre : " + document.getIdFolderPadre());
         System.out.println("Carpeta nombre : " + document.getName());
         System.out.println("Filename : " + document.getFilename());
         System.out.println("Carpeta area ID : " + document.getIdArea());
@@ -881,11 +881,11 @@ if (rs.next()) {
          getFullPath(document,document.getFilename());
          fullPath =savingUp;
          System.out.println("fullPath archivo : " + fullPath);
-         DocumentDTOWithFolderDTO dtoFolder = null;
-          if (document.getFolder().getId() != 0){
+         DocumentDTO dtoFolder = null;
+          if (document.getIdFolderPadre() != 0){
              ascendientes = new ArrayList<Boolean>();
-            dtoFolder = new DocumentDTOWithFolderDTO();
-            dtoFolder.setId(document.getFolder().getId());
+            dtoFolder = new DocumentDTO();
+            dtoFolder.setId(document.getIdFolderPadre());
             DocumentFacade fac = new DocumentFacade();
             //Obtenemos info de la carpeta 
             dtoFolder = fac.getDocument(dtoFolder);
@@ -931,7 +931,7 @@ if (rs.next()) {
          document.setId(oFac.createObject(document).getId()); 
       DocumentFacade dFac = new DocumentFacade();
        document =  dFac.createDocument(document);
-if (document.getFolder().getId() != 0){
+if (document.getIdFolderPadre()!= 0){
        DocumentRelationshipFacade  drfac = new DocumentRelationshipFacade();
        DocumentRelationshipDTO dDto = new DocumentRelationshipDTO ();
        dDto.setIdDocumentChild(document.getId());
@@ -963,8 +963,10 @@ if (document.getFolder().getId() != 0){
          return null;
     }
 
+    
+    //Donde ese documento no sea dude
     @Override
-    public ArrayList<DocumentDTO> getFolders() {
+    public ArrayList<DocumentDTO> getFolders( FilterForGovernmentDTO dto  ) {
          ascendientes = new ArrayList<Boolean>();
         ArrayList<DocumentDTO> documents = null;
      DocumentDTO document = null;
@@ -976,14 +978,15 @@ if (document.getFolder().getId() != 0){
        documents = new ArrayList<DocumentDTO> ();
          try {
           c = DataSourceSingleton.getInstance().getConnection(); 
-           String SQL = "SELECT \"document\".\"id\", \"document\".\"fileName\", \"document\".\"idArea\", \"document\".\"deleted\", \"document\".\"isFolder\", \"area\".\"folderName\" FROM \"document\" JOIN \"area\" ON \"document\".\"idArea\" = \"area\".\"id\" WHERE \"document\".\"isFolder\" = TRUE AND \"document\".\"id\" NOT IN( SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\")";
+           String SQL = "SELECT \"document\".\"id\", \"document\".\"fileName\", \"document\".\"idArea\", \"document\".\"deleted\", \"document\".\"isFolder\", \"area\".\"folderName\" FROM \"document\" JOIN \"area\" ON \"document\".\"idArea\" = \"area\".\"id\" WHERE \"document\".\"isFolder\" = TRUE AND \"document\".\"id\" NOT IN( SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\") and \"document\".\"id\" != ?";
                ps = c.prepareStatement(SQL);
+               ps.setInt(1, dto.getDocument().getId());
                  rs = ps.executeQuery();
                    while (rs.next()) {
                        document = new DocumentDTO();
                        document.setIsFolder(rs.getBoolean("isFolder"));
                        document.setId(rs.getInt("id"));
-                       
+                       document.setVengoDeRootYPuedoCambiarDeArea(true);
                         document.setFilename(rs.getString("fileName"));
                document.setDeleted(rs.getBoolean("deleted"));
                document.setAscendenteBorrado(rs.getBoolean("deleted"));
@@ -1043,19 +1046,21 @@ if (document.getFolder().getId() != 0){
     
     
     @Override
-    public DocumentGovernmentDTO getDocumentGovernment() {
+    public DocumentGovernmentDTO getDocumentGovernment( FilterForGovernmentDTO dto ) {
         DocumentGovernmentDTO dgDto = new DocumentGovernmentDTO();
         ArrayList<DocumentDTO> foldersRoot= new ArrayList<DocumentDTO>();
-        foldersRoot = getFolders();
+        foldersRoot = getFolders(dto);
+        
         for (DocumentDTO doc :foldersRoot){
-            doc.setChildren(getFoldersChildren (doc));
+            
+            doc.setChildren(getFoldersChildren (doc,dto));
         }
         dgDto.setChildren(foldersRoot);
         return dgDto;
     }
 
     @Override
-    public ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto) {
+    public ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto,FilterForGovernmentDTO fDto) {
       
         ArrayList<DocumentDTO> documents = null;
      DocumentDTO document = null;
@@ -1067,10 +1072,10 @@ if (document.getFolder().getId() != 0){
        documents = new ArrayList<DocumentDTO> ();
          try {
           c = DataSourceSingleton.getInstance().getConnection(); 
-           String SQL = "SELECT \"document\".\"fileName\", \"document\".\"id\",\"document\".\"idArea\" FROM \"documentRelationships\" JOIN \"document\" ON \"documentRelationships\".\"idDocumentChild\" = \"document\".\"id\" WHERE \"document\".\"isFolder\" = TRUE AND \"documentRelationships\".\"idDocumentParent\" = ?";
+           String SQL = "SELECT \"document\".\"fileName\", \"document\".\"id\",\"document\".\"idArea\" FROM \"documentRelationships\" JOIN \"document\" ON \"documentRelationships\".\"idDocumentChild\" = \"document\".\"id\" WHERE \"document\".\"isFolder\" = TRUE AND \"documentRelationships\".\"idDocumentParent\" = ?   AND \"documentRelationships\".\"idDocumentChild\" != ? ";
                ps = c.prepareStatement(SQL);
                ps.setInt(1, dto.getId());
-               
+               ps.setInt(2, fDto.getDocument().getId());
                  rs = ps.executeQuery();
                    while (rs.next()) {
                        
@@ -1106,14 +1111,15 @@ if (document.getFolder().getId() != 0){
              }
          }
          for (DocumentDTO doc :documents){
-            doc.setChildren(getFoldersChildren (doc));
+            doc.setChildren(getFoldersChildren (doc,fDto));
         }
         return documents;}
 
     @Override
-    public String moveDocuments(ArrayList<DocumentDTOWithFolderDTO> documents) {
+    public String moveDocuments(ArrayList<DocumentDTO> documents) {
         
-          //Verificar si existe desde el comienzo  
+           //ascendiente borrado
+           
       
     try {
         //No esta agarrando bien el origen
@@ -1121,8 +1127,8 @@ if (document.getFolder().getId() != 0){
             
             
         DocumentFacade doFac = new DocumentFacade(); 
-        DocumentDTOWithFolderDTO documentoOriginal = new DocumentDTOWithFolderDTO();
-        DocumentDTOWithFolderDTO documentoDestino = new DocumentDTOWithFolderDTO();
+        DocumentDTO documentoOriginal = new DocumentDTO();
+        DocumentDTO documentoDestino = new DocumentDTO();
             try {
                 BeanUtils.copyProperties(documentoOriginal, documents.get(0));
                 BeanUtils.copyProperties(documentoDestino,  documents.get(1));  
@@ -1173,7 +1179,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
               PropertiesFacade pDto = new PropertiesFacade();
                 String pathTrash = pDto.obtenerValorPropiedad("pathForTrash");
                 String fullPathOriginal =  pDto.obtenerValorPropiedad("pathForFiles");
-                ///AQUI FALTA EL C1
+                
               documentoDestino.setFullPathToFolder(fullPathOriginal+documentoOriginal.getArea().getFolderName());
               documentoDestino.setFullPathToFolderInDeleted(pathTrash+documentoOriginal.getArea().getFolderName());
               
@@ -1182,14 +1188,16 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
           String pathOrigen="";
           String pathDestino="";
           System.out.println("Documento original");
-          if (documentoOriginal.getDeleted()){
+          if (documentoOriginal.getAscendenteBorrado()){
             pathOrigen = documentoOriginal.getFullPathToFolderInDeleted();
           }
           else{
               pathOrigen = documentoOriginal.getFullPathToFolder();
           }
           System.out.println("Documento destino");
-            if (documentoDestino.getDeleted()){
+          //Si el documento origen esta borrado...
+          //checar si es necesario que los de documento original
+            if (documentoDestino.getAscendenteBorrado() || documentoOriginal.getDeleted() ){
                  pathDestino = documentoDestino.getFullPathToFolderInDeleted() + "/" + documentoOriginal.getFilename() ;
                
               }
@@ -1205,16 +1213,17 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
               doFac.updateDocument(documentoOriginal);
           }
             
-            
-        Files.createDirectories(Paths.get(pathDestino).getParent());
-         Files.move(Paths.get(pathOrigen), Paths.get(pathDestino));
+            System.out.println("pathDestino : " + pathDestino );
+            System.out.println("pathOrigen : " + pathOrigen );
+       Files.createDirectories(Paths.get(pathDestino).getParent());
+        Files.move(Paths.get(pathOrigen), Paths.get(pathDestino));
              return "success";
         }
         
         
            } 
-    catch (IOException ex) {
-        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    catch (Exception ex) {
+        ex.printStackTrace();
     }
         System.out.println("Error");
     return "error1";
@@ -1223,15 +1232,15 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
    
 
     @Override
-    public Boolean verificaSiEsDescendiente(ArrayList<DocumentDTOWithFolderDTO> documents) {
+    public Boolean verificaSiEsDescendiente(ArrayList<DocumentDTO> documents) {
    
         
      DocumentDTO document = null;
-        DocumentDTOWithFolderDTO d0 = null;
-        DocumentDTOWithFolderDTO d1 = null;
+        DocumentDTO d0 = null;
+        DocumentDTO d1 = null;
     try {
-          d0 = new DocumentDTOWithFolderDTO(); ;
-        d1 = new DocumentDTOWithFolderDTO();;
+          d0 = new DocumentDTO(); ;
+        d1 = new DocumentDTO();
         BeanUtils.copyProperties(d0, documents.get(0));
          BeanUtils.copyProperties(d1, documents.get(1));
     } catch (IllegalAccessException ex) {
@@ -1250,7 +1259,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
            String SQL = "SELECT \"document\".\"fileName\", \"document\".\"id\" FROM \"documentRelationships\" JOIN \"document\" ON \"documentRelationships\".\"idDocumentChild\" = \"document\".\"id\" WHERE \"document\".\"isFolder\" = TRUE AND \"documentRelationships\".\"idDocumentParent\" = ?";
                ps = c.prepareStatement(SQL);
                ps.setInt(1, d0.getId());
-               
+               //ps.setInt(2, dto.getDocument().getId());
                  rs = ps.executeQuery();
                    while (rs.next()) {
                        if (rs.getInt("id") == d1.getId()){
@@ -1282,9 +1291,9 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
                  e2.printStackTrace();
              }
          }
-         for (DocumentDTO doc :documents){
-            doc.setChildren(getFoldersChildren (doc));
-        }
+//         for (DocumentDTO doc :documents){
+//            doc.setChildren(verificaSiEsDescendiente (doc));
+//        }
         return false; }
     
 }

@@ -1,1 +1,1 @@
-SELECT "document"."fileName", "document"."id" FROM "documentRelationships" JOIN "document" ON "documentRelationships"."idDocumentChild" = "document"."id" WHERE "document"."isFolder" = TRUE 
+SELECT "document"."fileName", "document"."id","document"."idArea" FROM "documentRelationships" JOIN "document" ON "documentRelationships"."idDocumentChild" = "document"."id" WHERE "document"."isFolder" = TRUE AND "documentRelationships"."idDocumentParent" = ? 

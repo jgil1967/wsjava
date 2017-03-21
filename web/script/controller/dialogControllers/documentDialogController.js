@@ -138,7 +138,7 @@ app.controller('documentDialogController', ['$scope', '$http', '$filter', '$time
                            
                             
                            $scope.documentosDeCarpeta[i].isInsideFolder = true; 
-                           $scope.documentosDeCarpeta[i].folder = $scope.carpeta;
+                           $scope.documentosDeCarpeta[i].idFolderPadre = $scope.carpeta.id;
                         }
                     });
           }
@@ -150,7 +150,7 @@ app.controller('documentDialogController', ['$scope', '$http', '$filter', '$time
           $scope.borrarORestaurar = function (document){
        document.idUsuario = $("#idUsuario").val();
        document.isInsideFolder = true;
-             document.folder=$scope.carpeta;
+             document.folder.idFolderPadre=$scope.carpeta.id;
             if (document.deleted == false){
                           if (confirm('¿Esta seguro de que desea restaurar este documento?')) {
                    document.deleted = false;
@@ -193,13 +193,13 @@ app.controller('documentDialogController', ['$scope', '$http', '$filter', '$time
    
             $scope.createDocument = function ($event){
                   
-              $scope.document = { id:0, isFolder:false, isInsideFolder:true, folder:$scope.carpeta, fileDate:new Date(), name:'', description:'',idArea: document.idArea ,createdBy: $("#idUsuario").val(), color:"#01579b",kind:"document" };
+              $scope.document = { id:0, isFolder:false, isInsideFolder:true, idFolderPadre:$scope.carpeta.id, fileDate:new Date(), name:'', description:'',idArea: document.idArea ,createdBy: $("#idUsuario").val(), color:"#01579b",kind:"document" };
               documentosService.updateDocumentDialog($event,$scope.document );
                 
             };
             
             $scope.createDocumentFolder = function ($event){
-                 $scope.document = { id:0, isFolder:true, isInsideFolder:true, folder:$scope.carpeta, fileDate:new Date(), name:'', description:'',idArea:document.idArea ,createdBy: $("#idUsuario").val(), color:"#01579b",kind:"document" };
+                 $scope.document = { id:0, isFolder:true, isInsideFolder:true, idFolderPadre:$scope.carpeta.id, fileDate:new Date(), name:'', description:'',idArea:document.idArea ,createdBy: $("#idUsuario").val(), color:"#01579b",kind:"document" };
               documentosService.updateDocumentDialog($event,$scope.document );
                   
             };

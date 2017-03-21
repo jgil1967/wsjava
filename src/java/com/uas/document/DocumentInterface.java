@@ -15,20 +15,20 @@ import java.util.ArrayList;
  * @author jonathangil
  */
 public interface DocumentInterface {
-     DocumentDTOWithFolderDTO getDocument(DocumentDTOWithFolderDTO dDto);
-     DocumentDTOWithFolderDTO createFolder(DocumentDTOWithFolderDTO dDto);
-     DocumentDTOWithFolderDTO createDocument2(DocumentDTOWithFolderDTO dDto);
-       ArrayList<DocumentDTOWithFolderDTO> getDocuments();
-       ArrayList<DocumentDTO> getFolders();
-       ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto);
-       Boolean verificaSiEsDescendiente(ArrayList<DocumentDTOWithFolderDTO> documents);
-       ArrayList<DocumentDTOWithFolderDTO> getDocumentsByFolder(DocumentDTOWithFolderDTO dto);
+     DocumentDTO getDocument(DocumentDTO dDto);
+     DocumentDTO createFolder(DocumentDTO dDto);
+     DocumentDTO createDocument2(DocumentDTO dDto);
+       ArrayList<DocumentDTO> getDocuments();
+       ArrayList<DocumentDTO> getFolders(FilterForGovernmentDTO dto );
+       ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto,FilterForGovernmentDTO dDto);
+       Boolean verificaSiEsDescendiente(ArrayList<DocumentDTO> documents);
+       ArrayList<DocumentDTO> getDocumentsByFolder(DocumentDTO dto);
        ArrayList<DocumentDTO> getDocumentsOnlyEnabled(ArrayList<areaDTO> areas);
-       ArrayList<DocumentDTOWithFolderDTO> getDocuments(FiltersDTO filters);
-       DocumentDTOWithFolderDTO createDocument(DocumentDTOWithFolderDTO dDto);
-     DocumentDTOWithFolderDTO updateDocument(DocumentDTOWithFolderDTO dDto);
+       ArrayList<DocumentDTO> getDocuments(FiltersDTO filters);
+       DocumentDTO createDocument(DocumentDTO dDto);
+     DocumentDTO updateDocument(DocumentDTO dDto);
        ArrayList <DocumentDTO> searchDocuments (DocumentDTO oDto);
         ArrayList<DocumentDTO> getDocumentsByUser(UsuarioDTO dto) ;
-        DocumentGovernmentDTO getDocumentGovernment ();
-        String moveDocuments (ArrayList<DocumentDTOWithFolderDTO> documents);
+        DocumentGovernmentDTO getDocumentGovernment (FilterForGovernmentDTO dto);
+        String moveDocuments (ArrayList<DocumentDTO> documents);
 }

@@ -1,5 +1,5 @@
-  app.controller('moveDocumentDialogController',['$scope','$http','$timeout', '$q','documentosService','$mdDialog', 
-      function($scope,$http,$timeout, $q,documentosService,$mdDialog) {
+  app.controller('moveDocumentDialogController',['$scope','$http','$timeout', '$q','documentosService','$mdDialog', 'areasService',
+      function($scope,$http,$timeout, $q,documentosService,$mdDialog,areasService) {
           
           
               $scope.$watch(function () {
@@ -18,7 +18,8 @@
                                 locals: {
                                     document: document,
                                     
-                                    documentosService:documentosService
+                                    documentosService:documentosService,
+                                    areasService:areasService
                                 }
                             });   
             }
@@ -26,11 +27,15 @@
         });
         
         
-          function moveDocumentController($scope,$http,$timeout, $q,document,documentosService)
+          function moveDocumentController($scope,$http,$timeout, $q,document,documentosService,areasService)
         {
             $scope.document = document;
             window.console.log(document);
-               documentosService.getDocumentGovernment().then(function(d) {
+            $scope.areas = areasService.getList();
+            $scope.filter = {document :$scope.document,areas: $scope.areas } 
+            
+            
+               documentosService.getDocumentGovernment($scope.filter ).then(function(d) {
                      
                         var treeData = documentosService.getDocumentGovernmentObject();
                         
@@ -49,7 +54,7 @@
     var root;
 
     // size of the diagram
-    var viewerWidth = 1400;
+    var viewerWidth = 1100;
     var viewerHeight = 400;
 
     var tree = d3.layout.tree()
@@ -364,9 +369,16 @@
     // Toggle children on click.
 
     function click(d) {
+                    window.console.log($scope.document.vengoDeRootYPuedoCambiarDeArea);
+                    
+        if ($scope.document.vengoDeRootYPuedoCambiarDeArea == true && d.idArea == 0){
+            alert("Ya esta en la raíz");
+            return;
+        }
+        
         
         if (confirm('¿Esta seguro de que desea mover este archivo de carpeta?')) {
-          
+                    
                     var documentoDestino = {id:d.id};
                     var documentos = [];
                     documentos.push($scope.document);

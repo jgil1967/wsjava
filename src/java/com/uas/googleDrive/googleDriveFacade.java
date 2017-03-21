@@ -6,7 +6,7 @@
 package com.uas.googleDrive;
 
 import com.uas.document.DocumentDTO;
-import com.uas.document.DocumentDTOWithFolderDTO;
+import com.uas.document.DocumentDTO;
 import com.uas.googleDriveBackups.googleDriveBackupDTO;
 import java.io.IOException;
 import com.uas.googleDrive.googleDriveDAO;
@@ -24,7 +24,7 @@ googleDriveInterface dao = null;
 
  
     @Override
-    public DocumentDTOWithFolderDTO backupDocument(DocumentDTOWithFolderDTO dto) {
+    public DocumentDTO backupDocument(DocumentDTO dto) {
    return dao.backupDocument(dto);   }
     @Override
     public void pruebaDrive() {
@@ -41,11 +41,11 @@ googleDriveInterface dao = null;
       dao.zipFolder(srcFolder,destZipFile); }
 
     @Override
-    public void uploadFile(DocumentDTOWithFolderDTO dto, String nombreBackup, String zipFilePath) throws IOException {
+    public void uploadFile(DocumentDTO dto, String nombreBackup, String zipFilePath) throws IOException {
       dao.uploadFile(dto,nombreBackup,zipFilePath); }
 
     @Override
-    public DocumentDTOWithFolderDTO backupFolder(DocumentDTOWithFolderDTO dto) {
+    public DocumentDTO backupFolder(DocumentDTO dto) {
       return dao.backupFolder(dto); 
     }
     

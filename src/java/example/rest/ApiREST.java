@@ -15,9 +15,10 @@ import com.uas.dates.filters.filtersDTO.FiltersDTO;
 import com.uas.dbBackup.DbBackupDTO;
 import com.uas.dbBackup.DbBackupFacade;
 import com.uas.document.DocumentDTO;
-import com.uas.document.DocumentDTOWithFolderDTO;
+import com.uas.document.DocumentDTO;
 import com.uas.document.DocumentFacade;
 import com.uas.document.DocumentGovernmentDTO;
+import com.uas.document.FilterForGovernmentDTO;
 import com.uas.documentKeywordRelationship.documentKeywordRelationshipDTO;
 import com.uas.documentKeywordRelationship.documentKeywordRelationshipFacade;
 import com.uas.googleDrive.googleDriveFacade;
@@ -172,29 +173,29 @@ public class ApiREST {
              return "helloworld";
                 }
                 
-                   @GET
+                     @POST
 		 @Produces(MediaType.APPLICATION_JSON)
                  @Path("/getDocumentGovernment")
-		public DocumentGovernmentDTO getDocumentGovernment() 
+		public DocumentGovernmentDTO getDocumentGovernment(FilterForGovernmentDTO dto) 
                 {
                     DocumentFacade documentFacade = new DocumentFacade ();
-                    return documentFacade.getDocumentGovernment();
+                    return documentFacade.getDocumentGovernment(dto);
                 }
                 
-                  @GET
-		 @Produces(MediaType.APPLICATION_JSON)
-                 @Path("/getFolders")
-		public ArrayList<DocumentDTO> getFolders() 
-                {
-                    DocumentFacade documentFacade = new DocumentFacade ();
-                    return documentFacade.getFolders();
-                }
-                
+//                  @GET
+//		 @Produces(MediaType.APPLICATION_JSON)
+//                 @Path("/getFolders")
+//		public ArrayList<DocumentDTO> getFolders() 
+//                {
+//                    DocumentFacade documentFacade = new DocumentFacade ();
+//                    return documentFacade.getFolders();
+//                }
+//                
                 
                   @GET
 		 @Produces(MediaType.APPLICATION_JSON)
                  @Path("/getDocuments")
-		public ArrayList<DocumentDTOWithFolderDTO> getDocuments() 
+		public ArrayList<DocumentDTO> getDocuments() 
                 {
             dFac = new DocumentFacade();
              return dFac.getDocuments();
@@ -210,7 +211,7 @@ public class ApiREST {
                  @POST
 		 @Produces(MediaType.APPLICATION_JSON)
                   @Path("/getDocumentsByFolder")
-		public ArrayList<DocumentDTOWithFolderDTO> getDocumentsByFolder(DocumentDTOWithFolderDTO dto) 
+		public ArrayList<DocumentDTO> getDocumentsByFolder(DocumentDTO dto) 
                 {
                  dFac = new DocumentFacade();
                  return dFac.getDocumentsByFolder(dto);
@@ -365,7 +366,7 @@ public class ApiREST {
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/getDocumentsFilters")
-    public ArrayList<DocumentDTOWithFolderDTO> getDocumentsFilters(FiltersDTO filters) throws Exception
+    public ArrayList<DocumentDTO> getDocumentsFilters(FiltersDTO filters) throws Exception
     {
        dFac= new DocumentFacade();
         return dFac.getDocuments(filters);
@@ -409,7 +410,7 @@ public class ApiREST {
     
     
     
-    public DocumentDTOWithFolderDTO guardarDocumentoEnBD (DocumentDTOWithFolderDTO dto){
+    public DocumentDTO guardarDocumentoEnBD (DocumentDTO dto){
          oFac = new ObjectFacade();
          dto.setId(oFac.createObject(dto).getId()); 
        dFac = new DocumentFacade();
@@ -424,10 +425,10 @@ public class ApiREST {
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/moveDocuments")
-    public  DocumentDTOWithFolderDTO moveDocuments (ArrayList<DocumentDTOWithFolderDTO> documents) throws IOException{
+    public  DocumentDTO moveDocuments (ArrayList<DocumentDTO> documents) throws IOException{
        dFac = new DocumentFacade();
        dFac.moveDocuments(documents);
-       DocumentDTOWithFolderDTO d = new DocumentDTOWithFolderDTO ();
+       DocumentDTO d = new DocumentDTO ();
           return d;
       }
     
@@ -437,12 +438,12 @@ public class ApiREST {
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/createDocument")
-    public DocumentDTOWithFolderDTO createDocument(Object dDto) throws Exception
+    public DocumentDTO createDocument(Object dDto) throws Exception
     { 
         System.out.println("Hello");
-        DocumentDTOWithFolderDTO d = new DocumentDTOWithFolderDTO();
+        DocumentDTO d = new DocumentDTO();
         BeanUtils.copyProperties(d, dDto);
-          DocumentDTOWithFolderDTO newDto = null;
+          DocumentDTO newDto = null;
           DocumentFacade fac = new DocumentFacade(); 
       if (d.getIsFolder()){
                
@@ -475,9 +476,9 @@ public class ApiREST {
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/restoreDocument")
-    public DocumentDTOWithFolderDTO restoreDocument(DocumentDTOWithFolderDTO dDto) throws Exception
+    public DocumentDTO restoreDocument(DocumentDTO dDto) throws Exception
     {
-        dto = new DocumentDTOWithFolderDTO();
+        dto = new DocumentDTO();
         dto.setId(dDto.getId());
         DocumentFacade fac = new DocumentFacade();
         dto = fac.getDocument(dto);
@@ -506,7 +507,7 @@ public class ApiREST {
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/backupDocument")
-     public DocumentDTOWithFolderDTO backupDocument(DocumentDTOWithFolderDTO dDto) throws Exception
+     public DocumentDTO backupDocument(DocumentDTO dDto) throws Exception
 {
         int createdBy =  dDto.getUser().getId();
         googleDriveFacade gFac = new googleDriveFacade();
@@ -528,10 +529,10 @@ public class ApiREST {
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/deleteDocument")
-    public DocumentDTO deleteDocument(DocumentDTOWithFolderDTO dDto) throws Exception
+    public DocumentDTO deleteDocument(DocumentDTO dDto) throws Exception
     {
          
-         dto = new DocumentDTOWithFolderDTO();
+         dto = new DocumentDTO();
         dto.setId(dDto.getId());
         DocumentFacade fac = new DocumentFacade();
         dto = fac.getDocument(dto);
@@ -557,7 +558,7 @@ public class ApiREST {
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/updateDocument")
-    public DocumentDTOWithFolderDTO updateDocument(DocumentDTOWithFolderDTO dDto) throws Exception
+    public DocumentDTO updateDocument(DocumentDTO dDto) throws Exception
     {
      String original = returnPath("pathForFiles")+dDto.getFilename();   
       String originalTrash = returnPath("pathForTrash")+dDto.getFilename();   
@@ -699,14 +700,14 @@ dDto.setFilename(name);
     
     
     ///////////////////////
-      String variableFileName = "";  DocumentDTOWithFolderDTO dto = null;
+      String variableFileName = "";  DocumentDTO dto = null;
      @GET
     @Path("/downloadDocumentOrFolder/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
      public Response downloadDocumentOrFolder(@PathParam("id") final String id) throws Exception
     {
         System.out.println("ID : " + id);
-         dto = new DocumentDTOWithFolderDTO();
+         dto = new DocumentDTO();
         dto.setId(Integer.parseInt(id));
         DocumentFacade fac = new DocumentFacade();
         dto = fac.getDocument(dto);

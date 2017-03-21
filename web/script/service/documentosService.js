@@ -23,11 +23,22 @@ app.service('documentosService',function($http){
       });
       return promise;
     },
-      getDocumentGovernment: function() {
-      var promise = $http.get('/wsjava/fimrest/restapi/getDocumentGovernment').then(function (response) {
-      documentGovernment = response.data;
-      });
-      return promise;
+      getDocumentGovernment: function(filter) {
+          
+            return  $http({
+    method: 'POST',
+    url: "/wsjava/fimrest/restapi/getDocumentGovernment",
+    data: JSON.stringify(filter)
+}).then(function(response){
+    
+           documentGovernment = response.data;
+            
+        }); 
+        
+//      var promise = $http.get('/wsjava/fimrest/restapi/getDocumentGovernment').then(function (response) {
+//      documentGovernment = response.data;
+//      });
+//      return promise;
     },
      getDocumentsOnlyEnabled: function(areas) {
    
