@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package example.rest;
+import com.uas.Files.FilesFacade;
 import com.uas.areaRelationships.areaRelationshipsDTO;
 import com.uas.areaRelationships.areaRelationshipsFacade;
 import com.uas.areas.areaDTO;
@@ -423,9 +424,11 @@ public class ApiREST {
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/moveDocuments")
-    public  String moveDocuments (ArrayList<DocumentDTOWithFolderDTO> documents) throws IOException{
+    public  DocumentDTOWithFolderDTO moveDocuments (ArrayList<DocumentDTOWithFolderDTO> documents) throws IOException{
        dFac = new DocumentFacade();
-          return dFac.moveDocuments(documents);
+       dFac.moveDocuments(documents);
+       DocumentDTOWithFolderDTO d = new DocumentDTOWithFolderDTO ();
+          return d;
       }
     
     
@@ -439,7 +442,6 @@ public class ApiREST {
         System.out.println("Hello");
         DocumentDTOWithFolderDTO d = new DocumentDTOWithFolderDTO();
         BeanUtils.copyProperties(d, dDto);
-         
           DocumentDTOWithFolderDTO newDto = null;
           DocumentFacade fac = new DocumentFacade(); 
       if (d.getIsFolder()){
@@ -448,8 +450,8 @@ public class ApiREST {
       }else{
           
           fac.createDocument2(d);
-            File f = new File(returnPath("pathForTemporaryFiles"));
-            deleteFolder(f);
+          FilesFacade fFac = new FilesFacade();
+           fFac.borrarCarpetaTemporales();
         
       }
      
@@ -535,6 +537,7 @@ public class ApiREST {
         dto = fac.getDocument(dto);
         System.out.println("dto.getFullPathToFolder() : " + dto.getFullPathToFolder());
         System.out.println("dto.getFullPathToFolderInDeleted() : " + dto.getFullPathToFolderInDeleted());
+        
         Files.createDirectories(Paths.get(dto.getFullPathToFolderInDeleted()).getParent()); 
          Files.move(Paths.get(dto.getFullPathToFolder()), Paths.get(dto.getFullPathToFolderInDeleted()));
         dDto.setDeleted(true);
@@ -914,30 +917,17 @@ if (i > 0) {
 	public DocumentDTO uploadFile(
 		@FormDataParam("file") InputStream uploadedInputStream,
 		@FormDataParam("file") FormDataContentDisposition fileDetail) {
-        num=0;
-        String output = "";
-         // String nuevoNombre = fileDetail.getFileName().replace(" ", "");
-         
-          String nuevoNombre = fileDetail.getFileName();
-		 String uploadedFileLocation = returnPath("pathForTemporaryFiles") + nuevoNombre;
-                 System.out.println("nuevo nombre : " + nuevoNombre);
-                 
-                 
-              
-              System.out.println("rutaAGuardar : " + uploadedFileLocation);   
-              writeToFile(uploadedInputStream, uploadedFileLocation);
-		 output = uploadedFileLocation;
-                 
+		 String uploadedFileLocation = returnPath("pathForTemporaryFiles") +fileDetail.getFileName();
+                 FilesFacade fac = new FilesFacade ();
+                 fac.guardarInputStreamAFile(uploadedInputStream, uploadedFileLocation);
                  DocumentDTO dto = new DocumentDTO();
                  dto.setFilename(uploadedFileLocation.substring(uploadedFileLocation.lastIndexOf("/")+1, uploadedFileLocation.length()));
-               
-	return dto;
+                return dto;
 
 	}
                 
 	// save uploaded file to new location
-	private void writeToFile(InputStream uploadedInputStream,
-		String uploadedFileLocation) {
+	private void writeToFile(InputStream uploadedInputStream,String uploadedFileLocation) {
 
 		try {
 			OutputStream out = new FileOutputStream(new File(uploadedFileLocation));

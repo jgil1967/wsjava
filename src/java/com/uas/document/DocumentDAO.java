@@ -9,14 +9,11 @@ import com.uas.Files.FilesFacade;
 import com.uas.areas.areaDTO;
 import com.uas.areas.areaFacade;
 import com.uas.dates.filters.filtersDTO.FiltersDTO;
-
 import com.uas.dbutil.DataSourceSingleton;
-import com.uas.dbutil.getTomcatDataSource;
 import com.uas.documentRelationship.DocumentRelationshipDTO;
 import com.uas.documentRelationship.DocumentRelationshipFacade;
 import com.uas.keyword.KeywordFacade;
 import com.uas.object.ObjectFacade;
-
 import com.uas.properties.PropertiesFacade;
 import com.uas.transactionRecord.TransactionRecordDTO;
 import com.uas.transactionRecord.TransactionRecordFacade;
@@ -27,7 +24,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -38,6 +34,7 @@ import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  *
@@ -919,7 +916,36 @@ if (rs.next()) {
               carpetaDestinoParaGrabar =  pFac.obtenerValorPropiedad("pathForFiles");
              }
          document.setFullPathToFolder( carpetaDestinoParaGrabar  + aDto.getFolderName()  + "/"+fullPath);
+         System.out.println("Documento final a querer grabar: " + document.getFullPathToFolder());
+         FilesFacade fac = new FilesFacade();
+         File f = fac.getUniqueFilename(new File(document.getFullPathToFolder()));
+         System.out.println("FINAL : " + f.getAbsolutePath());
+         System.out.println("JUST THE NAME: " + FilenameUtils.getName(f.getAbsolutePath()));
+         document.setFilename(FilenameUtils.getName(f.getAbsolutePath()));
+         document.setFullPathToFolder(f.getAbsolutePath());
+         try{
+         Files.createDirectories(Paths.get(document.getFullPathToFolder()).getParent()); 
+         Files.move(Paths.get(afile.getAbsolutePath()), Paths.get(document.getFullPathToFolder()));
          
+         ObjectFacade  oFac = new ObjectFacade();
+         document.setId(oFac.createObject(document).getId()); 
+      DocumentFacade dFac = new DocumentFacade();
+       document =  dFac.createDocument(document);
+if (document.getFolder().getId() != 0){
+       DocumentRelationshipFacade  drfac = new DocumentRelationshipFacade();
+       DocumentRelationshipDTO dDto = new DocumentRelationshipDTO ();
+       dDto.setIdDocumentChild(document.getId());
+       dDto.setIdDocumentParent(dtoFolder.getId());
+       drfac.createDocumentRelationship(dDto);
+       }
+        return document;
+        
+         }
+         catch (Exception e) {
+             e.printStackTrace();
+         }
+        
+         /*
          afile.renameTo(new File(document.getFullPathToFolder()));
         
          ObjectFacade  oFac = new ObjectFacade();
@@ -933,7 +959,8 @@ if (document.getFolder().getId() != 0){
        dDto.setIdDocumentParent(dtoFolder.getId());
        drfac.createDocumentRelationship(dDto);
        }
-        return document;
+        return document;*/
+         return null;
     }
 
     @Override
@@ -1117,17 +1144,23 @@ if (document.getFolder().getId() != 0){
           DocumentRelationshipFacade fac = new DocumentRelationshipFacade();
           fac.deleteDocumentRelationship(drDto);
          ///////////////////////////////////
-          
-            
-            
-            System.out.println("documents.get(1).getId()  : " + documents.get(1).getId() );
-          if (documents.get(1).getId() != 1){
-              documentoDestino = doFac.getDocument(documentoDestino);
+if (documentoDestino.getId() == documentoOriginal.getId()){
+    return null;
+}
+          if (documentoDestino.getId() != 1){
+             
+            try {  
+                BeanUtils.copyProperties(documentoDestino,  doFac.getDocument(documentoDestino));
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvocationTargetException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
               if (documentoOriginal.getIdArea()!= documentoDestino.getIdArea() ){
                   System.out.println("son de áreas diferentes, vamos a poner ORDEN EN ESTA VIDA PERROS : documentoDestino.getIdArea() : " + documentoDestino.getIdArea() );
                   documentoOriginal.setIdArea(documentoDestino.getIdArea());
                   doFac.updateDocument(documentoOriginal);
-                  //documentoOriginal = doFac.getDocument(documentoOriginal);
+                  
               }
               
           drDto = new DocumentRelationshipDTO ();
@@ -1151,12 +1184,9 @@ if (document.getFolder().getId() != 0){
           System.out.println("Documento original");
           if (documentoOriginal.getDeleted()){
             pathOrigen = documentoOriginal.getFullPathToFolderInDeleted();
-             
           }
           else{
               pathOrigen = documentoOriginal.getFullPathToFolder();
-             
-              
           }
           System.out.println("Documento destino");
             if (documentoDestino.getDeleted()){
@@ -1169,25 +1199,15 @@ if (document.getFolder().getId() != 0){
               }
             FilesFacade fFac = new FilesFacade();
              if (fFac.verificaSiExiste(pathDestino)){
-                 System.out.println("YA EXISTE ESE NOMBRE");
-             pathDestino = fFac.retornaNombreBienParaCarpeta(pathDestino) ;
-             System.out.println("pathDestino new : " + pathDestino);
-             String nuevoFileName = pathDestino.substring(pathDestino.lastIndexOf("/")+1, pathDestino.length());
-              System.out.println("pathDestino  new solo: " + nuevoFileName);
+                pathDestino = fFac.retornaNombreBienParaCarpeta(pathDestino) ;
+              String nuevoFileName = pathDestino.substring(pathDestino.lastIndexOf("/")+1, pathDestino.length());
               documentoOriginal.setFilename(nuevoFileName);
+              doFac.updateDocument(documentoOriginal);
           }
             
             
         Files.createDirectories(Paths.get(pathDestino).getParent());
-   
-          System.out.println("pathOrigen :" + pathOrigen);
-          System.out.println("pathDestino :" + pathDestino);
-          
-          
-      
          Files.move(Paths.get(pathOrigen), Paths.get(pathDestino));
-         
-            
              return "success";
         }
         
@@ -1207,7 +1227,19 @@ if (document.getFolder().getId() != 0){
    
         
      DocumentDTO document = null;
-       
+        DocumentDTOWithFolderDTO d0 = null;
+        DocumentDTOWithFolderDTO d1 = null;
+    try {
+          d0 = new DocumentDTOWithFolderDTO(); ;
+        d1 = new DocumentDTOWithFolderDTO();;
+        BeanUtils.copyProperties(d0, documents.get(0));
+         BeanUtils.copyProperties(d1, documents.get(1));
+    } catch (IllegalAccessException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (InvocationTargetException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+      
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement ps = null;
@@ -1217,11 +1249,11 @@ if (document.getFolder().getId() != 0){
           c = DataSourceSingleton.getInstance().getConnection(); 
            String SQL = "SELECT \"document\".\"fileName\", \"document\".\"id\" FROM \"documentRelationships\" JOIN \"document\" ON \"documentRelationships\".\"idDocumentChild\" = \"document\".\"id\" WHERE \"document\".\"isFolder\" = TRUE AND \"documentRelationships\".\"idDocumentParent\" = ?";
                ps = c.prepareStatement(SQL);
-               ps.setInt(1, documents.get(0).getId());
+               ps.setInt(1, d0.getId());
                
                  rs = ps.executeQuery();
                    while (rs.next()) {
-                       if (rs.getInt("id") == documents.get(1).getId()){
+                       if (rs.getInt("id") == d1.getId()){
                            System.out.println("Es descendiente");
                            return true;
                        }

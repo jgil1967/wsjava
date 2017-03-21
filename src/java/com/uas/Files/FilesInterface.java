@@ -5,6 +5,9 @@
  */
 package com.uas.Files;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  *
  * @author jonathangil
@@ -12,4 +15,11 @@ package com.uas.Files;
 public interface FilesInterface {
     public Boolean verificaSiExiste (String nombre);
     public String retornaNombreBienParaCarpeta (String nombre);
+    public String createFolder (String nombre);
+    public Boolean borrarCarpetaTemporales ();
+    public Boolean borrarCarpetaDescargas ();
+    public Boolean borrarCarpetaBackups ();
+    public String guardarInputStreamAFile(InputStream inputStream, String destino);
+    public File getUniqueFilename( File file );
+
 }

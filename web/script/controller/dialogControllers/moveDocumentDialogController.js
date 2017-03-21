@@ -366,7 +366,7 @@
     function click(d) {
         
         if (confirm('¿Esta seguro de que desea mover este archivo de carpeta?')) {
-          window.console.log(d);
+          
                     var documentoDestino = {id:d.id};
                     var documentos = [];
                     documentos.push($scope.document);
