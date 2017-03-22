@@ -1,0 +1,4 @@
+SELECT "document"."id", "document"."fileName", "document"."backedUp", "document"."isFolder", "document"."idArea", "document"."deleted", "document"."fileDate", "object"."name", "object"."createdBy", "object"."createdOn", "object"."description", "object"."kind", "object2"."name" AS "nameArea", "object3"."name" AS "nameCreatedBy" FROM "document" JOIN "object" ON "document"."id" = "object"."id" JOIN "area" ON "document"."idArea" = "area"."id" JOIN "object" AS "object2" ON "area"."id" = "object2"."id" JOIN "usuario" ON "object"."createdBy" = "usuario"."id" JOIN "object" AS "object3" ON "usuario"."id" = "object3"."id"
+
+
+SELECT "object"."id", "object"."name", "object"."description", "object"."createdOn", "object"."createdBy", "object"."color", "object"."kind", "document"."fileName", "document"."idArea" FROM "document" JOIN "object" ON "document"."id" = "object"."id" 
