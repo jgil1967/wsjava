@@ -208,7 +208,7 @@ public class googleDriveDAO implements googleDriveInterface{
       byte[] buf = new byte[1024];
       int len;
       FileInputStream in = new FileInputStream(srcFile);
-      zip.putNextEntry(new ZipEntry(path + "/" + folder.getName()));
+      zip.putNextEntry(new ZipEntry(path + "\\" + folder.getName()));
       while ((len = in.read(buf)) > 0) {
         zip.write(buf, 0, len);
       }
@@ -230,17 +230,17 @@ public class googleDriveDAO implements googleDriveInterface{
          file.createNewFile();
           for (String fileName : folder.list()) {
       if (path.equals("")) {
-        addFileToZip(folder.getName(), srcFolder + "/" + fileName, zip);
+        addFileToZip(folder.getName(), srcFolder + "\\" + fileName, zip);
       } else {
-        addFileToZip(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip);
+        addFileToZip(path + "\\" + folder.getName(), srcFolder + "\\" + fileName, zip);
       }
     }
     }else{
         for (String fileName : folder.list()) {
       if (path.equals("")) {
-        addFileToZip(folder.getName(), srcFolder + "/" + fileName, zip);
+        addFileToZip(folder.getName(), srcFolder + "\\" + fileName, zip);
       } else {
-        addFileToZip(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip);
+        addFileToZip(path + "\\" + folder.getName(), srcFolder + "\\" + fileName, zip);
       }
     }
     
