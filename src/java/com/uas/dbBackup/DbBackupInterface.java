@@ -11,6 +11,6 @@ package com.uas.dbBackup;
  */
 public interface DbBackupInterface {
     public DbBackupDTO backupDatabase(DbBackupDTO dto);
-    
+    public DbBackupDTO llenarYRegresarPropiedades ();
     
 }

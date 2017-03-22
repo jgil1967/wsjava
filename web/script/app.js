@@ -66,11 +66,7 @@ app.config(function($routeProvider) {
                 controllerAs: 'ctrl',
                 controller  : 'areasController'
             })
-             .when('/busqueda', {
-                templateUrl : '/wsjava/pages/busqueda.html',
-                controllerAs: 'ctrl',
-                controller  : 'searchController'
-            })
+           
              .when('/documentos/:id', {
                 templateUrl : '/wsjava/pages/documento.html',
                 controller  : 'documentoController'

@@ -1,6 +1,18 @@
-app.controller('searchController', ['$scope','$routeParams','topBannerService','objectsService','$location','$timeout',
-    function ($scope, $routeParams,topBannerService,objectsService,$location,$timeout)
+app.controller('searchController', ['$scope','$routeParams','topBannerService','objectsService','$location','$timeout','documentosService','areasService',
+    function ($scope, $routeParams,topBannerService,objectsService,$location,$timeout,documentosService,areasService)
     {
+        
+         $scope.moverDocumento = function (event,document){
+            documentosService.updateDocumentMoveDialog(event,document);
+ }
+ 
+    $scope.updateDocument = function ($event,document){
+             document.vengoDeRootYPuedoCambiarDeArea = false;
+       documentosService.updateDocumentDialog($event,document);
+       
+   }; 
+        
+        
         topBannerService.setTitle("Búsqueda");
          $scope.options = {
     rowSelection: false,
@@ -16,7 +28,7 @@ app.controller('searchController', ['$scope','$routeParams','topBannerService','
   $scope.limitOptions = [5, 10, 15, {
     label: 'All',
     value: function () {
-      return $scope.results ? $scope.results.count : 0;
+      return $scope.documents ? $scope.documents.count : 0;
     }
   }];
 
@@ -47,15 +59,17 @@ app.controller('searchController', ['$scope','$routeParams','topBannerService','
     }, 1000);
   };
         
-        $scope.results = [];
-      
+        $scope.documents = [];
+        $scope.areas = areasService.getList();
         if ($routeParams.searchTerm != ""){
             $scope.object = {
-            query : $routeParams.searchTerm
+                areas:   $scope.areas ,
+            document : { query: $routeParams.searchTerm}
         };
-           // window.console.log("Entrando desde searchController a searchObjects...");
+           
            objectsService.searchObjects($scope.object).then(function(searchResults) {
-               $scope.results = objectsService.getSearchResults();
+                window.console.log($scope.object);
+               $scope.documents = objectsService.getSearchResults();
            }); 
         }
         
@@ -69,8 +83,8 @@ app.controller('searchController', ['$scope','$routeParams','topBannerService','
                    $scope.touched=true;
                   $location.path('/searchResults/' + search);
                  topBannerService.setTitle("Búsqueda");
-                 $scope.results = objectsService.getSearchResults();
-                 window.console.log("Tamaño resultados :" + $scope.results.length);
+                 $scope.documents = objectsService.getSearchResults();
+                 window.console.log("Tamaño resultados :" + $scope.documents.length);
            }
            
            

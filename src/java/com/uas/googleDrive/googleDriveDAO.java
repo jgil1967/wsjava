@@ -21,6 +21,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.uas.dbBackup.DbBackupFacade;
 import com.uas.document.DocumentDTO;
 import com.uas.document.DocumentDTO;
 import com.uas.document.DocumentFacade;
@@ -389,7 +390,8 @@ System.out.println("File ID: " + file.getId());
     @Override
     public googleDriveBackupDTO subirArchivos() {
       try {
-          //long unixTime = System.currentTimeMillis() / 1000L;
+          DbBackupFacade dFac = new DbBackupFacade();
+          dFac.backupDatabase(dFac.llenarYRegresarPropiedades());
           String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
           String nombreBackup = "FullFIMBackup#"+timeStamp+".zip";
           

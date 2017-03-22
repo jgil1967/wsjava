@@ -30,14 +30,15 @@
           function moveDocumentController($scope,$http,$timeout, $q,document,documentosService,areasService)
         {
             $scope.document = document;
-            window.console.log(document);
             $scope.areas = areasService.getList();
-            $scope.filter = {document :$scope.document,areas: $scope.areas } 
+            window.console.log("AREAS");
+            window.console.log($scope.areas);
+            $scope.filter = {document :$scope.document,areas: $scope.areas } ;
             
             
                documentosService.getDocumentGovernment($scope.filter ).then(function(d) {
                      
-                        var treeData = documentosService.getDocumentGovernmentObject();
+    var treeData = documentosService.getDocumentGovernmentObject();
                         
     // Calculate total nodes, max label length
     var totalNodes = 0;
@@ -370,7 +371,11 @@
 
     function click(d) {
                     window.console.log($scope.document.vengoDeRootYPuedoCambiarDeArea);
-                    
+                    if (($scope.document.isFolder == true) && (d.id == $scope.document.idFolderPadre)){
+                        alert("Ya estás en esta carpeta");
+                        return;
+                    }
+//                    
         if ($scope.document.vengoDeRootYPuedoCambiarDeArea == true && d.idArea == 0){
             alert("Ya esta en la raíz");
             return;

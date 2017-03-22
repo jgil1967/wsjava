@@ -1,7 +1,15 @@
 app.service('databaseBackupService',function($http){
-  
+  var getDatabaseBackupData = {};
     var databaseBackupService = {
-       
+          getDatabaseBackupData: function() {
+      var promise = $http.get('/wsjava/fimrest/restapi/getDatabaseBackupData').then(function (response) {
+      getDatabaseBackupData = response.data;
+      });
+      return promise;
+    },
+    getData: function (){
+        return getDatabaseBackupData;
+    },
       createDatabaseBackup: function(databaseBackupData) {
  return  $http({
     method: 'POST',

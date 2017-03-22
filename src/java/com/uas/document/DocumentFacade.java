@@ -41,8 +41,8 @@ dDao = new DocumentDAO ();
 //    }
 
     @Override
-    public ArrayList<DocumentDTO> searchDocuments(DocumentDTO oDto) {
-   return dDao.searchDocuments (oDto);
+    public ArrayList<DocumentDTO> searchDocuments(FilterForGovernmentDTO dto) {
+   return dDao.searchDocuments (dto);
     }
 
     @Override

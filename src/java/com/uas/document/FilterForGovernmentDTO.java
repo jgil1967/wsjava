@@ -6,6 +6,7 @@
 package com.uas.document;
 
 import com.uas.areas.areaDTO;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,12 @@ import java.util.List;
 public class FilterForGovernmentDTO {
     DocumentDTO document;
     List <areaDTO> areas;
+
+    
+    public FilterForGovernmentDTO() {
+        document =  new  DocumentDTO();
+        areas = new ArrayList <areaDTO> ();
+    }
 
     public DocumentDTO getDocument() {
         return document;

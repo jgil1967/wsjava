@@ -18,17 +18,17 @@
   </md-toolbar>
         
    
-      <label style="border-bottom: black;">
-          <input autofocus placeholder="Búsqueda" style="width: 100%;     border-bottom: 1px solid rgb(33,150,243); margin: 0 0 0px 0;"  ng-model="searchDocumentos">
-      </label>
-     
+   
   
 
    <ul class="collapsible" data-collapsible="accordion">
         <li>
       <div class="collapsible-header"><i class="material-icons">filter_list</i>Filtros</div>
       <div class="collapsible-body">
-          
+<!--             <label style="border-bottom: black;">
+          <input autofocus placeholder="Búsqueda" style="width: 100%;     border-bottom: 1px solid rgb(33,150,243); margin: 0 0 0px 0;"  ng-model="searchDocumentos">
+      </label>-->
+     
            <md-button  class="md-primary md-raised"  ng-click=" init();llenarTodos ();">Todas las áreas</md-button>
 
           <div input-field>
@@ -106,7 +106,7 @@
       </tr>
     </thead>
     <tbody md-body>
-      <tr md-row md-select="table" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect"  data-ng-repeat="document in  filteredDocuments()  | filter:searchDocumentos | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
+      <tr md-row md-select="table" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect"  data-ng-repeat="document in  filteredDocuments()  | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
        
           <td md-cell> <span ng-show="document.isFolder == true"><i class="material-icons">folder</i></span> <span ng-show="document.isFolder == false"><i class="material-icons">insert_drive_file</i> </span>  </td>
           <td md-cell>  {{ document.name| limitTo: 30 }}{{document.name.length > 20 ? '...' : ''}}</td>

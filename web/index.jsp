@@ -19,10 +19,6 @@
        
     }
 String idUsuario =  session.getAttribute("idUsuario").toString(); 
-//String nombreUsuario =  session.getAttribute("user").toString(); 
-//
-//String a =  session.getAttribute("isAdministrator").toString();
-//System.out.println(" Valor isAdministrator : " + a);
     %>
 <!DOCTYPE html>
 <html>
@@ -618,7 +614,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <md-toolbar>
         <div class="md-toolbar-tools">
         <h2  ng-if="!update && document.isInsideFolder == false">Nueva carpeta</h2>
- <h2  ng-if="!update && document.isInsideFolder == true">Nueva carpeta para carpeta &quot;{{document.folder.name}}&quot;</h2>
+ <h2  ng-if="!update && document.isInsideFolder == true">Nueva carpeta</h2>
          <h2 ng-if="update">Editar carpeta</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
@@ -693,7 +689,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <md-toolbar>
         <div class="md-toolbar-tools">
         <h2  ng-if="!update && document.isInsideFolder == false">Nuevo documento</h2>
-         <h2  ng-if="!update && document.isInsideFolder == true">Nuevo documento para carpeta &quot;{{document.folder.name}}&quot;</h2>
+         <h2  ng-if="!update && document.isInsideFolder == true">Nuevo documento</h2>
          <h2 ng-if="update">Editar documento</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
@@ -787,7 +783,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
                   <!--------------------------------------------------------------------------------------->    
  <md-input-container class="md-icon-float md-block">
       <!-- Use floating label instead of placeholder -->
-<!--      <input placeholder="Búsqueda" ng-model="dDto.query" type="text">-->
+      <input placeholder="Búsqueda" ng-model="dDto.query" type="text">
     </md-input-container>
               <!--------------------------------------------------------------------------------------->
            
@@ -798,7 +794,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
               
         <li  class="bold" id="boton{{opcion.name}}"><a ng-href="#/{{opcion.url}}" class="waves-effect waves-paquetexpress">{{opcion.name}}</a></li>
         </div>
-                   <li class="bold"><a ng-href="http://localhost:8080/wsjava/UsuarioServlet?task=cerrarsesionhttp" class="waves-effect waves-paquetexpress">Cerrar sesión</a></li>
+                   <li class="bold"><a ng-href="/wsjava/UsuarioServlet?task=cerrarsesionhttp" class="waves-effect waves-paquetexpress">Cerrar sesión</a></li>
            
           </div>
          

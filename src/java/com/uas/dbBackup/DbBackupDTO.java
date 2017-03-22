@@ -10,7 +10,7 @@ package com.uas.dbBackup;
  * @author jonathangil
  */
 public class DbBackupDTO {
-    String postgresqlPath, user, password, databaseName,nombreBackup, email;
+    String postgresqlPath, user, password, databaseName,nombreBackup;
 
     public String getPostgresqlPath() {
         return postgresqlPath;
@@ -52,12 +52,6 @@ public class DbBackupDTO {
         this.nombreBackup = nombreBackup;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+   
     
 }

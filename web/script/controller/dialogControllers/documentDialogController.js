@@ -150,7 +150,7 @@ app.controller('documentDialogController', ['$scope', '$http', '$filter', '$time
           $scope.borrarORestaurar = function (document){
        document.idUsuario = $("#idUsuario").val();
        document.isInsideFolder = true;
-             document.folder.idFolderPadre=$scope.carpeta.id;
+             document.idFolderPadre=$scope.carpeta.id;
             if (document.deleted == false){
                           if (confirm('¿Esta seguro de que desea restaurar este documento?')) {
                    document.deleted = false;
@@ -187,6 +187,7 @@ app.controller('documentDialogController', ['$scope', '$http', '$filter', '$time
    
    
  $scope.moverDocumento = function (event,document){
+            document.idFolderPadre = $scope.carpeta.id;
             documentosService.updateDocumentMoveDialog(event,document);
  }
  
@@ -365,10 +366,11 @@ $scope.nuevoDocumentFolder = function () {
           $scope.document.filename = $scope.document.name; 
                 
        documentosService.createDocument($scope.document).then(function (data) {
-                    window.console.log("1");
+                    
                                 $mdDialog.hide();
+                                window.console.log(data);
                                 $scope.document = data;
-                                window.console.log("2");
+                                window.console.log($scope.document );
                                 angular.forEach($scope.tags, function (tag, key) {
                                     if ("id" in tag) {
                                         $scope.dDto = {

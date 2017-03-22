@@ -100,7 +100,7 @@ public class UsuarioServlet extends HttpServlet {
 			
 		 UsuarioFacade facade = new UsuarioFacade();
 		String task = request.getParameter("task");
-		
+		          System.out.println("task " +task );
 	if (task.equalsIgnoreCase("iniciarsesionhttp"))
 	       {String user = request.getParameter("user");
 	   		String pwd = request.getParameter("pwd");

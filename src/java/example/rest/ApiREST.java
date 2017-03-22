@@ -148,6 +148,15 @@ public class ApiREST {
     }
     
      TransactionRecordFacade tFac = null;
+     
+     
+        @GET
+		 @Produces(MediaType.APPLICATION_JSON)
+                 @Path("/getDatabaseBackupData")
+     public DbBackupDTO getDatabaseBackupData(){
+    DbBackupFacade  fac = new DbBackupFacade();
+             return fac.llenarYRegresarPropiedades();
+             }     
       @GET
 		 @Produces(MediaType.APPLICATION_JSON)
                  @Path("/getTransactionRecords")
@@ -440,23 +449,22 @@ public class ApiREST {
     @Path("/createDocument")
     public DocumentDTO createDocument(Object dDto) throws Exception
     { 
-        System.out.println("Hello");
+      
         DocumentDTO d = new DocumentDTO();
         BeanUtils.copyProperties(d, dDto);
-          DocumentDTO newDto = null;
+          
           DocumentFacade fac = new DocumentFacade(); 
       if (d.getIsFolder()){
                
-               fac.createFolder(d);
+               return   fac.createFolder(d);
       }else{
-          
-          fac.createDocument2(d);
-          FilesFacade fFac = new FilesFacade();
-           fFac.borrarCarpetaTemporales();
+           
+         return  fac.createDocument2(d);
+        
         
       }
      
-       return newDto;
+       
 
   
     }
@@ -593,11 +601,11 @@ dDto.setFilename(name);
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
     @Path("/searchDocuments")
-    public ArrayList<DocumentDTO> searchDocuments(DocumentDTO dDto) throws Exception
+    public ArrayList<DocumentDTO> searchDocuments(FilterForGovernmentDTO dto) throws Exception
     {
-     // //System.out.println("Hello: " + dDto.getQuery());
+     
        dFac = new DocumentFacade();
-       return  dFac.searchDocuments(dDto);
+       return  dFac.searchDocuments(dto);
     }
     
     
@@ -706,6 +714,10 @@ dDto.setFilename(name);
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
      public Response downloadDocumentOrFolder(@PathParam("id") final String id) throws Exception
     {
+        
+         try {
+        
+    
         System.out.println("ID : " + id);
          dto = new DocumentDTO();
         dto.setId(Integer.parseInt(id));
@@ -783,7 +795,11 @@ dDto.setFilename(name);
         }
         
         
-      
+      }
+    finally {
+        FilesFacade fac = new FilesFacade ();
+        fac.borrarCarpetaDescargas();
+    }
     }
       
     

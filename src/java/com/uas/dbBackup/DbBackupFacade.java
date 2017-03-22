@@ -21,5 +21,10 @@ DbBackupInterface dDao = null;
     public DbBackupDTO backupDatabase(DbBackupDTO dto) {
     return dDao.backupDatabase(dto);
     }
+
+    @Override
+    public DbBackupDTO llenarYRegresarPropiedades() {
+       return dDao.llenarYRegresarPropiedades();
+    }
     
 }
