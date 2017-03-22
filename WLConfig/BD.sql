@@ -12,7 +12,7 @@
  Target Server Version : 90602
  File Encoding         : utf-8
 
- Date: 03/21/2017 19:46:12 PM
+ Date: 03/21/2017 21:01:34 PM
 */
 
 -- ----------------------------
@@ -34,50 +34,6 @@ CREATE SEQUENCE "transactionRecord_id_seq" INCREMENT 1 START 940 MAXVALUE 922337
 --  Sequence structure for transactionType_id_seq
 -- ----------------------------
 CREATE SEQUENCE "transactionType_id_seq" INCREMENT 1 START 11 MAXVALUE 9223372036854775807 MINVALUE 1 CACHE 1;
-
--- ----------------------------
---  Function structure for unaccent(regdictionary, text)
--- ----------------------------
-CREATE FUNCTION "unaccent"(IN regdictionary, IN text) RETURNS "text" 
-	AS '$libdir/unaccent','unaccent_dict'
-	LANGUAGE c
-	COST 1
-	STRICT
-	SECURITY INVOKER
-	STABLE;
-
--- ----------------------------
---  Function structure for unaccent(text)
--- ----------------------------
-CREATE FUNCTION "unaccent"(IN text) RETURNS "text" 
-	AS '$libdir/unaccent','unaccent_dict'
-	LANGUAGE c
-	COST 1
-	STRICT
-	SECURITY INVOKER
-	STABLE;
-
--- ----------------------------
---  Function structure for unaccent_init(internal)
--- ----------------------------
-CREATE FUNCTION "unaccent_init"(IN internal) RETURNS "internal" 
-	AS '$libdir/unaccent','unaccent_init'
-	LANGUAGE c
-	COST 1
-	CALLED ON NULL INPUT
-	SECURITY INVOKER
-	VOLATILE;
-
--- ----------------------------
---  Function structure for unaccent_lexize(internal, internal, internal, internal)
--- ----------------------------
-CREATE FUNCTION "unaccent_lexize"(IN internal, IN internal, IN internal, IN internal) RETURNS "internal" 
-	AS '$libdir/unaccent','unaccent_lexize'
-	LANGUAGE c
-	COST 1
-	CALLED ON NULL INPUT
-	SECURITY INVOKER
-	VOLATILE;
 
 -- ----------------------------
 --  Table structure for googleDriveBackups
