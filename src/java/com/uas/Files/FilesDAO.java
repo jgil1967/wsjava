@@ -116,6 +116,7 @@ while (searching) {
 			}
 			out.flush();
 			out.close();
+                        inputStream.close();
 		} catch (Exception e) {
 
 			e.printStackTrace();
