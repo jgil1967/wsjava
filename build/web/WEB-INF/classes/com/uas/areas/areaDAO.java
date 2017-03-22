@@ -358,7 +358,7 @@ public class areaDAO implements areaInterface {
                         trash.mkdirs();
                         
                 }
-                String folderName = pathForFiles.substring(pathForFiles.lastIndexOf("/")+1, pathForFiles.length());
+                String folderName = pathForFiles.substring(pathForFiles.lastIndexOf("\\")+1, pathForFiles.length());
                 //System.out.println("folderName : " + folderName);
                 dto.setFolderName(folderName);
                 

@@ -89,8 +89,8 @@ KeywordFacade kFac = null;
                         
                        System.out.println("FP : " + fp);
                        System.out.println("#######################");
-                    dtoNew.setFullPathToFolder(  fullPathOriginal  + dtoNew.getArea().getFolderName()   + "/"+fp);
-                    dtoNew.setFullPathToFolderInDeleted(pathTrash  + dtoNew.getArea().getFolderName()   + "/"+fp);
+                    dtoNew.setFullPathToFolder(  fullPathOriginal  + dtoNew.getArea().getFolderName()   + "\\"+fp);
+                    dtoNew.setFullPathToFolderInDeleted(pathTrash  + dtoNew.getArea().getFolderName()   + "\\"+fp);
                     System.out.println("setFullPathToFolder : " + dtoNew.getFullPathToFolder());
                      System.out.println("setFullPathToFolderInDeleted : " + dtoNew.getFullPathToFolderInDeleted());
                    
@@ -727,8 +727,8 @@ if (rs.next()) {
     do {
                        document = new DocumentDTO();
                    document.setId(rs.getInt("idDocumentParent"));
-                   document.setFilename(rs.getString("fileName") + "/" +aSumar);
-                   aSumar =rs.getString("fileName") + "/" +aSumar;
+                   document.setFilename(rs.getString("fileName") + "\\" +aSumar);
+                   aSumar =rs.getString("fileName") + "\\" +aSumar;
                   System.out.println("rs.getBoolean(\"deleted\") : " + rs.getBoolean("deleted"));
                    ascendientes.add(rs.getBoolean("deleted"));
                    System.out.println("document.getFilename() : " + document.getFilename());
@@ -847,7 +847,7 @@ if (rs.next()) {
             dtoFolder = fac.getDocument(dtoFolder);
             ascendientes.add(dtoFolder.getDeleted());
             //Para conseguir toda la liga de la garpeta
-            dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
+            dtoFolder.setFilename(dtoFolder.getFilename() + "\\"+document.getFilename());
             System.out.println("dtoFolder a hacer: " + dtoFolder.getFilename());
              savingUp = "";
              getFullPath(dtoFolder,dtoFolder.getFilename());
@@ -873,7 +873,7 @@ if (rs.next()) {
         else{
               carpetaDestinoParaGrabar =  pDto.obtenerValorPropiedad("pathForFiles");
              }
-          document.setFullPathToFolder( carpetaDestinoParaGrabar  + aDto.getFolderName() + "/"+fullPath);
+          document.setFullPathToFolder( carpetaDestinoParaGrabar  + aDto.getFolderName() + "\\"+fullPath);
          FilesFacade fFac = new FilesFacade();
          File files = new File(document.getFullPathToFolder());
          files = fFac.getUniqueFilename(files);
@@ -925,7 +925,7 @@ if (rs.next()) {
             //Obtenemos info de la carpeta 
             dtoFolder = fac.getDocument(dtoFolder);
             ascendientes.add(dtoFolder.getDeleted());
-            dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
+            dtoFolder.setFilename(dtoFolder.getFilename() + "\\"+document.getFilename());
             System.out.println("dtoFolder : " + dtoFolder.getFilename());
             savingUp = "";
             getFullPath(dtoFolder,dtoFolder.getFilename());
@@ -953,7 +953,7 @@ if (rs.next()) {
         else{
               carpetaDestinoParaGrabar =  pFac.obtenerValorPropiedad("pathForFiles");
              }
-         document.setFullPathToFolder( carpetaDestinoParaGrabar  + aDto.getFolderName()  + "/"+fullPath);
+         document.setFullPathToFolder( carpetaDestinoParaGrabar  + aDto.getFolderName()  + "\\"+fullPath);
          System.out.println("Documento final a querer grabar: " + document.getFullPathToFolder());
          FilesFacade fac = new FilesFacade();
          File f = fac.getUniqueFilename(new File(document.getFullPathToFolder()));
@@ -1270,17 +1270,17 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
           //Si el documento origen esta borrado...
           //checar si es necesario que los de documento original
             if (documentoDestino.getAscendenteBorrado() || documentoOriginal.getDeleted() ){
-                 pathDestino = documentoDestino.getFullPathToFolderInDeleted() + "/" + documentoOriginal.getFilename() ;
+                 pathDestino = documentoDestino.getFullPathToFolderInDeleted() + "\\" + documentoOriginal.getFilename() ;
                
               }
               else{
-                pathDestino = documentoDestino.getFullPathToFolder()  + "/" + documentoOriginal.getFilename();
+                pathDestino = documentoDestino.getFullPathToFolder()  + "\\" + documentoOriginal.getFilename();
                  
               }
             FilesFacade fFac = new FilesFacade();
              if (fFac.verificaSiExiste(pathDestino)){
                 pathDestino = fFac.retornaNombreBienParaCarpeta(pathDestino) ;
-              String nuevoFileName = pathDestino.substring(pathDestino.lastIndexOf("/")+1, pathDestino.length());
+              String nuevoFileName = pathDestino.substring(pathDestino.lastIndexOf("\\")+1, pathDestino.length());
               documentoOriginal.setFilename(nuevoFileName);
               doFac.updateDocument(documentoOriginal);
               

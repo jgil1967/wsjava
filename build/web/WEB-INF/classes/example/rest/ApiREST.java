@@ -583,7 +583,7 @@ public class ApiREST {
            }
          newfile.renameTo(new File( rutaAGuardar));
             newfileTrash.renameTo(new File( rutaAGuardarTrash));
-             String name = rutaAGuardar.substring( rutaAGuardar.lastIndexOf("/")+1, rutaAGuardar.length());
+             String name = rutaAGuardar.substring( rutaAGuardar.lastIndexOf("\\")+1, rutaAGuardar.length());
            
 //No veo por que tiene que cambiar el filename          
 //es importante en las carpetas            
@@ -938,7 +938,7 @@ if (i > 0) {
                  FilesFacade fac = new FilesFacade ();
                  fac.guardarInputStreamAFile(uploadedInputStream, uploadedFileLocation);
                  DocumentDTO dto = new DocumentDTO();
-                 dto.setFilename(uploadedFileLocation.substring(uploadedFileLocation.lastIndexOf("/")+1, uploadedFileLocation.length()));
+                 dto.setFilename(uploadedFileLocation.substring(uploadedFileLocation.lastIndexOf("\\")+1, uploadedFileLocation.length()));
                 return dto;
 
 	}
