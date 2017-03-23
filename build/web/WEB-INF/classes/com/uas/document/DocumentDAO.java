@@ -20,6 +20,7 @@ import com.uas.transactionRecord.TransactionRecordFacade;
 import com.uas.usuarios.UsuarioDTO;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -700,7 +701,7 @@ KeywordFacade kFac = null;
     List <Boolean > ascendientes = null;
     String fullPath = "";
     String savingUp = "";
-    public String getFullPath (DocumentDTO dto, String aSumar){
+    public String getFullPath (DocumentDTO dto, String aSumar) throws UnsupportedEncodingException{
       aSumar = dto.getFilename();
         System.out.println("a sumar: " + aSumar);
        if (aSumar.length()>savingUp.length()){
@@ -837,7 +838,11 @@ if (rs.next()) {
         PropertiesFacade pDto = new PropertiesFacade();
        Boolean ascendienteBorrado = false;
        DocumentDTO dtoFolder = null;
+    try {
         fullPath = getFullPath(document,document.getFilename());
+    } catch (UnsupportedEncodingException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
         if (document.getIdFolderPadre() != 0){
             ascendientes = new ArrayList<Boolean>();
             System.out.println("Estamos hablando que esta dentro de una carpeta");
@@ -846,11 +851,23 @@ if (rs.next()) {
             DocumentFacade fac = new DocumentFacade();
             dtoFolder = fac.getDocument(dtoFolder);
             ascendientes.add(dtoFolder.getDeleted());
-            //Para conseguir toda la liga de la garpeta
-            dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
-            System.out.println("dtoFolder a hacer: " + dtoFolder.getFilename());
+            try {
+                //Para conseguir toda la liga de la garpeta
+                dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                System.out.println("dtoFolder a hacer: " + dtoFolder.getFilename());
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
              savingUp = "";
-             getFullPath(dtoFolder,dtoFolder.getFilename());
+            try {
+                getFullPath(dtoFolder,dtoFolder.getFilename());
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
             fullPath = savingUp;
             System.out.println("fullPath  NO SE PARA QUE: " + fullPath);
              for (Boolean b : ascendientes){
@@ -878,10 +895,14 @@ if (rs.next()) {
          File files = new File(document.getFullPathToFolder());
          files = fFac.getUniqueFilename(files);
          document.setFullPathToFolder(files.getAbsolutePath());
-         document.setFilename(FilenameUtils.getName(files.getAbsolutePath()));
+    try {
+        document.setFilename(FilenameUtils.getName(files.getAbsolutePath()));
 //        if (fFac.verificaSiExiste(document.getFullPathToFolder())){
 //             document.setFullPathToFolder(fFac.retornaNombreBienParaCarpeta(document.getFullPathToFolder())); ;
 //          }
+    } catch (UnsupportedEncodingException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
          
          files.mkdirs();
          ///////////
@@ -905,7 +926,11 @@ if (rs.next()) {
     public DocumentDTO createDocument2(DocumentDTO document) {
          System.out.println("Carpeta padre : " + document.getIdFolderPadre());
         System.out.println("Carpeta nombre : " + document.getName());
+    try {
         System.out.println("Filename : " + document.getFilename());
+    } catch (UnsupportedEncodingException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
         System.out.println("Carpeta area ID : " + document.getIdArea());
         System.out.println("#########################################");
         PropertiesFacade pFac = new PropertiesFacade();
@@ -913,7 +938,11 @@ if (rs.next()) {
         ascendientes  = new ArrayList <Boolean > ();
         Boolean ascendienteBorrado = false;
         savingUp = "";
-         getFullPath(document,document.getFilename());
+    try {
+        getFullPath(document,document.getFilename());
+    } catch (UnsupportedEncodingException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
          fullPath =savingUp;
          System.out.println("fullPath archivo : " + fullPath);
          DocumentDTO dtoFolder = null;
@@ -925,10 +954,22 @@ if (rs.next()) {
             //Obtenemos info de la carpeta 
             dtoFolder = fac.getDocument(dtoFolder);
             ascendientes.add(dtoFolder.getDeleted());
-            dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
-            System.out.println("dtoFolder : " + dtoFolder.getFilename());
+             try {
+                 dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
+             } catch (UnsupportedEncodingException ex) {
+                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+             }
+             try {
+                 System.out.println("dtoFolder : " + dtoFolder.getFilename());
+             } catch (UnsupportedEncodingException ex) {
+                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+             }
             savingUp = "";
-            getFullPath(dtoFolder,dtoFolder.getFilename());
+             try {
+                 getFullPath(dtoFolder,dtoFolder.getFilename());
+             } catch (UnsupportedEncodingException ex) {
+                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+             }
             fullPath = savingUp;
             System.out.println("fullPath : " + fullPath);
              for (Boolean b : ascendientes){
@@ -944,7 +985,12 @@ if (rs.next()) {
           areaDTO aDto = new areaDTO();
           aDto.setId(document.getIdArea());
           aDto  = aFac.getAreaByID(aDto);
-         File afile =new File(pFac.obtenerValorPropiedad("pathForTemporaryFiles") + document.getFilename());
+         File afile = null;
+    try {
+        afile = new File(pFac.obtenerValorPropiedad("pathForTemporaryFiles") + document.getFilename());
+    } catch (UnsupportedEncodingException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
          String carpetaDestinoParaGrabar = "";
         //////////////////////////////////////////////////////
                 if (ascendienteBorrado){
@@ -959,7 +1005,11 @@ if (rs.next()) {
          File f = fac.getUniqueFilename(new File(document.getFullPathToFolder()));
          System.out.println("FINAL : " + f.getAbsolutePath());
          System.out.println("JUST THE NAME: " + FilenameUtils.getName(f.getAbsolutePath()));
-         document.setFilename(FilenameUtils.getName(f.getAbsolutePath()));
+    try {
+        document.setFilename(FilenameUtils.getName(f.getAbsolutePath()));
+    } catch (UnsupportedEncodingException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
          document.setFullPathToFolder(f.getAbsolutePath());
          try{
          Files.createDirectories(Paths.get(document.getFullPathToFolder()).getParent()); 
@@ -1236,7 +1286,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
               if (documentoOriginal.getIdArea()!= documentoDestino.getIdArea() ){
-                  System.out.println("son de áreas diferentes, vamos a poner ORDEN EN ESTA VIDA PERROS : documentoDestino.getIdArea() : " + documentoDestino.getIdArea() );
+               
                   documentoOriginal.setIdArea(documentoDestino.getIdArea());
                   doFac.updateDocument2ParaMove(documentoOriginal);
                   

@@ -429,10 +429,12 @@ $scope.trabajando = false;
 }
 //pensar alternativa para el botón.
             $scope.nuevoDocument = function () {
-                  $mdDialog.hide();
+                 window.console.log($scope.myFile.name);
+                 $mdDialog.hide();
                 if (!$scope.trabajando){
                    $scope.trabajando = true;
                     var file = $scope.myFile;
+                    window.console.log($scope.myFile.name);
                 $scope.document.filename = $scope.myFile.name;
                 $scope.document.fileDate = new Date($("#fileDate").val());
                 var uploadUrl = "/wsjava/fimrest/restapi/upload";

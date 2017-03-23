@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package example.rest;
+
 import com.uas.Files.FilesFacade;
 import com.uas.areaRelationships.areaRelationshipsDTO;
 import com.uas.areaRelationships.areaRelationshipsFacade;
@@ -37,8 +38,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
@@ -53,6 +56,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -797,8 +801,8 @@ dDto.setFilename(name);
         
       }
     finally {
-        FilesFacade fac = new FilesFacade ();
-        fac.borrarCarpetaDescargas();
+        //FilesFacade fac = new FilesFacade ();
+       // fac.borrarCarpetaDescargas();
     }
     }
       
@@ -928,15 +932,38 @@ if (i > 0) {
 }
     
     
+    public String replaceAccents (String s){
+        s.replace("á", "a");
+        s.replace("é", "e");
+        s.replace("í", "i");
+        s.replace("ó", "o");
+        s.replace("ú", "u");
+         s.replace("Á", "A");
+        s.replace("É", "E");
+        s.replace("Í", "I");
+        s.replace("Ó", "O");
+        s.replace("Ú", "U");
+        return s;
+    }
+    
+    public static String stripAccents(String s) 
+{
+    s = Normalizer.normalize(s, Normalizer.Form.NFD);
+    s = s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+    return s;
+}
+    
         @POST
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public DocumentDTO uploadFile(
 		@FormDataParam("file") InputStream uploadedInputStream,
-		@FormDataParam("file") FormDataContentDisposition fileDetail) 
+		@FormDataParam("file") FormDataContentDisposition fileDetail) throws UnsupportedEncodingException 
         
         {
-		 String uploadedFileLocation = returnPath("pathForTemporaryFiles") +fileDetail.getFileName();
+            System.out.println("replaceAccents: " +  new String(fileDetail.getFileName().getBytes("ISO-8859-1"), "UTF-8"));
+        
+		 String uploadedFileLocation = returnPath("pathForTemporaryFiles") + new String(fileDetail.getFileName().getBytes("ISO-8859-1"), "UTF-8");
                  FilesFacade fac = new FilesFacade ();
                  fac.guardarInputStreamAFile(uploadedInputStream, uploadedFileLocation);
                  DocumentDTO dto = new DocumentDTO();

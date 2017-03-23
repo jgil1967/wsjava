@@ -10,6 +10,7 @@ import com.uas.keyword.KeywordDTO;
 import com.uas.object.ObjectDTO;
 import com.uas.usuarios.UsuarioDTO;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -171,12 +172,14 @@ public class DocumentDTO extends ObjectDTO implements Serializable {
 
 
 
-    public String getFilename() {
-        return filename;
+    public String getFilename() throws UnsupportedEncodingException {
+         return filename;
+       
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFilename(String filename) throws UnsupportedEncodingException {
+        
+        this.filename =filename;
     }
 
     public ArrayList<KeywordDTO> getKeywords() {
