@@ -985,6 +985,7 @@ if (document.getIdFolderPadre()!= 0){
              e.printStackTrace();
          }
         
+        
          /*
          afile.renameTo(new File(document.getFullPathToFolder()));
         
