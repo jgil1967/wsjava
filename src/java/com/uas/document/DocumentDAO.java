@@ -869,7 +869,7 @@ if (rs.next()) {
                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             fullPath = savingUp;
-            System.out.println("fullPath  NO SE PARA QUE: " + fullPath);
+            
              for (Boolean b : ascendientes){
                  if (b){
                      ascendienteBorrado = true;
@@ -924,15 +924,7 @@ if (rs.next()) {
 
     @Override
     public DocumentDTO createDocument2(DocumentDTO document) {
-         System.out.println("Carpeta padre : " + document.getIdFolderPadre());
-        System.out.println("Carpeta nombre : " + document.getName());
-    try {
-        System.out.println("Filename : " + document.getFilename());
-    } catch (UnsupportedEncodingException ex) {
-        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        System.out.println("Carpeta area ID : " + document.getIdArea());
-        System.out.println("#########################################");
+      
         PropertiesFacade pFac = new PropertiesFacade();
         fullPath = "";
         ascendientes  = new ArrayList <Boolean > ();

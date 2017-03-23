@@ -459,7 +459,7 @@ public class ApiREST {
           
           DocumentFacade fac = new DocumentFacade(); 
       if (d.getIsFolder()){
-               
+               d.setFilename(new String(d.getFilename().getBytes("ISO-8859-1"), "UTF-8"));
                return   fac.createFolder(d);
       }else{
            
