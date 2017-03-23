@@ -562,11 +562,10 @@ KeywordFacade kFac = null;
         return false;
     }
     
-//SELECT "object"."id", "object"."createdBy", "object"."name", "object"."description", "object"."createdOn", "object"."createdBy", "object"."color", "object"."kind", "document"."fileName", "document"."fileDate", "document"."idArea", "object2"."name" AS "nameCreatedBy", "object3"."name" AS "nameArea", "area"."enabled", "area"."enabled" FROM "document" JOIN "object" ON "document"."id" = "object"."id" JOIN "object" AS "object2" ON "object"."createdBy" = "object2"."id" JOIN "area" ON "document"."idArea" = "area"."id" JOIN "object" AS "object3" ON "area"."id" = "object3"."id" ORDER BY "object"."createdOn" ASC WHERE "area"."enabled" = TRUE
-    @Override
+@Override
     public ArrayList<DocumentDTO> getDocumentsOnlyEnabled(ArrayList<areaDTO> areas) {
-       // System.out.println("Only Enabled");
-        //System.out.println("areas : " + areas.size());
+       System.out.println("Only Enabled");
+       System.out.println("areas : " + areas.size());
      kFac = new KeywordFacade ();
         ArrayList<DocumentDTO> documents = null;
      DocumentDTO document = null;
@@ -591,6 +590,7 @@ KeywordFacade kFac = null;
                       SQL = SQL + " ) ";
                   }
               }
+               System.out.println("SQL : " + SQL);
                ps = c.prepareStatement(SQL);
                  rs = ps.executeQuery();
                    while (rs.next()) {
@@ -1238,7 +1238,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
               if (documentoOriginal.getIdArea()!= documentoDestino.getIdArea() ){
                   System.out.println("son de áreas diferentes, vamos a poner ORDEN EN ESTA VIDA PERROS : documentoDestino.getIdArea() : " + documentoDestino.getIdArea() );
                   documentoOriginal.setIdArea(documentoDestino.getIdArea());
-                  doFac.updateDocument(documentoOriginal);
+                  doFac.updateDocument2ParaMove(documentoOriginal);
                   
               }
               
@@ -1283,9 +1283,9 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
                 pathDestino = fFac.retornaNombreBienParaCarpeta(pathDestino) ;
               String nuevoFileName = pathDestino.substring(pathDestino.lastIndexOf("/")+1, pathDestino.length());
               documentoOriginal.setFilename(nuevoFileName);
-              doFac.updateDocument(documentoOriginal);
+              doFac.updateDocument2ParaMove(documentoOriginal);
               
-              doFac.updateDocument(documentoOriginal);
+              doFac.updateDocument2ParaMove(documentoOriginal);
                 
           }
             
@@ -1295,7 +1295,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
         Files.move(Paths.get(pathOrigen), Paths.get(pathDestino));
          System.out.println("###########################");
               documentoDestino.setBackedUp(false);
-              doFac.updateDocument(documentoDestino);
+              doFac.updateDocument2ParaMove(documentoDestino);
              return "success";
         }
         
@@ -1376,5 +1376,80 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
 //            doc.setChildren(verificaSiEsDescendiente (doc));
 //        }
         return false; }
+
+    @Override
+    public DocumentDTO updateDocument2ParaMove(DocumentDTO dDto) {
+    
+     
+        
+        System.out.println("dDto.getDeleted() : " + dDto.getDeleted());
+        DocumentDTO dtoViejo = getDocument(dDto);
+        
+            DocumentDTO objectDto = null;
+               
+     
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement preparedStmt = null;
+     
+          try {
+          c = DataSourceSingleton.getInstance().getConnection(); 
+            String SQL = "update \"public\".\"document\" set \"deleted\"=?,\"backedUp\"=?,\"idArea\"=? where \"id\"=? ";
+                preparedStmt = c.prepareStatement(SQL);
+         
+            preparedStmt.setBoolean(1, dDto.getDeleted());
+             System.out.println("dDto.getBackedUp() : " + dDto.getBackedUp());
+            preparedStmt.setBoolean(2, dDto.getBackedUp());
+            preparedStmt.setInt(3, dDto.getIdArea());
+            preparedStmt.setInt(4, dDto.getId());
+                preparedStmt.executeUpdate();
+                System.out.println("dDto.getVengoDeRootYPuedoCambiarDeArea() : " + dDto.getVengoDeRootYPuedoCambiarDeArea());
+                if ((dtoViejo.getIdArea() != dDto.getIdArea()) && (dDto.getVengoDeRootYPuedoCambiarDeArea())){
+                     DocumentDTO dtoNuevo = getDocument(dDto);
+                     if (dDto.getDeleted()){
+                          Files.createDirectories(Paths.get(dtoNuevo.getFullPathToFolderInDeleted()).getParent()); 
+                            Files.move(Paths.get(dtoViejo.getFullPathToFolderInDeleted()), Paths.get(dtoNuevo.getFullPathToFolderInDeleted()));
+                             }
+                     else{
+                         //Si 
+                         Files.createDirectories(Paths.get(dtoNuevo.getFullPathToFolder()).getParent()); 
+                         Files.move(Paths.get(dtoViejo.getFullPathToFolder()), Paths.get(dtoNuevo.getFullPathToFolder()));
+                        }
+                      }
+              /* if (!dDto.getBackedUp()){
+             TransactionRecordFacade tFac = new TransactionRecordFacade();
+             TransactionRecordDTO tDto = new TransactionRecordDTO();
+             tDto.getObjectDTO().setId(dDto.getId());
+             tDto.getTransactionTypeDTO().setId(4);
+             tDto.getUsuarioDTO().setId(dDto.getCreatedBy());
+             tFac.createTransactionRecord(tDto);
+               }
+   */
+               
+              
+    }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (preparedStmt != null){
+                     preparedStmt.close();
+                 }
+                    
+                
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         
+         }
+         return dDto;}
     
 }

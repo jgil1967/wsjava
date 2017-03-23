@@ -27,6 +27,7 @@ public interface DocumentInterface {
        ArrayList<DocumentDTO> getDocuments(FiltersDTO filters);
        DocumentDTO createDocument(DocumentDTO dDto);
      DocumentDTO updateDocument(DocumentDTO dDto);
+     DocumentDTO updateDocument2ParaMove(DocumentDTO dDto);
        ArrayList <DocumentDTO> searchDocuments (FilterForGovernmentDTO dto);
         ArrayList<DocumentDTO> getDocumentsByUser(UsuarioDTO dto) ;
         DocumentGovernmentDTO getDocumentGovernment (FilterForGovernmentDTO dto);

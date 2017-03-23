@@ -102,5 +102,10 @@ dDao = new DocumentDAO ();
     public Boolean verificaSiEsDescendiente(ArrayList<DocumentDTO> documents) {
            return dDao.verificaSiEsDescendiente(documents);
     }
+
+    @Override
+    public DocumentDTO updateDocument2ParaMove(DocumentDTO dDto) {
+        return dDao.updateDocument2ParaMove(dDto);
+    }
     
 }
