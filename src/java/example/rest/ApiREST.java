@@ -933,7 +933,9 @@ if (i > 0) {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public DocumentDTO uploadFile(
 		@FormDataParam("file") InputStream uploadedInputStream,
-		@FormDataParam("file") FormDataContentDisposition fileDetail) {
+		@FormDataParam("file") FormDataContentDisposition fileDetail) 
+        
+        {
 		 String uploadedFileLocation = returnPath("pathForTemporaryFiles") +fileDetail.getFileName();
                  FilesFacade fac = new FilesFacade ();
                  fac.guardarInputStreamAFile(uploadedInputStream, uploadedFileLocation);
