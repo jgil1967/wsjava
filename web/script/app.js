@@ -30,6 +30,11 @@ app.config(function($routeProvider) {
                 controllerAs: 'ctrl',
                 controller  : 'transactionsController'
             })
+             .when('/manuals', {
+                templateUrl : '/wsjava/pages/manuals.html',
+                controllerAs: 'ctrl',
+                controller  : 'manualsController'
+            })
              .when('/databaseBackup', {
                 templateUrl : '/wsjava/pages/databaseBackup.html',
                 controllerAs: 'ctrl',

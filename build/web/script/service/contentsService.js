@@ -9,7 +9,8 @@ app.service('contentsService', function()
               {name: "Cambiar mi contraseña",url:"userSettings"},
               {name: "Respaldo de base de datos",url:"databaseBackup"},
               {name: "Respaldo de documentos",url:"documentsBackup"},
-               {name: "Transacciones",url:"transactions"}
+               {name: "Transacciones",url:"transactions"},
+               {name: "Manuales",url:"manuals"}
 //              {name: "Búsqueda",url:"busqueda"}/*,
   //            {name: "Búsqueda",url:"busqueda"}/*,
     //          {name: "Tablas",url:"tablas"},
@@ -20,7 +21,8 @@ app.service('contentsService', function()
                 {name: "Mis documentos",url:"subidospormi"},
               {name: "Usuarios",url:"usuarios"},
               {name: "Palabras clave",url:"keywords"},
-              {name: "Cambiar mi contraseña",url:"userSettings"}
+              {name: "Cambiar mi contraseña",url:"userSettings"},
+              {name: "Manuales",url:"manuals"}
 //              {name: "Búsqueda",url:"busqueda"}/*,
   //            {name: "Búsqueda",url:"busqueda"}/*,
     //          {name: "Tablas",url:"tablas"},
@@ -30,7 +32,8 @@ app.service('contentsService', function()
               {name: "Todos los documentos",url:"documentos"},
              {name: "Mis documentos",url:"subidospormi"},
               {name: "Palabras clave",url:"keywords"},
-              {name: "Cambiar mi contraseña",url:"userSettings"}
+              {name: "Cambiar mi contraseña",url:"userSettings"},
+              {name: "Manuales",url:"manuals"}
 //              {name: "Búsqueda",url:"busqueda"}/*,
   //            {name: "Búsqueda",url:"busqueda"}/*,
     //          {name: "Tablas",url:"tablas"},

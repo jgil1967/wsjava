@@ -88,6 +88,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
     <script src="script/controller/databaseBackupController.js" type="text/javascript"></script>
     <script src="script/controller/documentsBackupController.js" type="text/javascript"></script>
     <script src="script/controller/transactionsController.js" type="text/javascript"></script>
+    <script src="script/controller/manualsController.js" type="text/javascript"></script>
     <script src="script/controller/dialogControllers/moveDocumentDialogController.js" type="text/javascript"></script>
     <script src="script/shared/angular-materialize.min.js" type="text/javascript"></script>
     <script>
@@ -119,6 +120,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <div ng-controller="keywordDialogController"></div>
         <div ng-controller="areaDialogController"></div>
         <div ng-controller="searchController"></div>
+        <div ng-controller="manualsController"></div>
    <script type="text/ng-template" id="tag-template">
       <div class="tag-template">
         

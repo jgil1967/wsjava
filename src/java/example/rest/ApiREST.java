@@ -28,6 +28,7 @@ import com.uas.googleDriveBackups.googleDriveBackupFacade;
 import com.uas.keyword.KeywordDTO;
 import com.uas.keyword.KeywordFacade;
 import com.uas.object.ObjectFacade;
+import com.uas.properties.PropertiesFacade;
 import com.uas.transactionRecord.TransactionRecordDTO;
 import com.uas.transactionRecord.TransactionRecordFacade;
 import com.uas.usuarios.UsuarioDTO;
@@ -707,12 +708,59 @@ dDto.setFilename(name);
      
     }
     
+    String path;
+     @GET
+    @Path("/downloadManual")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+     public Response downloadManual() throws Exception
+    {
+        
+        PropertiesFacade pFac = new PropertiesFacade();
+       
+             StreamingOutput fileStream =  new StreamingOutput() 
+        {
+            @Override
+            public void write(java.io.OutputStream output) throws IOException, WebApplicationException 
+            {
+                try
+                { 
+                    java.nio.file.Path path =  null;
+                    
+                    path = Paths.get(pFac.obtenerValorPropiedad("pathForManuals"));
+                    
+                    
+                         
+                    byte[] data = Files.readAllBytes(path);
+                 output.write(data);
+                    output.flush();
+                    output.close();
+                } 
+                catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+            }
+        };
+            return Response
+                .ok(fileStream, MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition","attachment; filename = manualTecnico.docx")
+                .build();
+       
+        
+        
+      }
+
     
+      
+    
+     
+     
      String zipFilePathFolder;
-    
-    
     ///////////////////////
       String variableFileName = "";  DocumentDTO dto = null;
+      
+      
+      
      @GET
     @Path("/downloadDocumentOrFolder/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
