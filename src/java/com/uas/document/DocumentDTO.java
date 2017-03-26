@@ -29,7 +29,7 @@ public class DocumentDTO extends ObjectDTO implements Serializable {
     ArrayList <KeywordDTO> keywords;
     String fileDate;
     Date fileDateDate;
-    int idArea, idFolderPadre;
+    int idArea =0, idFolderPadre;
     UsuarioDTO user;
     areaDTO area;
     Boolean visible = true, deleted = false,backedUp=false, isFolder=false,isInsideFolder=false, ascendenteBorrado=false,vengoDeRootYPuedoCambiarDeArea=false;

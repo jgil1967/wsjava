@@ -5,7 +5,7 @@
             <url>src/java/com/uas/document/DocumentDAO.java</url>
             <bookmark id="1">
                 <name/>
-                <line>254</line>
+                <line>255</line>
                 <key/>
             </bookmark>
         </file>
@@ -13,19 +13,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/example/rest/ApiREST.java</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/com/uas/dbBackup/DbBackupFacade.java</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/web/script/service/databaseBackupService.js</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/com/uas/dbBackup/DbBackupDAO.java</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/com/uas/googleDrive/googleDriveDAO.java</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/com/uas/Files/FilesDAO.java</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/com/uas/areas/areaDTO.java</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/web/script/controller/areasController.js</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/com/uas/usuarios/UsuarioDAO.java</file>
             <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/com/uas/document/DocumentDAO.java</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/web/script/controller/usuariosController.js</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/web/script/controller/databaseBackupController.js</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/src/java/com/uas/usuarios/UsuarioDTO.java</file>
-            <file>file:/Users/jonathangil/NetBeansProjects/wsjava/web/script/controller/dialogControllers/usuarioDialogController.js</file>
         </group>
     </open-files>
 </project-private>

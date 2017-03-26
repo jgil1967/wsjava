@@ -107,5 +107,20 @@ dDao = new DocumentDAO ();
     public DocumentDTO updateDocument2ParaMove(DocumentDTO dDto) {
         return dDao.updateDocument2ParaMove(dDto);
     }
+
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendants(DocumentDTO dto) {
+      return dDao.getAllDescendants(dto);
+    }
+
+    @Override
+    public DocumentDTO updateDocumentArea(DocumentDTO dDto) {
+       return dDao.updateDocumentArea(dDto);
+    }
+
+    @Override
+    public DocumentDTO updateDocumentFilename(DocumentDTO dDto) {
+       return dDao.updateDocumentFilename(dDto);
+    }
     
 }

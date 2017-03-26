@@ -23,11 +23,14 @@ public interface DocumentInterface {
        ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto,FilterForGovernmentDTO dDto);
        Boolean verificaSiEsDescendiente(ArrayList<DocumentDTO> documents);
        ArrayList<DocumentDTO> getDocumentsByFolder(DocumentDTO dto);
+       ArrayList<DocumentDTO> getAllDescendants(DocumentDTO dto);
        ArrayList<DocumentDTO> getDocumentsOnlyEnabled(ArrayList<areaDTO> areas);
        ArrayList<DocumentDTO> getDocuments(FiltersDTO filters);
        DocumentDTO createDocument(DocumentDTO dDto);
      DocumentDTO updateDocument(DocumentDTO dDto);
      DocumentDTO updateDocument2ParaMove(DocumentDTO dDto);
+     DocumentDTO updateDocumentArea(DocumentDTO dDto);
+     DocumentDTO updateDocumentFilename(DocumentDTO dDto);
        ArrayList <DocumentDTO> searchDocuments (FilterForGovernmentDTO dto);
         ArrayList<DocumentDTO> getDocumentsByUser(UsuarioDTO dto) ;
         DocumentGovernmentDTO getDocumentGovernment (FilterForGovernmentDTO dto);

@@ -243,7 +243,7 @@ public class ApiREST {
                  @Path("/getUsuarios")
 		public ArrayList<UsuarioDTO> getUsuarios(UsuarioDTO dto) 
                 {
-                   // System.out.println("dto user : " + dto.getId());
+                   // //System.out.println("dto user : " + dto.getId());
             uFac = new UsuarioFacade();
              return uFac.obtenerUsuariosForRoot(dto);
                 }
@@ -371,7 +371,7 @@ public class ApiREST {
      @Produces(MediaType.APPLICATION_JSON)
               @Path("/verificaDisponibilidadUsuario")
               public UsuarioDTO verificaDisponibilidadUsuario(UsuarioDTO dto) throws Exception{
-                //  //System.out.println("Hello api verificaDisponibilidadUsuario " );
+                //  ////System.out.println("Hello api verificaDisponibilidadUsuario " );
                   uFac = new UsuarioFacade();
                   return uFac.verificaDisponibilidadUsuario(dto);
               }
@@ -495,14 +495,29 @@ public class ApiREST {
         dto.setId(dDto.getId());
         DocumentFacade fac = new DocumentFacade();
         dto = fac.getDocument(dto);
-        
-        
+        System.out.println("dto.getAscendenteBorrado() : " + dto.getAscendenteBorrado());
+        if (dto.getAscendenteBorrado()){
+        FilesFacade fFac = new FilesFacade();
+        if (fFac.verificaSiExiste(dto.getFullPathToFolder())){
+         File f = fFac.getUniqueFilename(new File(dto.getFullPathToFolder()));
+         dto.setFullPathToFolder(f.getAbsolutePath()) ;
+            String nuevoFileName = dto.getFullPathToFolder().substring(dto.getFullPathToFolder().lastIndexOf("/")+1, dto.getFullPathToFolder().length());
+              dto.setFilename(nuevoFileName);
+              DocumentFacade dFac = new DocumentFacade();
+              dFac.updateDocumentFilename(dto);
+        }
+//        if (!dDto.getDeleted()){
          Files.createDirectories(Paths.get(dto.getFullPathToFolder()).getParent()); 
+            System.out.println(dto.getFullPathToFolderInDeleted());
+            System.out.println(dto.getFullPathToFolder());
          Files.move(Paths.get(dto.getFullPathToFolderInDeleted()), Paths.get(dto.getFullPathToFolder()));
          
-           
-         //fileOriginal.renameTo(new File(dto.getFullPathToFolder()));
-           
+//        }
+        
+        
+        }
+        
+         
            dDto.setDeleted(false);
          fac.updateDocument(dDto);
            TransactionRecordFacade tFac = new TransactionRecordFacade();
@@ -511,7 +526,7 @@ public class ApiREST {
              tDto.getTransactionTypeDTO().setId(10);
              tDto.getUsuarioDTO().setId(dDto.getCreatedBy());
              tFac.createTransactionRecord(tDto);
-             System.out.println("BYE FOREVER");
+             //System.out.println("BYE FOREVER");
         
        return dDto;
     }
@@ -549,21 +564,28 @@ public class ApiREST {
         dto.setId(dDto.getId());
         DocumentFacade fac = new DocumentFacade();
         dto = fac.getDocument(dto);
-        System.out.println("dto.getFullPathToFolder() : " + dto.getFullPathToFolder());
-        System.out.println("dto.getFullPathToFolderInDeleted() : " + dto.getFullPathToFolderInDeleted());
-        
+        if (!dto.getAscendenteBorrado() ){
+              FilesFacade fFac = new FilesFacade();
+          if (fFac.verificaSiExiste(dto.getFullPathToFolderInDeleted())){
+               File f = fFac.getUniqueFilename(new File(dto.getFullPathToFolderInDeleted()));
+               dto.setFullPathToFolderInDeleted(f.getAbsolutePath()) ;
+              String nuevoFileName = dto.getFullPathToFolderInDeleted().substring(dto.getFullPathToFolderInDeleted().lastIndexOf("/")+1, dto.getFullPathToFolderInDeleted().length());
+              dto.setFilename(nuevoFileName);
+           DocumentFacade dFac = new DocumentFacade();
+              dFac.updateDocumentFilename(dto);
+          }
         Files.createDirectories(Paths.get(dto.getFullPathToFolderInDeleted()).getParent()); 
          Files.move(Paths.get(dto.getFullPathToFolder()), Paths.get(dto.getFullPathToFolderInDeleted()));
-        dDto.setDeleted(true);
-         fac.updateDocument(dDto);
+         
+        }
+      dto.setDeleted(true);
+         fac.updateDocument2ParaMove(dto);
            TransactionRecordFacade tFac = new TransactionRecordFacade();
              TransactionRecordDTO tDto = new TransactionRecordDTO();
              tDto.getObjectDTO().setId(dDto.getId());
              tDto.getTransactionTypeDTO().setId(9);
              tDto.getUsuarioDTO().setId(dDto.getCreatedBy());
              tFac.createTransactionRecord(tDto);
-             System.out.println("BYE FOREVER");
-        
        return dDto;
     }
      
@@ -575,8 +597,6 @@ public class ApiREST {
     {
      String original = returnPath("pathForFiles")+dDto.getFilename();   
       String originalTrash = returnPath("pathForTrash")+dDto.getFilename();   
-       
-       
         if (dDto.getIsFolder()){
             nombreOriginal = dDto.getFilename();
          String rutaAGuardar =  checkIfExistsAndReturnValid(returnPath("pathForFiles")+dDto.getFilename(),dDto.getFilename());
@@ -621,7 +641,7 @@ dDto.setFilename(name);
     @Path("/createTag")
     public KeywordDTO createTag(KeywordDTO tag) throws Exception
     {
-     //   //System.out.println("tag : "+ tag.toString());
+     //   ////System.out.println("tag : "+ tag.toString());
        oFac = new ObjectFacade();
        tag.setId(oFac.createObject(tag).getId()); 
        kFac = new KeywordFacade();
@@ -633,7 +653,7 @@ dDto.setFilename(name);
     @Path("/updateKeyword")
     public KeywordDTO updateKeyword(KeywordDTO tag) throws Exception
     {
-     //   //System.out.println("tag : "+ tag.toString());
+     //   ////System.out.println("tag : "+ tag.toString());
        oFac = new ObjectFacade();
      oFac.updateObject(tag);
       TransactionRecordFacade tFac = new TransactionRecordFacade();
@@ -770,7 +790,7 @@ dDto.setFilename(name);
          try {
         
     
-        System.out.println("ID : " + id);
+        //System.out.println("ID : " + id);
          dto = new DocumentDTO();
         dto.setId(Integer.parseInt(id));
         DocumentFacade fac = new DocumentFacade();
@@ -786,7 +806,7 @@ dDto.setFilename(name);
                 { 
                     java.nio.file.Path path =  null;
                     if (!dto.getAscendenteBorrado()){
-                        System.out.println("HELLO SICK SAD WORLD  : " + dto.getFullPathToFolder());
+                        //System.out.println("HELLO SICK SAD WORLD  : " + dto.getFullPathToFolder());
                         path = Paths.get(dto.getFullPathToFolder());
                     }
                     else{
@@ -866,17 +886,17 @@ dDto.setFilename(name);
      //Si lo hace bien,
      public String checkIfExistsAndReturnValidFolder (String fileName, String name){
         
-              System.out.println("Check if folder exists: " + fileName);
-              System.out.println("File name : " + name);
+              //System.out.println("Check if folder exists: " + fileName);
+              //System.out.println("File name : " + name);
               nombreFinal = name;
                  File f = new File(fileName);
 	  if(f.exists() && f.isDirectory()){
-              System.out.println("SI EXISTE : " + name);
+              //System.out.println("SI EXISTE : " + name);
               if (name.length() > 3){
               String prueba = name.substring(name.length()-3, name.length());
-              System.out.println("prueba :   " + prueba);
+              //System.out.println("prueba :   " + prueba);
               if (prueba.charAt(0) == '(' &&  Character.isDigit(prueba.charAt(1)) && prueba.charAt(2) == ')' ){
-                  System.out.println("Estamos en lo correctop");
+                  //System.out.println("Estamos en lo correctop");
                   int i =  Character.getNumericValue(prueba.charAt(1));
               i++;
               String nuevo = name.substring(0, name.length()-3) + "("+i+")";
@@ -892,9 +912,9 @@ dDto.setFilename(name);
           num++;
 	  String nameASumar = name;
           String ruta = fileName.substring(0,fileName.lastIndexOf(name));
-           System.out.println("nombreOriginal : " + nombreOriginal); 
+           //System.out.println("nombreOriginal : " + nombreOriginal); 
           ruta =ruta + nombreOriginal+ "("+num+")";
-          System.out.println("ruta final antes de mandar:" + ruta); 
+          //System.out.println("ruta final antes de mandar:" + ruta); 
     return checkIfExistsAndReturnValidFolder (ruta,nombreOriginal+ "("+num+")");
     
 
@@ -907,8 +927,8 @@ dDto.setFilename(name);
     }
     public String checkIfExistsAndReturnValid (String fileName, String name){
         
-              System.out.println("Check if file exists: " + fileName);
-              System.out.println("File name : " + name);
+              //System.out.println("Check if file exists: " + fileName);
+              //System.out.println("File name : " + name);
               nombreFinal = name;
                  File f = new File(fileName);
 
@@ -921,14 +941,14 @@ int i = name.lastIndexOf('.');
 if (i > 0) {
     extension = name.substring(i+1);
     
-    System.out.println("extension : " + extension);
-    System.out.println("name para ver: " + name);
+    //System.out.println("extension : " + extension);
+    //System.out.println("name para ver: " + name);
     String nameASumar = name.substring(0,name.lastIndexOf('.'));
-    System.out.println("fileDetail.getFileName() a sumar : " + nameASumar);
+    //System.out.println("fileDetail.getFileName() a sumar : " + nameASumar);
     String ruta = fileName.substring(0,fileName.lastIndexOf(name));
-    System.out.println("ruta :" + ruta); 
+    //System.out.println("ruta :" + ruta); 
     ruta =ruta + nameASumar+ "("+num+")"+"."+extension;
-    //System.out.println("ruta nueva : " + ruta);
+    ////System.out.println("ruta nueva : " + ruta);
     return checkIfExistsAndReturnValid (ruta,nameASumar+ "("+num+")"+"."+extension);
     
 }
@@ -1009,7 +1029,7 @@ if (i > 0) {
 		@FormDataParam("file") FormDataContentDisposition fileDetail) throws UnsupportedEncodingException 
         
         {
-            System.out.println("replaceAccents: " +  new String(fileDetail.getFileName().getBytes("ISO-8859-1"), "UTF-8"));
+            //System.out.println("replaceAccents: " +  new String(fileDetail.getFileName().getBytes("ISO-8859-1"), "UTF-8"));
         
 		 String uploadedFileLocation = returnPath("pathForTemporaryFiles") + new String(fileDetail.getFileName().getBytes("ISO-8859-1"), "UTF-8");
                  FilesFacade fac = new FilesFacade ();

@@ -552,10 +552,21 @@ public class ApiREST {
         System.out.println("dto.getFullPathToFolder() : " + dto.getFullPathToFolder());
         System.out.println("dto.getFullPathToFolderInDeleted() : " + dto.getFullPathToFolderInDeleted());
         
-        Files.createDirectories(Paths.get(dto.getFullPathToFolderInDeleted()).getParent()); 
+        FilesFacade fFac = new FilesFacade();
+          if (fFac.verificaSiExiste(dto.getFullPathToFolderInDeleted())){
+              dto.setFullPathToFolderInDeleted(fFac.retornaNombreBienParaCarpeta(dto.getFullPathToFolderInDeleted()) ) ;
+              String nuevoFileName = dto.getFullPathToFolderInDeleted().substring(dto.getFullPathToFolderInDeleted().lastIndexOf("/")+1, dto.getFullPathToFolderInDeleted().length());
+              dto.setFilename(nuevoFileName);
+              
+          }
+        
+              Files.createDirectories(Paths.get(dto.getFullPathToFolderInDeleted()).getParent()); 
          Files.move(Paths.get(dto.getFullPathToFolder()), Paths.get(dto.getFullPathToFolderInDeleted()));
-        dDto.setDeleted(true);
-         fac.updateDocument(dDto);
+        
+         dto.setDeleted(true);
+         fac.updateDocument2ParaMove(dto);
+        
+         
            TransactionRecordFacade tFac = new TransactionRecordFacade();
              TransactionRecordDTO tDto = new TransactionRecordDTO();
              tDto.getObjectDTO().setId(dDto.getId());

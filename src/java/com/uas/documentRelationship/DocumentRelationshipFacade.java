@@ -5,6 +5,8 @@
  */
 package com.uas.documentRelationship;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author jonathangil
@@ -24,6 +26,11 @@ DocumentRelationshipInterface dao = null;
     @Override
     public DocumentRelationshipDTO deleteDocumentRelationship(DocumentRelationshipDTO dto) {
        return dao.deleteDocumentRelationship(dto);
+    }
+
+    @Override
+    public ArrayList<DocumentRelationshipDTO> getChildren(DocumentRelationshipDTO dto) {
+         return dao.getChildren(dto);
     }
 
   

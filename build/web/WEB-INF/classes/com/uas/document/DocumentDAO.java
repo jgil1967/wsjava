@@ -1290,7 +1290,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
           fac.createDocumentRelationship(drDto);
           }
           else{
-              System.out.println("HASTA LA RAIZ WEY");
+             
               PropertiesFacade pDto = new PropertiesFacade();
                 String pathTrash = pDto.obtenerValorPropiedad("pathForTrash");
                 String fullPathOriginal =  pDto.obtenerValorPropiedad("pathForFiles");
@@ -1326,9 +1326,6 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
               String nuevoFileName = pathDestino.substring(pathDestino.lastIndexOf("/")+1, pathDestino.length());
               documentoOriginal.setFilename(nuevoFileName);
               doFac.updateDocument2ParaMove(documentoOriginal);
-              
-              doFac.updateDocument2ParaMove(documentoOriginal);
-                
           }
             
             System.out.println("pathDestino : " + pathDestino );
@@ -1446,6 +1443,9 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
             preparedStmt.setInt(4, dDto.getId());
                 preparedStmt.executeUpdate();
                 System.out.println("dDto.getVengoDeRootYPuedoCambiarDeArea() : " + dDto.getVengoDeRootYPuedoCambiarDeArea());
+                if (dtoViejo != null && dDto!= null){
+                    
+              
                 if ((dtoViejo.getIdArea() != dDto.getIdArea()) && (dDto.getVengoDeRootYPuedoCambiarDeArea())){
                      DocumentDTO dtoNuevo = getDocument(dDto);
                      if (dDto.getDeleted()){
@@ -1458,6 +1458,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
                          Files.move(Paths.get(dtoViejo.getFullPathToFolder()), Paths.get(dtoNuevo.getFullPathToFolder()));
                         }
                       }
+                  }
               /* if (!dDto.getBackedUp()){
              TransactionRecordFacade tFac = new TransactionRecordFacade();
              TransactionRecordDTO tDto = new TransactionRecordDTO();

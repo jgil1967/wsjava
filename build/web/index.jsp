@@ -9,7 +9,7 @@
     
     if(session.getAttribute("user") == null)
    	 
-    {	//System.out.println(session.getAttribute("user"));
+    {	////System.out.println(session.getAttribute("user"));
     	 response.sendRedirect("login.html");
     	 return;
     } 

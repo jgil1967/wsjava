@@ -61,23 +61,23 @@ public class UsuarioServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String task = request.getParameter("task");
-                //System.out.println("task: " + task);
+                ////System.out.println("task: " + task);
                  if (task.equalsIgnoreCase("cerrarsesionhttp"))
 	       {
-                 //  System.out.println("cerrarsesionhttp");
+                 //  //System.out.println("cerrarsesionhttp");
 	    	response.setContentType("text/html");
 	       	Cookie[] cookies = request.getCookies();
 	       	if(cookies != null){
 	       	for(Cookie cookie : cookies){
 	       		if(cookie.getName().equals("JSESSIONID")){
-	       			//System.out.println("JSESSIONID="+cookie.getValue());
+	       			////System.out.println("JSESSIONID="+cookie.getValue());
 	       			break;
 	       		}
 	       	}
 	       	}
 	       	//invalidate the session if exists
 	       	HttpSession session = request.getSession(false);
-	      // 	System.out.println("User="+session.getAttribute("user"));
+	      // 	//System.out.println("User="+session.getAttribute("user"));
 	       	if(session != null){
 	       		session.invalidate();
 	       	}
@@ -100,7 +100,7 @@ public class UsuarioServlet extends HttpServlet {
 			
 		 UsuarioFacade facade = new UsuarioFacade();
 		String task = request.getParameter("task");
-		    //      System.out.println("task " +task );
+		    //      //System.out.println("task " +task );
 	if (task.equalsIgnoreCase("iniciarsesionhttp"))
 	       {String user = request.getParameter("user");
 	   		String pwd = request.getParameter("pwd");
@@ -111,7 +111,7 @@ public class UsuarioServlet extends HttpServlet {
                         
 	   		if(u.isVerified())
 	   		{	
-                          //System.out.println("u.isIsAdministrator() : " + u.getIsAdministrator());
+                          ////System.out.println("u.isIsAdministrator() : " + u.getIsAdministrator());
 //                        
 	   			HttpSession session = request.getSession();
 	   			session.setAttribute("user", u.getName());
@@ -140,20 +140,20 @@ public class UsuarioServlet extends HttpServlet {
 	       }
 	       else if (task.equalsIgnoreCase("cerrarsesionhttp"))
 	       {
-                   System.out.println("cerrarsesionhttp");
+                   //System.out.println("cerrarsesionhttp");
 	    	response.setContentType("text/html");
 	       	Cookie[] cookies = request.getCookies();
 	       	if(cookies != null){
 	       	for(Cookie cookie : cookies){
 	       		if(cookie.getName().equals("JSESSIONID")){
-	       			//System.out.println("JSESSIONID="+cookie.getValue());
+	       			////System.out.println("JSESSIONID="+cookie.getValue());
 	       			break;
 	       		}
 	       	}
 	       	}
 	       	//invalidate the session if exists
 	       	HttpSession session = request.getSession(false);
-	      // 	System.out.println("User="+session.getAttribute("user"));
+	      // 	//System.out.println("User="+session.getAttribute("user"));
 	       	if(session != null){
 	       		session.invalidate();
 	       	}
@@ -164,16 +164,16 @@ public class UsuarioServlet extends HttpServlet {
 	    	HttpSession session = request.getSession();
 	    	 if(session.getAttribute("user") == null)
 	    		 
-	    	 {System.out.println("User="+session.getAttribute("user"));
-	    	   System.out.println("rol="+session.getAttribute("rol"));
+	    	 {//System.out.println("User="+session.getAttribute("user"));
+	    	   //System.out.println("rol="+session.getAttribute("rol"));
 	    		 response.sendRedirect("login_solicitudes.html");
 	    		 return;
 			
 	    	 } 
 	    	 else
 	    	 {	UsuarioDTO u = new UsuarioDTO();
-	    		 System.out.println("User="+session.getAttribute("user"));
-		    	 System.out.println("rol="+session.getAttribute("rol"));
+	    		 //System.out.println("User="+session.getAttribute("user"));
+		    	 //System.out.println("rol="+session.getAttribute("rol"));
 		    	 //u.isIsAdministrator(Boolean.parseBoolean(session.getAttribute("isAdministrator").toString()));
 		    	 u.setId((Integer.parseInt(session.getAttribute("user").toString())));
 		    	

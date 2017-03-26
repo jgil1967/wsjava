@@ -11,6 +11,7 @@ import com.uas.dbutil.getTomcatDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -107,6 +108,49 @@ public class DocumentRelationshipDAO implements DocumentRelationshipInterface{
             }
         }
     return dto;
+    }
+
+    @Override
+    public ArrayList<DocumentRelationshipDTO> getChildren(DocumentRelationshipDTO dto) {
+     ArrayList<DocumentRelationshipDTO> list = null;
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement ps = null;
+       list = new ArrayList<DocumentRelationshipDTO> ();
+       DocumentRelationshipDTO newDto = null;
+         try{
+              c = DataSourceSingleton.getInstance().getConnection(); 
+                String SQL = "SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\" WHERE \"documentRelationships\".\"idDocumentParent\" = ?";
+                ps = c.prepareStatement(SQL);
+               ps.setInt(1, dto.getIdDocumentParent());
+                 rs = ps.executeQuery();
+                   while (rs.next()) {
+                       newDto = new DocumentRelationshipDTO();
+                       newDto.setIdDocumentChild(rs.getInt("idDocumentChild"));
+                       list.add(newDto);
+                   }
+         }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (ps != null){
+                     ps.close();
+                 }
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         }
+         
+        return null;
     }
 
     

@@ -148,7 +148,7 @@ public class areaDAO implements areaInterface {
             while (rs.next()) {
 
                 if (oDto.getId() == rs.getInt("id")) {
-                    //System.out.println("Es el mismo ID");
+                    ////System.out.println("Es el mismo ID");
                     continue;
                 }
                 dto = new areaDTO();
@@ -156,7 +156,7 @@ public class areaDAO implements areaInterface {
                 dto.setName(rs.getString("name"));
                 list.add(dto);
             }
-            // System.out.println("list: " + list.size());
+            // //System.out.println("list: " + list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -234,7 +234,7 @@ public class areaDAO implements areaInterface {
     @Override
     public ArrayList<areaDTO> getAreasByArea2(areaDTO oDto) {
 
-       // System.out.println("oDto : " + oDto.getId());
+       // //System.out.println("oDto : " + oDto.getId());
         ArrayList<areaDTO> list = null;
         areaDTO dto = null;
         
@@ -249,11 +249,11 @@ public class areaDAO implements areaInterface {
             ps.setInt(1, oDto.getId());
             rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println("rs.getInt(\"id\") : " + rs.getInt("id"));
+              //  //System.out.println("rs.getInt(\"id\") : " + rs.getInt("id"));
                 dto = new areaDTO();
                 dto.setId(rs.getInt("id"));
 //                       if (rs.getInt("id") == oDto.getId()){
-//                           System.out.println("rs.getInt(\"id\") : " + rs.getInt("id"));
+//                           //System.out.println("rs.getInt(\"id\") : " + rs.getInt("id"));
 //                       }
                 dto.setName(rs.getString("name"));
                 dto.setUploadAndEdit(rs.getBoolean("uploadAndEdit"));
@@ -359,7 +359,7 @@ public class areaDAO implements areaInterface {
                         
                 }
                 String folderName = pathForFiles.substring(pathForFiles.lastIndexOf("/")+1, pathForFiles.length());
-                //System.out.println("folderName : " + folderName);
+                ////System.out.println("folderName : " + folderName);
                 dto.setFolderName(folderName);
                 
                 fac = new areaFacade ();
