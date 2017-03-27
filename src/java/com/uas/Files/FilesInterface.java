@@ -19,6 +19,7 @@ public interface FilesInterface {
     public Boolean borrarCarpetaTemporales ();
     public Boolean borrarCarpetaDescargas ();
     public Boolean borrarCarpetaBackups ();
+    public Boolean borrarCarpetaTrash ();
     public String guardarInputStreamAFile(InputStream inputStream, String destino);
     public File getUniqueFilename( File file );
 

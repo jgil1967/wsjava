@@ -98,7 +98,7 @@
         <th md-column md:order:by="user.name"><span>Creado por</span></th>
 <!--Estado del documento-->
      <th md-column  ng-show="loggedUser.root"><span>Borrado</span></th>
-     <th md-column ><span>Mover</span></th>
+     <th md-column><span>Mover</span></th>
  <th md-column ng-show="loggedUser.root"><span>Respaldar</span></th>
         <th md-column ><span>Editar</span></th>
         <th md-column ><span>Descarga</span></th>
@@ -129,8 +129,8 @@
              </td>
              
              
-              <td md-cell  >
-     <md-button  ng-click="moverDocumento($event,document)" class="md-fab md-primary" aria-label="Editar">
+              <td md-cell   >
+     <md-button ng-show="document.deleted == false"  ng-click="moverDocumento($event,document)" class="md-fab md-primary" aria-label="Editar">
        <i class="material-icons">low_priority</i>
         </md-button>
      

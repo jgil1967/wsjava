@@ -23,6 +23,12 @@ app.service('documentosService',function($http){
       });
       return promise;
     },
+       getDeletedDocuments: function() {
+      var promise = $http.get('/wsjava/fimrest/restapi/getDeletedDocuments').then(function (response) {
+      documents = response.data;
+      });
+      return promise;
+    },
       getDocumentGovernment: function(filter) {
           
             return  $http({
@@ -71,6 +77,32 @@ app.service('documentosService',function($http){
        return  $http({
     method: 'POST',
     url: "/wsjava/fimrest/restapi/getDocumentsByUser",
+    data: JSON.stringify(user)
+}).then(function(result){
+    
+          documents = result.data;
+            
+        });  
+        
+    },
+    vaciarPapeleraDeReciclaje: function(user) {
+   
+       return  $http({
+    method: 'POST',
+    url: "/wsjava/fimrest/restapi/vaciarPapeleraDeReciclaje",
+    data: JSON.stringify(user)
+}).then(function(result){
+    
+          documents = result.data;
+            
+        });  
+        
+    },
+    deleteDocumentForever: function(user) {
+   
+       return  $http({
+    method: 'POST',
+    url: "/wsjava/fimrest/restapi/deleteDocumentForever",
     data: JSON.stringify(user)
 }).then(function(result){
     

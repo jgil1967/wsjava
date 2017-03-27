@@ -28,11 +28,13 @@ public interface DocumentInterface {
        ArrayList<DocumentDTO> getDocuments(FiltersDTO filters);
        DocumentDTO createDocument(DocumentDTO dDto);
      DocumentDTO updateDocument(DocumentDTO dDto);
+     DocumentDTO deleteDocumentForever(DocumentDTO dDto);
      DocumentDTO updateDocument2ParaMove(DocumentDTO dDto);
      DocumentDTO updateDocumentArea(DocumentDTO dDto);
      DocumentDTO updateDocumentFilename(DocumentDTO dDto);
        ArrayList <DocumentDTO> searchDocuments (FilterForGovernmentDTO dto);
         ArrayList<DocumentDTO> getDocumentsByUser(UsuarioDTO dto) ;
+        DocumentDTO vaciarPapeleraDeReciclaje(UsuarioDTO dto) ;
         DocumentGovernmentDTO getDocumentGovernment (FilterForGovernmentDTO dto);
         String moveDocuments (ArrayList<DocumentDTO> documents);
          DocumentDTO deleteDocument2(DocumentDTO dDto) ;
@@ -42,4 +44,5 @@ public interface DocumentInterface {
            ArrayList<DocumentDTO> getAllDescendantsAndDelete(DocumentDTO dto);
            DocumentDTO copyDocumentToTrash(DocumentDTO dto);
            DocumentDTO deleteDocumentFromSource(DocumentDTO dto);
+           ArrayList<DocumentDTO> getDeletedDocuments() ;
 }

@@ -225,8 +225,8 @@ app.controller('documentDialogController', ['$scope', '$http', '$filter', '$time
 
             $scope.areas = areas;
             $scope.document = document;
-            
-            
+            $scope.carpetaBorrada = $scope.document.deleted;
+            window.console.log($scope.carpetaBorrada );
           //  window.console.log(update);
              //   window.console.log($scope.document);
                 

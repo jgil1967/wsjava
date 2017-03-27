@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -1031,7 +1032,7 @@ if (document.getFolder().getId() != 0){
        documents = new ArrayList<DocumentDTO> ();
          try {
           c = DataSourceSingleton.getInstance().getConnection(); 
-           String SQL = "SELECT \"document\".\"id\", \"document\".\"fileName\", \"document\".\"idArea\", \"document\".\"deleted\", \"document\".\"isFolder\", \"area\".\"folderName\" FROM \"document\" JOIN \"area\" ON \"document\".\"idArea\" = \"area\".\"id\" WHERE \"document\".\"isFolder\" = TRUE AND \"document\".\"id\" NOT IN( SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\") and \"document\".\"id\" != ?";
+           String SQL = "SELECT \"document\".\"id\", \"document\".\"fileName\", \"document\".\"idArea\", \"document\".\"deleted\", \"document\".\"isFolder\", \"area\".\"folderName\" FROM \"document\" JOIN \"area\" ON \"document\".\"idArea\" = \"area\".\"id\" WHERE \"document\".\"deleted\" = FALSE AND \"document\".\"isFolder\" = TRUE AND \"document\".\"id\" NOT IN( SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\") and \"document\".\"id\" != ?";
              if (dto.getAreas().size()>0){
                  SQL = SQL + " AND ("; 
               }
@@ -1147,7 +1148,7 @@ if (document.getFolder().getId() != 0){
        documents = new ArrayList<DocumentDTO> ();
          try {
           c = DataSourceSingleton.getInstance().getConnection(); 
-           String SQL = "SELECT \"document\".\"fileName\", \"document\".\"id\",\"document\".\"idArea\" FROM \"documentRelationships\" JOIN \"document\" ON \"documentRelationships\".\"idDocumentChild\" = \"document\".\"id\" WHERE \"document\".\"isFolder\" = TRUE AND \"documentRelationships\".\"idDocumentParent\" = ?   AND \"documentRelationships\".\"idDocumentChild\" != ? ";
+           String SQL = "SELECT \"document\".\"fileName\", \"document\".\"id\",\"document\".\"idArea\" FROM \"documentRelationships\" JOIN \"document\" ON \"documentRelationships\".\"idDocumentChild\" = \"document\".\"id\" WHERE \"document\".\"deleted\" = FALSE AND \"document\".\"isFolder\" = TRUE AND \"documentRelationships\".\"idDocumentParent\" = ?   AND \"documentRelationships\".\"idDocumentChild\" != ? ";
            if (fDto.getAreas().size()>0){
                  SQL = SQL + " AND ("; 
               }
@@ -1653,7 +1654,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
         if (dDto.getIsFolder() && file.isDirectory()){
             getAllDescendantsAndCopy(dDto);
              destino = fac.obtenerValorPropiedad("pathForTrash")  + dDto.getFilename();
-                  Files.move(Paths.get(dDto.getFullPathToFolder()), Paths.get(destino));
+                  Files.move(Paths.get(dDto.getFullPathToFolder()), Paths.get(destino),REPLACE_EXISTING);
                File f1 = new  File (destino);
                File f2= new  File ( fac.obtenerValorPropiedad("pathForTrash")  + dDto.getId());
               boolean success = f1.renameTo(f2);
@@ -1693,7 +1694,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
         if (dDto.isFolder){
             File file = new File (fac.obtenerValorPropiedad("pathForTrash") +dDto.getId() );
       try {
-                Files.move(Paths.get(file.getAbsolutePath()), Paths.get(dDto.getFullPathToFolder()));
+                Files.move(Paths.get(file.getAbsolutePath()), Paths.get(dDto.getFullPathToFolder()), REPLACE_EXISTING);
             
             } catch (IOException ex) {
                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -1705,6 +1706,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
             File file = new File (fac.obtenerValorPropiedad("pathForTrash") +dDto.getId() +  extension);
          
             try {
+                Files.createDirectories(Paths.get(dDto.getFullPathToFolder()).getParent()); 
                 Files.move(Paths.get(file.getAbsolutePath()), Paths.get(dDto.getFullPathToFolder()));
             
             } catch (IOException ex) {
@@ -1724,10 +1726,6 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
     //Copia a basura
     @Override
     public ArrayList<DocumentDTO> getAllDescendantsAndCopy(DocumentDTO dto) {
-    
-       
-       
-
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement ps = null;
@@ -1859,5 +1857,156 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
         File file = new File (dDto.getFullPathToFolder());
         file.delete();
         return null; }
+
+    @Override
+    public ArrayList<DocumentDTO> getDeletedDocuments() {
+    
+        ArrayList<DocumentDTO> documents = null;
+     DocumentDTO document = null;
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement ps = null;
+       documents = new ArrayList<DocumentDTO> ();
+         try{
+              c = DataSourceSingleton.getInstance().getConnection(); 
+               String SQL = "SELECT \"object\".\"id\",\"object\".\"createdBy\", \"object\".\"name\", \"object\".\"description\", \"object\".\"createdOn\", \"object\".\"createdBy\", \"object\".\"color\", \"object\".\"kind\", \"document\".\"fileName\", \"document\".\"isFolder\", \"document\".\"deleted\", \"document\".\"fileDate\", \"document\".\"idArea\", \"object3\".\"name\" AS \"nameArea\", \"object2\".\"name\" AS \"nameCreatedBy\" FROM \"document\" JOIN \"object\" ON \"document\".\"id\" = \"object\".\"id\" JOIN \"object\" AS \"object3\" ON \"document\".\"idArea\" = \"object3\".\"id\" JOIN \"object\" AS \"object2\" ON \"object\".\"createdBy\" = \"object2\".\"id\" where \"document\".\"deleted\" = TRUE  ORDER BY \"object\".\"createdOn\" ASC";
+               ps = c.prepareStatement(SQL);
+                    
+               rs = ps.executeQuery();
+                   while (rs.next()) {
+                       document = new DocumentDTO();
+                       document.setId(rs.getInt("id"));
+                       document.setCreatedBy(rs.getInt("createdBy"));
+                        document.setIsFolder(rs.getBoolean("isFolder"));
+                       document.setName(rs.getString("name"));
+                       document.setDescription(rs.getString("description"));
+                        document.setColor(rs.getString("color"));
+                           document.setDeleted(rs.getBoolean("deleted"));
+                        document.setCreatedOn(rs.getTimestamp("createdOn"));
+                        document.setKind(rs.getString("kind"));
+                        document.setFilename(rs.getString("filename"));
+                    document.setFileDate(rs.getString("fileDate"));
+                    document.setIdArea(rs.getInt("idArea"));
+                   document.getArea().setName(rs.getString("nameArea"));
+                   document.getUser().setName(rs.getString("nameCreatedBy"));
+                      documents.add(document);
+                   }
+         }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (ps != null){
+                     ps.close();
+                 }
+                    
+                
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         }
+        return documents;}
+
+    @Override
+    public DocumentDTO vaciarPapeleraDeReciclaje(UsuarioDTO dto) {
+        
+         PreparedStatement preparedStmt = null;
+        Connection c = null;
+        ResultSet rs =null;
+        // 
+       try {
+          c = DataSourceSingleton.getInstance().getConnection(); 
+          String SQL = "delete from \"public\".\"document\" where \"deleted\"=TRUE ";
+     	preparedStmt = c.prepareStatement(SQL);
+        
+          preparedStmt.executeUpdate();
+             FilesFacade fac = new FilesFacade();
+             fac.borrarCarpetaTrash();
+         }
+          catch (Exception e)
+            {
+        	e.printStackTrace();
+            }
+        finally{
+            try {
+               if (c != null) {
+                    c.close();
+                }
+                if (rs != null) {
+
+                    rs.close();
+                }
+                if (preparedStmt != null) {
+                    preparedStmt.close();
+                }
+                    
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    
+        
+        return null;
+    }
+
+    @Override
+    public DocumentDTO deleteDocumentForever(DocumentDTO dDto) {
+    PropertiesFacade fac = new PropertiesFacade();
+         PreparedStatement preparedStmt = null;
+        Connection c = null;
+        ResultSet rs =null;
+        // 
+       try {
+          c = DataSourceSingleton.getInstance().getConnection(); 
+          String SQL = "delete from \"public\".\"document\" where \"id\"=? ";
+     	preparedStmt = c.prepareStatement(SQL);
+        preparedStmt.setInt(1, dDto.getId());
+          preparedStmt.executeUpdate();
+          if (dDto.getIsFolder()){
+              
+              File f = new File (fac.obtenerValorPropiedad("pathForTrash") + dDto.getId());
+              f.delete();
+          }
+          else{
+              
+              File f = new File (fac.obtenerValorPropiedad("pathForTrash") + dDto.getId()+dDto.getFilename().substring(dDto.getFilename().lastIndexOf("."), dDto.getFilename().length()));
+              f.delete();
+          }
+           
+         }
+          catch (Exception e)
+            {
+        	e.printStackTrace();
+            }
+        finally{
+            try {
+               if (c != null) {
+                    c.close();
+                }
+                if (rs != null) {
+
+                    rs.close();
+                }
+                if (preparedStmt != null) {
+                    preparedStmt.close();
+                }
+                    
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    
+        
+        return null;}
     
 }

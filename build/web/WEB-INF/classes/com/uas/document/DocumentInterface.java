@@ -42,4 +42,5 @@ public interface DocumentInterface {
            ArrayList<DocumentDTO> getAllDescendantsAndDelete(DocumentDTO dto);
            DocumentDTO copyDocumentToTrash(DocumentDTO dto);
            DocumentDTO deleteDocumentFromSource(DocumentDTO dto);
+           ArrayList<DocumentDTO> getDeletedDocuments() ;
 }

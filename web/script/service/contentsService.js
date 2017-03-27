@@ -3,6 +3,7 @@ app.service('contentsService', function()
        var contentsRoot = [
               {name: "Todos los documentos",url:"documentos"},
                 {name: "Mis documentos",url:"subidospormi"},
+                {name: "Papelera de reciclaje",url:"trash"},
               {name: "Areas",url:"areas"},
               {name: "Usuarios",url:"usuarios"},
               {name: "Palabras clave",url:"keywords"},

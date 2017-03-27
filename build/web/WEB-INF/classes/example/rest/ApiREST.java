@@ -206,6 +206,7 @@ public class ApiREST {
 //                }
 //                
                 
+                
                   @GET
 		 @Produces(MediaType.APPLICATION_JSON)
                  @Path("/getDocuments")
@@ -221,6 +222,14 @@ public class ApiREST {
                 {
                  dFac = new DocumentFacade();
                  return dFac.getDocumentsByUser(dto);
+                }
+                    @GET
+		 @Produces(MediaType.APPLICATION_JSON)
+                  @Path("/getDeletedDocuments")
+		public ArrayList<DocumentDTO> getDeletedDocuments() 
+                {
+                 dFac = new DocumentFacade();
+                 return dFac.getDeletedDocuments();
                 }
                  @POST
 		 @Produces(MediaType.APPLICATION_JSON)
@@ -803,15 +812,15 @@ dDto.setFilename(name);
       
       
        @GET
-    @Path("/downloadDocumentOrFolder2/{id}")
+    @Path("/downloadDocumentOrFolder/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-     public Response downloadDocumentOrFolder2(@PathParam("id") final String id) throws Exception
+     public Response downloadDocumentOrFolder(@PathParam("id") final String id) throws Exception
     {
         
          try {
         
     
-        //System.out.println("ID : " + id);
+        System.out.println("ID : " + id);
          dto = new DocumentDTO();
         dto.setId(Integer.parseInt(id));
         DocumentFacade fac = new DocumentFacade();
@@ -826,7 +835,7 @@ dDto.setFilename(name);
                 try
                 { 
                     java.nio.file.Path path =  null;
-                    if (!dto.getAscendenteBorrado() && !dto.getDeleted() ){
+                    if ( !dto.getDeleted() ){
                         //System.out.println("HELLO SICK SAD WORLD  : " + dto.getFullPathToFolder());
                         path = Paths.get(dto.getFullPathToFolder());
                     }
@@ -903,9 +912,9 @@ dDto.setFilename(name);
       
       
      @GET
-    @Path("/downloadDocumentOrFolder/{id}")
+    @Path("/downloadDocumentOrFolder2/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-     public Response downloadDocumentOrFolder(@PathParam("id") final String id) throws Exception
+     public Response downloadDocumentOrFolder2(@PathParam("id") final String id) throws Exception
     {
         
          try {

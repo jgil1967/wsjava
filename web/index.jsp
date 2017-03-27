@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : index
     Created on : Sep 29, 2016, 2:51:01 PM
     Author     : jonathangil
@@ -6,24 +6,25 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
  <%
-    
+
     if(session.getAttribute("user") == null)
-   	 
+
     {	////System.out.println(session.getAttribute("user"));
     	 response.sendRedirect("login.html");
     	 return;
-    } 
-    
-    else
-    {  
-       
     }
-String idUsuario =  session.getAttribute("idUsuario").toString(); 
+
+    else
+    {
+
+    }
+String idUsuario =  session.getAttribute("idUsuario").toString();
     %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 
 
         <title>Documentos FIM</title>
@@ -69,7 +70,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
       <script src="script/service/usuariosService.js" type="text/javascript"></script>
       <script src="script/service/documentsBackupService.js" type="text/javascript"></script>
       <script src="script/service/transactionsService.js" type="text/javascript"></script>
-      
+
       <script src="script/controller/topBannerController.js" type="text/javascript"></script>
       <script src="script/controller/dialogControllers/usuarioDialogController.js" type="text/javascript"></script>
       <script src="script/controller/appController.js" type="text/javascript"></script>
@@ -88,31 +89,32 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
     <script src="script/controller/databaseBackupController.js" type="text/javascript"></script>
     <script src="script/controller/documentsBackupController.js" type="text/javascript"></script>
     <script src="script/controller/transactionsController.js" type="text/javascript"></script>
+    <script src="script/controller/trashController.js" type="text/javascript"></script>
     <script src="script/controller/manualsController.js" type="text/javascript"></script>
     <script src="script/controller/dialogControllers/moveDocumentDialogController.js" type="text/javascript"></script>
     <script src="script/shared/angular-materialize.min.js" type="text/javascript"></script>
     <script>
          $(document).ready(function(){
-             setTimeout(function(){ $('.collapsible').collapsible(); 
-             
+             setTimeout(function(){ $('.collapsible').collapsible();
+
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15 // Creates a dropdown of 15 years to control year
   });
   }, 500);
-    
-    
+
+
   });
     </script>
     <!--Dialog controllers -->
     </head>
     <!--gradient wellText-->
     <body class=" " ng-app="appApp">
-        
-        
-        
+
+
+
         <input type="hidden" value="${idUsuario}" id="idUsuario" name="idUsuario">
-        
+
         <div ng-controller="moveDocumentDialogController"></div>
           <div ng-controller="documentDialogController"></div>
         <div ng-controller="documentsBackupController"></div>
@@ -123,27 +125,27 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <div ng-controller="manualsController"></div>
    <script type="text/ng-template" id="tag-template">
       <div class="tag-template">
-        
+
         <div class="right-panel">
           <span>{{$getDisplayText()}}</span>
           <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
         </div>
       </div>
     </script>
-    
+
     <script type="text/ng-template" id="autocomplete-template">
       <div class="autocomplete-template">
-        
+
         <div class="right-panel">
           <span ng-bind-html="$highlight($getDisplayText())"></span>
-          
-           
+
+
         </div>
       </div>
     </script>
-    
-    
-    
+
+
+
       <script type="text/ng-template" id="moverDocumento.tmpl.html">
    <md-dialog aria-label="Mover documento" ng-cloak>
         <md-toolbar>
@@ -160,31 +162,31 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </md-toolbar>
    <md-dialog-content div="contenidoMover">
      <div class="md-dialog-content" style="min-height:400px;">
-     
-     
+
+
     <div id="tree-container"></div>
-      
+
      </md-dialog-content>
         </md-dialog>
     </script>
-    
-    
+
+
       <script type="text/ng-template" id="documentBackupRequestDialog.tmpl.html">
    <md-dialog aria-label="Google Drive Request" ng-cloak>
         <md-toolbar>
         <div class="md-toolbar-tools">
-      
+
          <h2>Generando respaldo de documentos en Google Drive</h2>
         <span flex></span>
-        
-        
-        
+
+
+
         </div>
         </md-toolbar>
    <md-dialog-content>
      <div class="md-dialog-content" style="min-height:400px;">
-     
-     
+
+
       <div class="preloader-wrapper big active" style=" position: absolute;top :0;left: 0;right: 0;bottom: 0;margin: auto; ">
     <div class="spinner-layer spinner-blue-only">
       <div class="circle-clipper left">
@@ -196,13 +198,13 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
       </div>
     </div>
   </div>
-     
-   
-      
+
+
+
      </md-dialog-content>
         </md-dialog>
     </script>
-    
+
      <script type="text/ng-template" id="keywordDialog.tmpl.html">
    <md-dialog aria-label="Keyword" ng-cloak>
         <md-toolbar>
@@ -226,7 +228,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <label for="nombre">Nombre (campo obligatorio) </label>
         </div>
   </br>
- 
+
         </md-dialog-content>
         <md-dialog-actions>
         <button ng-if="!update" ng-disabled="formKeyword.$invalid " class="btn waves-effect waves-light" type="submit" name="action"  ng-click="nuevoKeyword()">Registrar
@@ -266,12 +268,12 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
          <md-switch ng-model="area.superuser" aria-label="Switch 1" > Es de superusuarios
  </md-switch>
     </div>
-    
+
     <div class="input-field col s12" style="padding-top: 5px;padding-bottom: 5px;" ng-hide="" >
          <md-switch ng-model="area.enabled" aria-label="Switch 1" > Habilitada
  </md-switch>
     </div>
-    
+
   </br>
   <div ng-if="update && !area.superuser ">
   <h5>Privilegios</h5>
@@ -284,22 +286,22 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
       <tr md-row>
         <th md-column md:order:by="name"><span>Nombre</span></th>
         <th md-column ><span>Agregar</span></th>
-       
-        
+
+
       </tr>
     </thead>
     <tbody md-body>
       <tr md-row md-select="table" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect"  data-ng-repeat="area in possibleAreasByArea| filter:searchAreas | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
      <td md-cell>{{ area.name| limitTo: 20 }}{{area.name.length > 20 ? '...' : ''}}</td>
-      <td md-cell>    
+      <td md-cell>
        <md-button ng-click="createAreaRelationship(area)" class="md-fab md-primary" aria-label="Agregar">
        <i class="material-icons">add</i>
         </md-button>
-         </td>   
-     
-     
-    
- 
+         </td>
+
+
+
+
       </tr>
     </tbody>
   </table>
@@ -313,33 +315,33 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <th md-column md:order:by="name"><span>Nombre</span></th>
             <th md-column ><span>Puede subir y editar</span></th>
         <th md-column ><span>Quitar</span></th>
-     
-       
-        
+
+
+
       </tr>
     </thead>
     <tbody md-body>
-    
+
       <tr md-row md-select="table" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect"  data-ng-repeat="area in areasByArea| filter:searchAreas | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
      <td md-cell>{{ area.name| limitTo: 20 }}{{area.name.length > 20 ? '...' : ''}}</td>
            <td md-cell>
                 <md-switch ng-model="area.uploadAndEdit" aria-label="Habilitado" ng-change="uploadAndEdit(area)">
      </md-switch>
  </td>
-        
-            <td md-cell>    
+
+            <td md-cell>
        <md-button ng-click="deleteAreaRelationship(area)" class="md-fab md-primary" aria-label="Quitar">
        <i class="material-icons">clear</i>
         </md-button>
          </td>
 
-        
+
       </tr>
     </tbody>
   </table>
 </md-table-container>
   </div>
-  
+
   <!--{{tables}} -->
         </form>
         </div>
@@ -355,7 +357,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </md-dialog-actions>
         </md-dialog>
     </script>
-    
+
      <script type="text/ng-template" id="usuarioDialog.tmpl.html">
    <md-dialog aria-label="Usuario" ng-cloak>
         <md-toolbar>
@@ -372,19 +374,19 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <md-dialog-content>
           <label  ng-hide="usuario.availability" style="color:red">Ese nombre de usuario ya existe </label>
         <label ng-show="usuario.availability && usuario.name.length >0 " style="color:green">Nombre de usuario válido y disponible </label>
-        
+
         <div class="md-dialog-content">
         <form ng-submit="$event.preventDefault()" novalidate name="formUsuario">
         <!-------------------------------------------->
-      
+
 
         <div style="clear:both"></div>
         <div class="input-field col s12" style="padding-top: 5px;padding-bottom: 5px;">
         <input md-autofocus autofocus  required  id="nombre" ng-model="usuario.name" type="text" class="validate">
         <label for="nombre">Nombre (campo obligatorio) </label>
         </div>
- 
-  
+
+
   </br>
   <div class="input-field col s12" style="padding-top: 5px;padding-bottom: 5px;">
         <input  required  id="contrasena" ng-model="usuario.contrasena" type="password" class="validate">
@@ -413,21 +415,21 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
          <md-switch ng-model="usuario.root" aria-label="Switch 1" > Es root
  </md-switch>
     </div>
-  
-  
+
+
 <div class="input-field col s12" style="padding-top: 5px;padding-bottom: 5px;">
          <md-switch ng-model="usuario.isAdministrator" aria-label="Switch 2" ng-hide="!loggedUser.root"> Es administrador
  </md-switch>
     </div>
-  
- 
+
+
 <div class="input-field col s12" style="padding-top: 5px;padding-bottom: 5px;">
          <md-switch ng-model="usuario.enabled" aria-label="Switch 3" > Habilitado
  </md-switch>
     </div>
-  
+
  <br>
- 
+
         </form>
         </div>
         </md-dialog-content>
@@ -442,24 +444,25 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </md-dialog-actions>
         </md-dialog>
     </script>
-    
+
       <!--    ############ INICIO  FOLDER    ########### -->
-    
+
        <script type="text/ng-template" id="updateDocumentDialogFolder.tmpl.html">
    <md-dialog aria-label="Documento" ng-cloak>
         <md-toolbar>
         <div class="md-toolbar-tools">
-        
-         <h2 ng-if="update">Editar carpeta - &quot;{{carpeta.name}}&quot;</h2>
-  <md-button style="color: white;" ng-click="createDocument($event)">
-     
+
+         <h2 ng-if="update && carpetaBorrada == false">Editar carpeta - &quot;{{carpeta.name}}&quot; </h2>
+ <h2 ng-if="update && carpetaBorrada == true">Editar carpeta - &quot;{{carpeta.name}}&quot; - Borrada</h2>
+  <md-button style="color: white;" ng-click="createDocument($event)" ng-if="update && carpetaBorrada == false">
+
           <md-icon>add</md-icon>
           Nuevo documento
     </md-button>
-       <md-button style="color: white;" ng-click="createDocumentFolder($event)">
+       <md-button style="color: white;" ng-click="createDocumentFolder($event)" ng-if="update && carpetaBorrada == false">
           <md-icon>add</md-icon>
           Nueva carpeta
-    </md-button> 
+    </md-button>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
         <md-icon md-svg-src="icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
@@ -474,11 +477,11 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <li>
       <div class="collapsible-header"><i class="material-icons">info_outline</i>Editar datos de carpeta</div>
       <div class="collapsible-body">
-      
+
         <form ng-submit="$event.preventDefault()" novalidate name="formDocument">
-        
+
 <br>
-   
+
         <div class="input-field col s12" style="padding-top: 5px;padding-bottom: 5px;">
         <input md-autofocus autofocus  required  id="name" ng-model="document.name" type="text" class="validate">
         <label for="name">Nombre (campo obligatorio) </label>
@@ -491,7 +494,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </div>
 
   <div class="input-field col ">
-        
+
         <input required  id="fileDate" class="datepicker" ng-model="document.fileDate" type="date" class="validate">
 
         </div>
@@ -507,7 +510,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </md-input-container>
  <br>
  <label for="palabrasClave">Palabras clave</label>
- <tags-input ng-model="tags"  display-property="name" placeholder="Palabras clave" 
+ <tags-input ng-model="tags"  display-property="name" placeholder="Palabras clave"
                 replace-spaces-with-dashes="false" template="tag-template">
       <auto-complete source="loadCountries($query)"
                      min-length="0" load-on-focus="true"load-on-empty="true"max-results-to-show="32" template="autocomplete-template"></auto-complete>
@@ -522,11 +525,11 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </form>
         </div>
         </md-dialog-content>
-        
-       
 
 
-      
+
+
+
          </div>
      </li>
     </ul>
@@ -539,59 +542,59 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
            <th md-column md:order:by="name"><span>Tipo</span></th>
         <th md-column md:order:by="name"><span>Nombre</span></th>
         <th md-column md:order:by="description"><span>Descripción</span></th>
-        
+
         <th md-column md:order:by="createdOn"><span>Subido</span></th>
         <th md-column md:order:by="area.name"><span>Area</span></th>
         <th md-column md:order:by="user.name"><span>Creado por</span></th>
 <!--Estado del documento-->
-     <th md-column  ng-show="loggedUser.root"><span>Borrado</span></th>
-     <th md-column ><span>Mover</span></th>
+     <th md-column  ng-show="loggedUser.root && carpetaBorrada == false" ><span>Borrado</span></th>
+     <th md-column ng-show="carpetaBorrada == false"><span>Mover</span></th>
  <th md-column ng-show="loggedUser.root"><span>Respaldar</span></th>
         <th md-column ><span>Editar</span></th>
         <th md-column ><span>Descarga</span></th>
-       
+
       </tr>
     </thead>
     <tbody md-body>
       <tr md-row md-select="table" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect"  data-ng-repeat="document in documentosDeCarpeta  | filter:searchDocumentos | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
-       
+
           <td md-cell> <span ng-show="document.isFolder == true"><i class="material-icons">folder</i></span> <span ng-show="document.isFolder == false"><i class="material-icons">insert_drive_file</i> </span>  </td>
           <td md-cell>  {{ document.name| limitTo: 30 }}{{document.name.length > 20 ? '...' : ''}}</td>
      <td md-cell>{{ document.description| limitTo: 30 }}{{document.name.length > 20 ? '...' : ''}}</td>
-     
+
      <td md-cell>{{document.createdOn | date:'yyyy-MM-dd HH:mm:ss Z' }}</td>
      <td md-cell>{{document.area.name}}</td>
      <td md-cell>{{document.user.name}}</td>
-    
+
 <!--     Estado del documento - checkbox - Activo o inactivo -->
-       <td md-cell  ng-show="loggedUser.root">   
+       <td md-cell  ng-show="loggedUser.root && carpetaBorrada == false">
           <md-switch ng-model="document.deleted" aria-label="Habilitado" ng-change="borrarORestaurar(document)">
      </md-switch>
              </td>
-     
-     
-     
-              <td md-cell  >
-     <md-button  ng-click="moverDocumento($event,document)" class="md-fab md-primary" aria-label="Editar">
+
+
+
+              <td md-cell  ng-show="carpetaBorrada == false">
+     <md-button  ng-click="moverDocumento($event,document)"  class="md-fab md-primary" aria-label="Editar">
        <i class="material-icons">low_priority</i>
         </md-button>
-     
+
      </td>
-             
+
               <td md-cell  ng-show="loggedUser.root == true">
      <md-button ng-disabled="document.backedUp==true || uploading==true" ng-click="subirDocumento(document)" class="md-fab md-primary" aria-label="Editar">
        <i class="material-icons">cloud_upload</i>
         </md-button>
-     
+
      </td>
-             
-     <td md-cell>    
+
+     <td md-cell>
            <md-button ng-show="document.visible" ng-click="updateDocument($event,document)" class="md-fab md-primary" aria-label="Editar">
        <i class="material-icons">border_color</i>
         </md-button>
          </td>
-         
- 
+
+
    <td md-cell>
        <md-button  ng-href="/wsjava/fimrest/restapi/downloadDocumentOrFolder/{{document.id}}" class="md-fab md-primary" aria-label="Ver columnas">
        <i class="material-icons">file_download</i>
@@ -604,13 +607,13 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
 </md-table-container>
 
 <data-md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{documents.length}}" md-on-paginate="onPaginate" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks">
-    
+
 </data-md-table-pagination>
-    
+
         </md-dialog>
     </script>
-      
-      
+
+
     <script type="text/ng-template" id="documentDialogFolder.tmpl.html">
    <md-dialog aria-label="Documento" ng-cloak>
         <md-toolbar>
@@ -630,7 +633,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <form ng-submit="$event.preventDefault()" novalidate name="formDocument">
         <!-------------------------------------------->
 
-   
+
         <div class="input-field col s12" style="padding-top: 5px;padding-bottom: 5px;">
         <input md-autofocus autofocus  required  id="name" ng-model="document.name" type="text" class="validate">
         <label for="name">Nombre (campo obligatorio) </label>
@@ -661,13 +664,13 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </md-input-container>
  <br>
  <p><strong>Palabras clave</strong></p>
- <tags-input ng-model="tags"  display-property="name" placeholder="Palabras clave" 
+ <tags-input ng-model="tags"  display-property="name" placeholder="Palabras clave"
                 replace-spaces-with-dashes="false" template="tag-template">
       <auto-complete source="loadCountries($query)"
                      min-length="0" load-on-focus="true"load-on-empty="true"max-results-to-show="32" template="autocomplete-template"></auto-complete>
     </tags-input>
            <br>
-   
+
         </form>
         </div>
         </md-dialog-content>
@@ -683,9 +686,9 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </md-dialog>
     </script>
     <!--    ############  FIN FOLDER    ########### -->
-    
+
 <!--    ####################### -->
-    
+
           <script type="text/ng-template" id="documentDialog.tmpl.html">
    <md-dialog aria-label="Documento" ng-cloak>
         <md-toolbar>
@@ -704,13 +707,13 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         <div class="md-dialog-content">
         <form ng-submit="$event.preventDefault()" novalidate name="formDocument">
         <!-------------------------------------------->
-<div ng-hide="update"> 
+<div ng-hide="update">
  <p>
 		Seleccione un archivo : <input required type="file" file-Model="myFile" name="file" size="45" />
 	   </p>
    </div>
    </br>
-   
+
         <div class="input-field col s12" style="padding-top: 5px;padding-bottom: 5px;">
         <input md-autofocus autofocus  required  id="name" ng-model="document.name" type="text" class="validate">
         <label for="name">Nombre (campo obligatorio) </label>
@@ -741,13 +744,13 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </md-input-container>
  <br>
  <p><strong>Palabras clave</strong></p>
- <tags-input ng-model="tags"  display-property="name" placeholder="Palabras clave" 
+ <tags-input ng-model="tags"  display-property="name" placeholder="Palabras clave"
                 replace-spaces-with-dashes="false" template="tag-template">
       <auto-complete source="loadCountries($query)"
                      min-length="0" load-on-focus="true"load-on-empty="true"max-results-to-show="32" template="autocomplete-template"></auto-complete>
     </tags-input>
            <br>
-   
+
         </form>
         </div>
         </md-dialog-content>
@@ -762,73 +765,73 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
         </md-dialog-actions>
         </md-dialog>
     </script>
-    
+
 <!-- ############   TEMPLATE DOCUMENTS ################-->
         <header>
       <div class="container">
     <a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-paquetexpress circle hide-on-large-only"><i class="material-icons">menu</i></a>
       </div>
         <ul id="nav-mobile" class="side-nav fixed" ng-controller="controllerSideNavBar as ctrl">
-            
+
         <li class="logo">
              <label style=" color:black; font-weight: bold;" >Bienvenido usuario {{loggedUser.name}} de {{loggedUser.area.name}}</label>
                 <br>
             <a id="logo-container" href="#" class="brand-logo">
-               
+
                 <img id="front-page-logo"  src="img/uas.png" alt=""/>
 <!--                <object id="front-page-logo" class="svg-class" type="image/svg+xml" data="img/uas.svg"></object>-->
-           </a> 
+           </a>
         </li>
         <li class="search">
-        
-             
-                  <!--------------------------------------------------------------------------------------->    
+
+
+                  <!--------------------------------------------------------------------------------------->
  <md-input-container class="md-icon-float md-block">
       <!-- Use floating label instead of placeholder -->
       <input placeholder="Búsqueda" ng-model="dDto.query" type="text">
     </md-input-container>
               <!--------------------------------------------------------------------------------------->
-           
+
         </li>
           <!--  ng-href="#/{{opcion.url}}"  -->
           <div style="margin-top: 20px">
-               <div  ng-repeat="opcion in opciones"> 
-              
+               <div  ng-repeat="opcion in opciones">
+
         <li  class="bold" id="boton{{opcion.name}}"><a ng-href="#/{{opcion.url}}" class="waves-effect waves-paquetexpress">{{opcion.name}}</a></li>
         </div>
                    <li class="bold"><a ng-href="/wsjava/UsuarioServlet?task=cerrarsesionhttp" class="waves-effect waves-paquetexpress">Cerrar sesión</a></li>
-           
+
           </div>
-         
+
 </ul>
-        
+
     </header>
-            <main>     
-        
-        
+            <main>
+
+
         <div class="section no-pad-bot" id="index-banner" ng-controller="topBannerController">
         <div class="container">
                   <div class='row '>
         <!--   <h4 class ="header col s12 light center">A modern responsive front-end framework based on Material Design</h4>
          --> </div>
 <!--            <p style="color:white;">Bienvenido - {{loggedUser.name}}</p>-->
-         <h4 class="header">Repositorio de documentos - FIM</h4> 
-          <h5 class="header">{{title}}</h5> 
-          
+         <h4 class="header">Repositorio de documentos - FIM</h4>
+          <h5 class="header">{{title}}</h5>
+
              </div>
             <marquee scrollamount="10" ng-show="loggedUser.root" style="color:white;">{{mensaje}}</marquee>
 
           <br>
 
         </div>
-     
+
       </div>
   <div id="main">
       <div class="container">
         <div class="section">
-       
+
             <div ng-view autoscroll="true">
-                
+
             </div>
       <!-- #01579b -->
           <div class="row">
@@ -871,7 +874,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
       <div class="container">
         <div class="row">
           <div class="col l4 s12">
-         
+
           </div>
           <div class="col l4 s12">
               </div>
@@ -885,7 +888,7 @@ String idUsuario =  session.getAttribute("idUsuario").toString();
       </div>
     </footer>
 
-    
+
         </div>
     </body>
 </html>

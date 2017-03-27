@@ -59,5 +59,10 @@ FilesInterface dao = null;
     public File getUniqueFilename(File file) {
         return dao.getUniqueFilename(file );
     }
+
+    @Override
+    public Boolean borrarCarpetaTrash() {
+     return dao.borrarCarpetaTrash();
+    }
     
 }

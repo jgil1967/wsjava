@@ -78,6 +78,19 @@ while (searching) {
     }
     
 }
+ public static void deleteAll(File folder) {
+    File[] files = folder.listFiles();
+    if(files!=null) { //some JVMs return null for empty dirs
+        for(File f: files) {
+            
+                
+            
+                f.delete();
+            
+        }
+    }
+    
+}
     @Override
     public Boolean borrarCarpetaTemporales() {
         PropertiesFacade fac = new PropertiesFacade ();
@@ -136,6 +149,13 @@ while (searching) {
     }
     return file;
     }
+
+    @Override
+    public Boolean borrarCarpetaTrash() {
+    PropertiesFacade fac = new PropertiesFacade ();
+         File f = new File(fac.obtenerValorPropiedad("pathForTrash"));
+            deleteAll(f);
+            return true;}
 
 
 

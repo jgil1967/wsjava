@@ -157,5 +157,10 @@ dDao = new DocumentDAO ();
     public DocumentDTO deleteDocumentFromSource(DocumentDTO dto) {
        return dDao.deleteDocumentFromSource(dto);
     }
+
+    @Override
+    public ArrayList<DocumentDTO> getDeletedDocuments() {
+     return dDao.getDeletedDocuments();
+    }
     
 }

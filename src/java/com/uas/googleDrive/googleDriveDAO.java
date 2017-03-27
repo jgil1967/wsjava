@@ -335,16 +335,20 @@ File file = service.files().create(fileMetadata, mediaContent)
       String nombreBackup = dto.getFilename().substring(0, dto.getFilename().lastIndexOf('.'));
           nombreBackup = nombreBackup+".zip";
         
-        if (dto.getAscendenteBorrado()){
-            
-           SOURCE_FOLDER = dto.getFullPathToFolderInDeleted();
+        if (dto.getDeleted()){
+              PropertiesFacade pFac = new PropertiesFacade ();
+                      SOURCE_FOLDER = pFac.obtenerValorPropiedad("pathForTrash")+dto.getId()+dto.getFilename().substring(dto.getFilename().lastIndexOf("."), dto.getFilename().length());
+                        
+         //  SOURCE_FOLDER = dto.getFullPathToFolderInDeleted();
         }
         else{
             SOURCE_FOLDER = dto.getFullPathToFolder();
         }
              
+            // System.out.println("SOURCE_FOLDER : " + SOURCE_FOLDER);
              
-             OUTPUT_ZIP_FILE =  returnPath("pathForDocumentBackups")+nombreBackup;;
+             OUTPUT_ZIP_FILE =  returnPath("pathForDocumentBackups")+nombreBackup;
+            // System.out.println("OUTPUT_ZIP_FILE : " + OUTPUT_ZIP_FILE);
              fileList = new ArrayList<String>();
                 fileList.add(SOURCE_FOLDER);
             zipIt(OUTPUT_ZIP_FILE);
@@ -409,11 +413,13 @@ File file = service.files().create(fileMetadata, mediaContent)
      try {pFac = new PropertiesFacade();
    String  zipFilePathFolder = pFac.obtenerValorPropiedad("pathForDocumentBackups")+dto.getFilename()+".zip";
    String source ="";
-   if (dto.getAscendenteBorrado()){
+   if (dto.getDeleted()){
            source = dto.getFullPathToFolderInDeleted();     
       }
       else{
-           source = dto.getFullPathToFolder();
+       //  source = dto.getFullPathToFolder();
+       PropertiesFacade pFac = new PropertiesFacade ();
+         source = pFac.obtenerValorPropiedad("pathForTrash")+dto.getId();
       }
        
             zipFolder(source, zipFilePathFolder);

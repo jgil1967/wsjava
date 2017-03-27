@@ -30,6 +30,11 @@ app.config(function($routeProvider) {
                 controllerAs: 'ctrl',
                 controller  : 'transactionsController'
             })
+             .when('/trash', {
+                templateUrl : '/wsjava/pages/trash.html',
+                controllerAs: 'ctrl',
+                controller  : 'trashController'
+            })
              .when('/manuals', {
                 templateUrl : '/wsjava/pages/manuals.html',
                 controllerAs: 'ctrl',
