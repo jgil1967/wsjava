@@ -240,7 +240,7 @@ public class UsuarioDAO implements UsuarioInterface{
 
     @Override
     public UsuarioDTO verificaDisponibilidadUsuario(UsuarioDTO dto) throws Exception {
-        //System.out.println("verificaDisponibilidadUsuario");
+        ////System.out.println("verificaDisponibilidadUsuario");
        
         ResultSet rs = null;
         Connection c = null;
@@ -250,7 +250,7 @@ public class UsuarioDAO implements UsuarioInterface{
               c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"object\".\"name\" FROM \"usuario\" JOIN \"object\" ON \"usuario\".\"id\" = \"object\".\"id\" where \"object\".\"name\" = ?";
                ps = c.prepareStatement(SQL);
-              // System.out.println("dto.getName(); " + dto.getName());
+              // //System.out.println("dto.getName(); " + dto.getName());
                ps.setString(1, dto.getName());
                  rs = ps.executeQuery();
                 while (rs.next()) {

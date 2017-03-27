@@ -553,6 +553,28 @@ public class ApiREST {
         return dDto;
     }
     
+     @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/deleteDocument2")
+    public DocumentDTO deleteDocument2(DocumentDTO dDto) throws Exception
+    {
+        
+      DocumentFacade fac = new DocumentFacade ();
+       return fac.deleteDocument2(dDto);
+    }
+     
+     @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/restoreDocument2")
+    public DocumentDTO restoreDocument2(DocumentDTO dDto) throws Exception
+    {
+       DocumentFacade fac = new DocumentFacade ();
+        
+       return fac.restoreDocument2(dDto);
+    }
+     
           @POST
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)
@@ -779,6 +801,105 @@ dDto.setFilename(name);
     ///////////////////////
       String variableFileName = "";  DocumentDTO dto = null;
       
+      
+       @GET
+    @Path("/downloadDocumentOrFolder2/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+     public Response downloadDocumentOrFolder2(@PathParam("id") final String id) throws Exception
+    {
+        
+         try {
+        
+    
+        //System.out.println("ID : " + id);
+         dto = new DocumentDTO();
+        dto.setId(Integer.parseInt(id));
+        DocumentFacade fac = new DocumentFacade();
+        dto = fac.getDocument(dto);
+       
+        if (!dto.getIsFolder()) {
+             StreamingOutput fileStream =  new StreamingOutput() 
+        {
+            @Override
+            public void write(java.io.OutputStream output) throws IOException, WebApplicationException 
+            {
+                try
+                { 
+                    java.nio.file.Path path =  null;
+                    if (!dto.getAscendenteBorrado() && !dto.getDeleted() ){
+                        //System.out.println("HELLO SICK SAD WORLD  : " + dto.getFullPathToFolder());
+                        path = Paths.get(dto.getFullPathToFolder());
+                    }
+                    else{
+                         PropertiesFacade pFac = new PropertiesFacade ();
+                      String d = pFac.obtenerValorPropiedad("pathForTrash")+dto.getId()+dto.getFilename().substring(dto.getFilename().lastIndexOf("."), dto.getFilename().length());
+                        System.out.println(d);
+                    path = Paths.get(d);
+                    }
+                    
+                         
+                    byte[] data = Files.readAllBytes(path);
+                 output.write(data);
+                    output.flush();
+                    output.close();
+                } 
+                catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+            }
+        };
+            return Response
+                .ok(fileStream, MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition","attachment; filename = "+dto.getFilename())
+                .build();
+        } else{
+            
+         zipFilePathFolder = returnPath("pathForFolderDownloads")+dto.getName()+".zip";
+         googleDriveFacade gFac = new googleDriveFacade();
+         
+          if (!dto.getAscendenteBorrado()){
+                        gFac.zipFolder(dto.getFullPathToFolder(), zipFilePathFolder);
+                    }
+                    else{
+                   // gFac.zipFolder(dto.getFullPathToFolderInDeleted(), zipFilePathFolder);
+                   PropertiesFacade pFac = new PropertiesFacade ();
+                    gFac.zipFolder(pFac.obtenerValorPropiedad("pathForTrash")+dto.getId(), zipFilePathFolder);
+                    }
+          
+         
+           StreamingOutput fileStream =  new StreamingOutput() 
+        {
+            @Override
+            public void write(java.io.OutputStream output) throws IOException, WebApplicationException 
+            {
+                try
+                {
+                    java.nio.file.Path path = Paths.get(zipFilePathFolder);
+                    byte[] data = Files.readAllBytes(path);
+                 output.write(data);
+                    output.flush();
+                    output.close();
+                } 
+                catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+            }
+        };
+              return Response
+                .ok(fileStream, MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition","attachment; filename = "+dto.getName()+".zip")
+                .build();
+        }
+        
+        
+      }
+    finally {
+        //FilesFacade fac = new FilesFacade ();
+       // fac.borrarCarpetaDescargas();
+    }
+    }
       
       
      @GET

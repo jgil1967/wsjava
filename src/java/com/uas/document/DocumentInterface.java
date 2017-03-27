@@ -35,4 +35,11 @@ public interface DocumentInterface {
         ArrayList<DocumentDTO> getDocumentsByUser(UsuarioDTO dto) ;
         DocumentGovernmentDTO getDocumentGovernment (FilterForGovernmentDTO dto);
         String moveDocuments (ArrayList<DocumentDTO> documents);
+         DocumentDTO deleteDocument2(DocumentDTO dDto) ;
+         DocumentDTO restoreDocument2(DocumentDTO dDto) ;
+          public DocumentDTO updateDocumentDeleted(DocumentDTO dDto) ;
+           ArrayList<DocumentDTO> getAllDescendantsAndCopy(DocumentDTO dto);
+           ArrayList<DocumentDTO> getAllDescendantsAndDelete(DocumentDTO dto);
+           DocumentDTO copyDocumentToTrash(DocumentDTO dto);
+           DocumentDTO deleteDocumentFromSource(DocumentDTO dto);
 }

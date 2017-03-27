@@ -38,7 +38,7 @@ public class ObjectDAO implements ObjectInterface {
              rs =  preparedStmt.executeQuery();
               while (rs.next()) {
                   oDto.setId(rs.getInt("id"));
-                 // System.out.println("ID a retornar: " + oDto.toString());
+                 // //System.out.println("ID a retornar: " + oDto.toString());
            }
          
          }

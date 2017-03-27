@@ -113,8 +113,7 @@ public class googleDriveDAO implements googleDriveInterface{
                 .build();
         Credential credential = new AuthorizationCodeInstalledApp(
             flow, new LocalServerReceiver()).authorize("user");
-        System.out.println(
-                "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+        //System.out.println("Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         return credential;
     }
 
@@ -145,11 +144,11 @@ public class googleDriveDAO implements googleDriveInterface{
         ////////////////////////////
         List<File> files = result.getFiles();
         if (files == null || files.size() == 0) {
-            System.out.println("No files found.");
+            //System.out.println("No files found.");
         } else {
-            System.out.println("Files:");
+            //System.out.println("Files:");
             for (File file : files) {
-                System.out.printf("%s (%s)\n", file.getName(), file.getId());
+                //System.out.printf("%s (%s)\n", file.getName(), file.getId());
             }
         }
         } catch (IOException ex) {
@@ -185,8 +184,8 @@ public class googleDriveDAO implements googleDriveInterface{
     
     
     public void zipFolder(String srcFolder, String destZipFile) throws Exception {
-        System.out.println("srcFolder : " + srcFolder);
-          System.out.println("destZipFile : " + destZipFile);
+        //System.out.println("srcFolder : " + srcFolder);
+          //System.out.println("destZipFile : " + destZipFile);
         ZipOutputStream zip = null;
     FileOutputStream fileWriter = null;
     Files.createDirectories(Paths.get(destZipFile).getParent()); 
@@ -218,14 +217,14 @@ public class googleDriveDAO implements googleDriveInterface{
   static private void addFolderToZip(String path, String srcFolder, ZipOutputStream zip)
       throws Exception {
     java.io.File folder = new java.io.File(srcFolder);
-   System.out.println("srcFolder addFolderToZip: " +srcFolder);
+   //System.out.println("srcFolder addFolderToZip: " +srcFolder);
    if (folder.exists()){
        
    
     if (folder.list().length == 0){
-        System.out.println("Carpeta Vacía");
+        //System.out.println("Carpeta Vacía");
         String filePath = srcFolder + "/emptyFolder.txt";
-        //System.out.println("filePath : " + filePath);
+        ////System.out.println("filePath : " + filePath);
          java.io.File file = new java.io.File(filePath);
          file.createNewFile();
           for (String fileName : folder.list()) {
@@ -266,11 +265,11 @@ public class googleDriveDAO implements googleDriveInterface{
     	FileOutputStream fos = new FileOutputStream(zipFile);
     	ZipOutputStream zos = new ZipOutputStream(fos);
 
-    	System.out.println("Output to Zip : " + zipFile);
+    	//System.out.println("Output to Zip : " + zipFile);
 
     	for(String file : this.fileList){
 
-    		System.out.println("File intentado de agregar : " + file);
+    		//System.out.println("File intentado de agregar : " + file);
     		ZipEntry ze= new ZipEntry(file);
                 
         	//zos.putNextEntry(ze);
@@ -290,7 +289,7 @@ zos.putNextEntry(new ZipEntry(f.getName())); //"image.jpg"
     	
     	zos.close();
 
-    	System.out.println("Done");
+    	//System.out.println("Done");
     }catch(IOException ex){
        ex.printStackTrace();
     }
@@ -307,7 +306,7 @@ zos.putNextEntry(new ZipEntry(f.getName())); //"image.jpg"
        Drive service = getDriveService();
 File fileMetadata = new File();
 fileMetadata.setName(nombreBackup);
-       System.out.println("zipFilePath: " + zipFilePath);
+       //System.out.println("zipFilePath: " + zipFilePath);
 java.io.File filePath = new java.io.File(zipFilePath);
 FileContent mediaContent = new FileContent("application/octet-stream", filePath);
 File file = service.files().create(fileMetadata, mediaContent)
@@ -315,7 +314,7 @@ File file = service.files().create(fileMetadata, mediaContent)
         .execute();
 
 
-System.out.println("File ID: " + file.getId());
+//System.out.println("File ID: " + file.getId());
   googleDriveBackupDTO gDto = new googleDriveBackupDTO();
               gDto.setFileName(nombreBackup);
               gDto.setLength(f.length());
@@ -360,8 +359,8 @@ System.out.println("File ID: " + file.getId());
     }
     
     public googleDriveBackupDTO createAndUpload (String nombreBackup, String sourceDirPath, String zipFilePath) throws Exception{
-        System.out.println(sourceDirPath);
-             System.out.println(zipFilePath);
+        //System.out.println(sourceDirPath);
+             //System.out.println(zipFilePath);
              
              zipFolder(sourceDirPath, zipFilePath);
               java.io.File f =new  java.io.File(zipFilePath);
@@ -378,7 +377,7 @@ FileContent mediaContent = new FileContent("application/octet-stream", filePath)
 File file = service.files().create(fileMetadata, mediaContent)
         .setFields("id")
         .execute();
-System.out.println("File ID: " + file.getId());
+//System.out.println("File ID: " + file.getId());
   googleDriveBackupDTO gDto = new googleDriveBackupDTO();
               gDto.setFileName(nombreBackup);
               gDto.setLength(f.length());

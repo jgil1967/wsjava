@@ -107,5 +107,55 @@ dDao = new DocumentDAO ();
     public DocumentDTO updateDocument2ParaMove(DocumentDTO dDto) {
         return dDao.updateDocument2ParaMove(dDto);
     }
+
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendants(DocumentDTO dto) {
+      return dDao.getAllDescendants(dto);
+    }
+
+    @Override
+    public DocumentDTO updateDocumentArea(DocumentDTO dDto) {
+       return dDao.updateDocumentArea(dDto);
+    }
+
+    @Override
+    public DocumentDTO updateDocumentFilename(DocumentDTO dDto) {
+       return dDao.updateDocumentFilename(dDto);
+    }
+
+    @Override
+    public DocumentDTO deleteDocument2(DocumentDTO dDto) {
+       return dDao.deleteDocument2(dDto);
+    }
+
+    @Override
+    public DocumentDTO restoreDocument2(DocumentDTO dDto) {
+     return dDao.restoreDocument2(dDto);
+    }
+
+    @Override
+    public DocumentDTO updateDocumentDeleted(DocumentDTO dDto) {
+       return dDao.updateDocumentDeleted(dDto);
+    }
+
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendantsAndCopy(DocumentDTO dto) {
+        return dDao.getAllDescendantsAndCopy(dto);
+    }
+
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendantsAndDelete(DocumentDTO dto) {
+       return dDao.getAllDescendantsAndDelete(dto);
+    }
+
+    @Override
+    public DocumentDTO copyDocumentToTrash(DocumentDTO dto) {
+       return dDao.copyDocumentToTrash(dto);
+    }
+
+    @Override
+    public DocumentDTO deleteDocumentFromSource(DocumentDTO dto) {
+       return dDao.deleteDocumentFromSource(dto);
+    }
     
 }

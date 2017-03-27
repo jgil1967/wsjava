@@ -5,6 +5,8 @@
  */
 package com.uas.documentRelationship;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author jonathangil
@@ -12,4 +14,5 @@ package com.uas.documentRelationship;
 public interface DocumentRelationshipInterface {
     DocumentRelationshipDTO createDocumentRelationship (DocumentRelationshipDTO dto);
      DocumentRelationshipDTO deleteDocumentRelationship (DocumentRelationshipDTO dto);
+     ArrayList<DocumentRelationshipDTO> getChildren (DocumentRelationshipDTO dto);
 }

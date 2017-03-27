@@ -38,7 +38,7 @@ public class PGSQLDAO implements PGSQLInterface{
            ps = c.prepareStatement(SQL);
             ps.setString(1, fac.obtenerValorPropiedad("databaseName"));
             rs = ps.executeQuery();
-            System.out.println("Liberando conexiones PostgreSQL");
+            //System.out.println("Liberando conexiones PostgreSQL");
             while (rs.next()) {
             }
         } catch (Exception e) {

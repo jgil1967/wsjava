@@ -839,12 +839,10 @@ if (rs.next()) {
             DocumentFacade fac = new DocumentFacade();
             dtoFolder = fac.getDocument(dtoFolder);
             ascendientes.add(dtoFolder.getDeleted());
-            try {
+            
                 //Para conseguir toda la liga de la garpeta
                 dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          
          
              savingUp = "";
             try {
@@ -879,14 +877,12 @@ if (rs.next()) {
          File files = new File(document.getFullPathToFolder());
          files = fFac.getUniqueFilename(files);
          document.setFullPathToFolder(files.getAbsolutePath());
-    try {
+    
         document.setFilename(FilenameUtils.getName(files.getAbsolutePath()));
 //        if (fFac.verificaSiExiste(document.getFullPathToFolder())){
 //             document.setFullPathToFolder(fFac.retornaNombreBienParaCarpeta(document.getFullPathToFolder())); ;
 //          }
-    } catch (UnsupportedEncodingException ex) {
-        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    
          
          files.mkdirs();
          ///////////
@@ -930,11 +926,9 @@ if (rs.next()) {
             //Obtenemos info de la carpeta 
             dtoFolder = fac.getDocument(dtoFolder);
             ascendientes.add(dtoFolder.getDeleted());
-             try {
+         
                  dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
-             } catch (UnsupportedEncodingException ex) {
-                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-             }
+           
           
             savingUp = "";
              try {
@@ -958,11 +952,9 @@ if (rs.next()) {
           aDto.setId(document.getIdArea());
           aDto  = aFac.getAreaByID(aDto);
          File afile = null;
-    try {
+  
         afile = new File(pFac.obtenerValorPropiedad("pathForTemporaryFiles") + document.getFilename());
-    } catch (UnsupportedEncodingException ex) {
-        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
+  
          String carpetaDestinoParaGrabar = "";
         //////////////////////////////////////////////////////
                 if (ascendienteBorrado){
@@ -977,11 +969,9 @@ if (rs.next()) {
          File f = fac.getUniqueFilename(new File(document.getFullPathToFolder()));
          //System.out.println("FINAL : " + f.getAbsolutePath());
          //System.out.println("JUST THE NAME: " + FilenameUtils.getName(f.getAbsolutePath()));
-    try {
+   
         document.setFilename(FilenameUtils.getName(f.getAbsolutePath()));
-    } catch (UnsupportedEncodingException ex) {
-        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
+   
          document.setFullPathToFolder(f.getAbsolutePath());
          try{
          Files.createDirectories(Paths.get(document.getFullPathToFolder()).getParent()); 
@@ -1516,7 +1506,8 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
         
     }
 
-    @Override
+    
+     @Override
     public DocumentDTO updateDocumentArea(DocumentDTO dDto) {
     
         
@@ -1535,6 +1526,52 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
             String SQL = "update \"public\".\"document\" set \"idArea\"=? where \"id\"=? ";
                 preparedStmt = c.prepareStatement(SQL);
             preparedStmt.setInt(1, dDto.getIdArea());
+            preparedStmt.setInt(2, dDto.getId());
+                preparedStmt.executeUpdate();
+    }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (preparedStmt != null){
+                     preparedStmt.close();
+                 }
+                    
+                
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         
+         }
+         return dDto;}
+    
+    @Override
+    public DocumentDTO updateDocumentDeleted(DocumentDTO dDto) {
+    
+        
+        //System.out.println("dDto.getDeleted() : " + dDto.getDeleted());
+        DocumentDTO dtoViejo = getDocument(dDto);
+        
+            DocumentDTO objectDto = null;
+               
+     
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement preparedStmt = null;
+     
+          try {
+          c = DataSourceSingleton.getInstance().getConnection(); 
+            String SQL = "update \"public\".\"document\" set \"deleted\"=? where \"id\"=? ";
+                preparedStmt = c.prepareStatement(SQL);
+            preparedStmt.setBoolean(1, dDto.getDeleted());
             preparedStmt.setInt(2, dDto.getId());
                 preparedStmt.executeUpdate();
     }
@@ -1606,5 +1643,221 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
          
          }
          return dDto; }
+
+    @Override
+    public DocumentDTO deleteDocument2(DocumentDTO dDto) {
+          try {  PropertiesFacade fac = new PropertiesFacade();
+        dDto = getDocument(dDto);
+        File file = new File (dDto.getFullPathToFolder());
+         String destino ="";
+        if (dDto.getIsFolder() && file.isDirectory()){
+            getAllDescendantsAndCopy(dDto);
+             destino = fac.obtenerValorPropiedad("pathForTrash")  + dDto.getFilename();
+                  Files.move(Paths.get(dDto.getFullPathToFolder()), Paths.get(destino));
+               File f1 = new  File (destino);
+               File f2= new  File ( fac.obtenerValorPropiedad("pathForTrash")  + dDto.getId());
+              boolean success = f1.renameTo(f2);
+               dDto.setDeleted(true);
+        updateDocumentDeleted(dDto);
+ //getAllDescendantsAndDelete(dDto);
+        }
+        else{
+           
+                String baseName = FilenameUtils.getBaseName( file.getName() );
+                String extension = FilenameUtils.getExtension( file.getName() );
+                destino = fac.obtenerValorPropiedad("pathForTrash") + dDto.getId() +"."+ extension;
+                
+                 Files.move(Paths.get(dDto.getFullPathToFolder()), Paths.get(fac.obtenerValorPropiedad("pathForTrash") + dDto.getFilename()));
+                
+                 File f1 = new  File (fac.obtenerValorPropiedad("pathForTrash") + dDto.getFilename());
+                  File f2= new  File (destino);
+                   boolean success = f1.renameTo(f2);
+                    dDto.setDeleted(true);
+        updateDocumentDeleted(dDto);
+                  
+        }
+       
+    } catch (IOException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+         
+        return dDto;
+    }
+
+    @Override
+    public DocumentDTO restoreDocument2(DocumentDTO dDto) {
+        PropertiesFacade fac = new PropertiesFacade();
+        dDto = getDocument(dDto);
+//          String baseName = FilenameUtils.getBaseName( file.getName() );
+//                String extension = FilenameUtils.getExtension( file.getName() );
+        if (dDto.isFolder){
+            File file = new File (fac.obtenerValorPropiedad("pathForTrash") +dDto.getId() );
+      try {
+                Files.move(Paths.get(file.getAbsolutePath()), Paths.get(dDto.getFullPathToFolder()));
+            
+            } catch (IOException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            
+            String extension =  dDto.getFilename().substring(dDto.getFilename().lastIndexOf("."), dDto.getFilename().length());
+            File file = new File (fac.obtenerValorPropiedad("pathForTrash") +dDto.getId() +  extension);
+         
+            try {
+                Files.move(Paths.get(file.getAbsolutePath()), Paths.get(dDto.getFullPathToFolder()));
+            
+            } catch (IOException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+            }
+        
+         dDto.setDeleted(false);
+        updateDocumentDeleted(dDto);
+        
+        
+       return dDto;
+    }
+
+    
+    //Copia a basura
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendantsAndCopy(DocumentDTO dto) {
+    
+       
+       
+
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement ps = null;
+       DocumentDTO newDto = null;
+       
+         try{
+              c = DataSourceSingleton.getInstance().getConnection(); 
+                String SQL = "SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\" WHERE \"documentRelationships\".\"idDocumentParent\" = ?";
+                ps = c.prepareStatement(SQL);
+               ps.setInt(1, dto.getId());
+                 rs = ps.executeQuery();
+                   while (rs.next()) {
+                       newDto = new DocumentDTO();
+                       newDto.setId(rs.getInt("idDocumentChild"));
+                       newDto = getDocument(newDto);
+                       copyDocumentToTrash(newDto);
+                       newDto.setDeleted(true);
+                       updateDocumentDeleted(newDto);
+                       getAllDescendants(newDto);
+                   }
+         }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (ps != null){
+                     ps.close();
+                 }
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         }
+        
+        return null;  }
+
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendantsAndDelete(DocumentDTO dto) {
+   
+       
+       
+
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement ps = null;
+       DocumentDTO newDto = null;
+       
+         try{
+              c = DataSourceSingleton.getInstance().getConnection(); 
+                String SQL = "SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\" WHERE \"documentRelationships\".\"idDocumentParent\" = ?";
+                ps = c.prepareStatement(SQL);
+               ps.setInt(1, dto.getId());
+                 rs = ps.executeQuery();
+                   while (rs.next()) {
+                       newDto = new DocumentDTO();
+                       newDto.setId(rs.getInt("idDocumentChild"));
+                        newDto = getDocument(newDto);
+                       deleteDocumentFromSource(newDto);
+                      // getAllDescendants(newDto);
+                   }
+         }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (ps != null){
+                     ps.close();
+                 }
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         }
+        
+        return null;   }
+
+    @Override
+    public DocumentDTO copyDocumentToTrash(DocumentDTO dDto) {
+           try {  PropertiesFacade fac = new PropertiesFacade();
+        
+        File file = new File (dDto.getFullPathToFolder());
+         String destino ="";
+        if (dDto.getIsFolder() && file.isDirectory()){
+             destino = fac.obtenerValorPropiedad("pathForTrash")  + dDto.getFilename();
+                  Files.copy(Paths.get(dDto.getFullPathToFolder()), Paths.get(destino));
+               File f1 = new  File (destino);
+               File f2= new  File ( fac.obtenerValorPropiedad("pathForTrash")  + dDto.getId());
+              boolean success = f1.renameTo(f2);
+        }
+        else{
+           
+                String baseName = FilenameUtils.getBaseName( file.getName() );
+                String extension = FilenameUtils.getExtension( file.getName() );
+                destino = fac.obtenerValorPropiedad("pathForTrash") + dDto.getId() +"."+ extension;
+                
+                 Files.copy(Paths.get(dDto.getFullPathToFolder()), Paths.get(fac.obtenerValorPropiedad("pathForTrash") + dDto.getFilename()));
+                
+                 File f1 = new  File (fac.obtenerValorPropiedad("pathForTrash") + dDto.getFilename());
+                  File f2= new  File (destino);
+                   boolean success = f1.renameTo(f2);
+                    
+                  
+        }
+       
+    } catch (IOException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        return null;
+    }
+
+    @Override
+    public DocumentDTO deleteDocumentFromSource(DocumentDTO dDto) {
+      PropertiesFacade fac = new PropertiesFacade();
+        
+        File file = new File (dDto.getFullPathToFolder());
+        file.delete();
+        return null; }
     
 }

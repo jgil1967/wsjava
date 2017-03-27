@@ -172,12 +172,12 @@ public class DocumentDTO extends ObjectDTO implements Serializable {
 
 
 
-    public String getFilename() throws UnsupportedEncodingException {
+    public String getFilename()  {
          return filename;
        
     }
 
-    public void setFilename(String filename) throws UnsupportedEncodingException {
+    public void setFilename(String filename) {
         
         this.filename =filename;
     }

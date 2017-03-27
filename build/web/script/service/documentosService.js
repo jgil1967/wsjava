@@ -150,7 +150,7 @@ app.service('documentosService',function($http){
     deleteDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/wsjava/fimrest/restapi/deleteDocument",
+    url: "/wsjava/fimrest/restapi/deleteDocument2",
     data: JSON.stringify(document)
 }).then(function(result){
     
@@ -159,7 +159,7 @@ app.service('documentosService',function($http){
       restoreDocument: function(document) {
  return  $http({
     method: 'POST',
-    url: "/wsjava/fimrest/restapi/restoreDocument",
+    url: "/wsjava/fimrest/restapi/restoreDocument2",
     data: JSON.stringify(document)
 }).then(function(result){
     

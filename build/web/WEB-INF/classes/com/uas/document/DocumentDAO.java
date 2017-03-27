@@ -76,11 +76,11 @@ KeywordFacade kFac = null;
                    
                         String pathTrash = pDto.obtenerValorPropiedad("pathForTrash");
                        String fullPathOriginal =  pDto.obtenerValorPropiedad("pathForFiles");
-                    System.out.println("#######################");
+                 //   //System.out.println("#######################");
                         savingUp = "";
                         getFullPath(dtoNew,dtoNew.getFilename());
                         String fp = savingUp;
-                        System.out.println("ascendientes : " + ascendientes.size());
+                       // //System.out.println("ascendientes : " + ascendientes.size());
                         for(Boolean b : ascendientes){
                             if (b){
                                 dtoNew.setAscendenteBorrado(true);
@@ -88,12 +88,12 @@ KeywordFacade kFac = null;
                             }
                         }
                         
-                       System.out.println("FP : " + fp);
-                       System.out.println("#######################");
+                       //System.out.println("FP : " + fp);
+                       //System.out.println("#######################");
                     dtoNew.setFullPathToFolder(  fullPathOriginal  + dtoNew.getArea().getFolderName()   + "/"+fp);
                     dtoNew.setFullPathToFolderInDeleted(pathTrash  + dtoNew.getArea().getFolderName()   + "/"+fp);
-                    System.out.println("setFullPathToFolder : " + dtoNew.getFullPathToFolder());
-                     System.out.println("setFullPathToFolderInDeleted : " + dtoNew.getFullPathToFolderInDeleted());
+                    //System.out.println("setFullPathToFolder : " + dtoNew.getFullPathToFolder());
+                     //System.out.println("setFullPathToFolderInDeleted : " + dtoNew.getFullPathToFolderInDeleted());
                    
                    }
          }
@@ -197,10 +197,10 @@ KeywordFacade kFac = null;
           String SQL = "INSERT INTO \"public\".\"document\" (\"id\",\"fileName\",\"fileDate\",\"idArea\",\"isFolder\") VALUES (?,?,?,?,?)";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setInt(1, dDto.getId());
-             System.out.println("");
+             //System.out.println("");
             preparedStmt.setString(2, dDto.getFilename());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-             //System.out.println("Dto.getFileDate().substring(0,10): " + dDto.getFileDate().substring(0,10));
+             ////System.out.println("Dto.getFileDate().substring(0,10): " + dDto.getFileDate().substring(0,10));
             java.util.Date parsedDate = dateFormat.parse(dDto.getFileDate().substring(0,10));
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             preparedStmt.setTimestamp(3, timestamp);
@@ -258,7 +258,7 @@ KeywordFacade kFac = null;
                  SQL = SQL + " AND ("; 
               }
                for (int a=0;a<dto.getAreas().size();a++){
-                 //  System.out.println("area : " + areas.get(a).getName() + "  " + areas.get(a).isUploadAndEdit());
+                 //  //System.out.println("area : " + areas.get(a).getName() + "  " + areas.get(a).isUploadAndEdit());
                   SQL = SQL + "\"document\".\"idArea\" = " + dto.getAreas().get(a).getId();
                   if (!(a == dto.getAreas().size()-1)){
                       SQL = SQL + " OR ";
@@ -278,7 +278,6 @@ KeywordFacade kFac = null;
                        document.setCreatedBy(rs.getInt("createdBy"));
                        document.setName(rs.getString("name"));
                        document.setDescription(rs.getString("description"));
-                        
                         document.setCreatedOn(rs.getTimestamp("createdOn"));
                         document.setKind(rs.getString("kind"));
                         document.setFilename(rs.getString("filename"));
@@ -318,14 +317,8 @@ KeywordFacade kFac = null;
 
     @Override
     public DocumentDTO updateDocument(DocumentDTO dDto) {
-     
-        
-        System.out.println("dDto.getDeleted() : " + dDto.getDeleted());
         DocumentDTO dtoViejo = getDocument(dDto);
-        
-            DocumentDTO objectDto = null;
-               
-     
+        DocumentDTO objectDto = null;
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement preparedStmt = null;
@@ -339,12 +332,12 @@ KeywordFacade kFac = null;
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             preparedStmt.setTimestamp(1, timestamp);
             preparedStmt.setBoolean(2, dDto.getDeleted());
-             System.out.println("dDto.getBackedUp() : " + dDto.getBackedUp());
+             //System.out.println("dDto.getBackedUp() : " + dDto.getBackedUp());
             preparedStmt.setBoolean(3, dDto.getBackedUp());
             preparedStmt.setInt(4, dDto.getIdArea());
             preparedStmt.setInt(5, dDto.getId());
                 preparedStmt.executeUpdate();
-                System.out.println("dDto.getVengoDeRootYPuedoCambiarDeArea() : " + dDto.getVengoDeRootYPuedoCambiarDeArea());
+                //System.out.println("dDto.getVengoDeRootYPuedoCambiarDeArea() : " + dDto.getVengoDeRootYPuedoCambiarDeArea());
                 if ((dtoViejo.getIdArea() != dDto.getIdArea()) && (dDto.getVengoDeRootYPuedoCambiarDeArea())){
                      DocumentDTO dtoNuevo = getDocument(dDto);
                      if (dDto.getDeleted()){
@@ -405,20 +398,20 @@ KeywordFacade kFac = null;
         
         try{
              
-       //System.out.println("Keywords : "+ filters.getKeywords().size());
-        //System.out.println(filters.toString());
-        //System.out.println("QUery : " + filters.getFilterQuery());
+       ////System.out.println("Keywords : "+ filters.getKeywords().size());
+        ////System.out.println(filters.toString());
+        ////System.out.println("QUery : " + filters.getFilterQuery());
         String SQL = "";
         
         
 //        if (filters.getKeywords().size()>0){
-//            System.out.println("Hay keywords");
+//            //System.out.println("Hay keywords");
 //            SQL += "SELECT DISTINCT ON( \"documentKeywordRelationship\".\"idDocument\") \"documentKeywordRelationship\".\"idDocument\", \"object\".\"name\", \"documentKeywordRelationship\".\"idKeyword\", \"document\".\"id\", \"document\".\"fileName\", \"document\".\"idArea\", \"document\".\"fileDate\", \"object2\".\"id\" AS \"id_0\", \"object2\".\"name\" AS \"name_0\", \"object2\".\"description\", \"object2\".\"createdOn\", \"object2\".\"createdBy\", \"object2\".\"color\", \"object2\".\"kind\" FROM \"documentKeywordRelationship\" JOIN \"keyword\" ON \"documentKeywordRelationship\".\"idKeyword\" = \"keyword\".\"id\" JOIN \"object\" ON \"keyword\".\"id\" = \"object\".\"id\" JOIN \"document\" ON \"documentKeywordRelationship\".\"idDocument\" = \"document\".\"id\" JOIN \"object\" AS \"object2\" ON \"document\".\"id\" = \"object2\".\"id\" ";
 //        }
         //|| !filters.getFilterQuery().equals("") 
           if ( filters.getKeywords().size()>0 ||filters.getDates().getOldestCreatedOn() != null || filters.getDates().getNewestCreatedOn() != null|| filters.getDates().getOldestFileDate() != null|| filters.getDates().getNewestFileDate() != null){
                SQL += "SELECT \"documentKeywordRelationship\".\"idDocument\", \"object\".\"createdBy\", \"object\".\"name\" AS \"keywordName\", \"documentKeywordRelationship\".\"idKeyword\", \"document\".\"id\", \"document\".\"fileName\", \"document\".\"isFolder\", \"document\".\"idArea\", \"document\".\"fileDate\", \"object2\".\"id\" AS \"id_0\", \"object2\".\"name\" AS \"name\", \"object2\".\"description\", \"object2\".\"createdOn\", \"object2\".\"createdBy\" AS \"createdBy_0\", \"object2\".\"color\", \"object2\".\"kind\", \"object3\".\"name\" AS \"nameArea\", \"object_alias1\".\"name\" AS \"nameCreatedBy\" FROM \"documentKeywordRelationship\" JOIN \"keyword\" ON \"documentKeywordRelationship\".\"idKeyword\" = \"keyword\".\"id\" JOIN \"object\" ON \"keyword\".\"id\" = \"object\".\"id\" JOIN \"document\" ON \"documentKeywordRelationship\".\"idDocument\" = \"document\".\"id\" JOIN \"object\" AS \"object2\" ON \"document\".\"id\" = \"object2\".\"id\" JOIN \"object\" AS \"object3\" ON \"document\".\"idArea\" = \"object3\".\"id\" JOIN \"object\" AS \"object_alias1\" ON \"object2\".\"createdBy\" = \"object_alias1\".\"id\" ";
-              System.out.println("QUERY 1");
+              //System.out.println("QUERY 1");
               SQL +=" where ";
           }
          
@@ -435,12 +428,12 @@ KeywordFacade kFac = null;
  if (filters.getKeywords().size()>0 && (filters.getDates().getOldestCreatedOn()!=null||filters.getDates().getNewestCreatedOn() != null|| filters.getDates().getOldestFileDate() != null|| filters.getDates().getNewestFileDate() != null)){
                 SQL =SQL + "AND";
             }
-            System.out.println("filters.getDates().getOldestCreatedOn() : " + filters.getDates().getOldestCreatedOn());
+            //System.out.println("filters.getDates().getOldestCreatedOn() : " + filters.getDates().getOldestCreatedOn());
  if (filters.getDates().getOldestCreatedOn() != null){
              SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date parsedDate = dateFormat.parse(filters.getDates().getOldestCreatedOn().substring(0,10));
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-            System.out.println("1 " + timestamp);
+            //System.out.println("1 " + timestamp);
             SQL =SQL + " \"object2\".\"createdOn\" >=  \'"+timestamp+"\' ";
             if (filters.getDates().getNewestCreatedOn() != null|| filters.getDates().getOldestFileDate() != null|| filters.getDates().getNewestFileDate() != null){
                 SQL =SQL + " AND ";
@@ -451,7 +444,7 @@ KeywordFacade kFac = null;
             java.util.Date parsedDate = dateFormat.parse(filters.getDates().getNewestCreatedOn().substring(0,10));
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
              
-            System.out.println("2  " + timestamp);
+            //System.out.println("2  " + timestamp);
             SQL =SQL +" \"object2\".\"createdOn\" <= \'"+timestamp+"\' ";
              if ( filters.getDates().getOldestFileDate() != null|| filters.getDates().getNewestFileDate() != null){
                 SQL =SQL + " AND ";
@@ -463,7 +456,7 @@ KeywordFacade kFac = null;
             java.util.Date parsedDate = dateFormat.parse(filters.getDates().getOldestFileDate().substring(0,10));
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
              
-            System.out.println("3 " + timestamp);
+            //System.out.println("3 " + timestamp);
             SQL =SQL +" \"document\".\"fileDate\" >=  \'"+timestamp+"\' ";
              if (  filters.getDates().getNewestFileDate() != null){
                 SQL =SQL + " AND ";
@@ -474,13 +467,13 @@ KeywordFacade kFac = null;
             java.util.Date parsedDate = dateFormat.parse(filters.getDates().getNewestFileDate().substring(0,10));
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
              
-            System.out.println("4 " + timestamp);
+            //System.out.println("4 " + timestamp);
             SQL =SQL +" \"document\".\"fileDate\" <=  \'"+timestamp+"\' ";
         }
         
         
 //        if (!filters.getFilterQuery().equals("")){
-//            //System.out.println("FILTRO PALABRA: " + filters.getFilterQuery());
+//            ////System.out.println("FILTRO PALABRA: " + filters.getFilterQuery());
 //            if(filters.getKeywords().size()>0 ||filters.getDates().getOldestCreatedOn() != null || filters.getDates().getNewestCreatedOn() != null|| filters.getDates().getOldestFileDate() != null|| filters.getDates().getNewestFileDate() != null){
 //                SQL =SQL + " AND \"object2\".\"name\" LIKE '%"+filters.getFilterQuery()+"%'";
 //            }
@@ -491,7 +484,7 @@ KeywordFacade kFac = null;
 //           
 //        }
         
-       System.out.println("SQL : " + SQL);
+       //System.out.println("SQL : " + SQL);
         if (!SQL.equals("")){
         DocumentDTO document = null;
              
@@ -519,11 +512,11 @@ KeywordFacade kFac = null;
                document.getUser().setName(rs.getString("nameCreatedBy"));
                       documents.add(document);
                    }
-            System.out.println("documents size : " + documents.size());
+            //System.out.println("documents size : " + documents.size());
          return documents;
         }
         else{
-           // System.out.println("regresando getDocuments");
+           // //System.out.println("regresando getDocuments");
             return getDocuments();
         }
       
@@ -565,12 +558,9 @@ KeywordFacade kFac = null;
     
 @Override
     public ArrayList<DocumentDTO> getDocumentsOnlyEnabled(ArrayList<areaDTO> areas) {
-       System.out.println("Only Enabled");
-       System.out.println("areas : " + areas.size());
-     kFac = new KeywordFacade ();
+        kFac = new KeywordFacade ();
         ArrayList<DocumentDTO> documents = null;
-     DocumentDTO document = null;
-       
+        DocumentDTO document = null;
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement ps = null;
@@ -582,7 +572,7 @@ KeywordFacade kFac = null;
                  SQL = SQL + " AND ("; 
               }
                for (int a=0;a<areas.size();a++){
-                 //  System.out.println("area : " + areas.get(a).getName() + "  " + areas.get(a).isUploadAndEdit());
+                 //  //System.out.println("area : " + areas.get(a).getName() + "  " + areas.get(a).isUploadAndEdit());
                   SQL = SQL + "\"document\".\"idArea\" = " + areas.get(a).getId();
                   if (!(a == areas.size()-1)){
                       SQL = SQL + " OR ";
@@ -591,7 +581,7 @@ KeywordFacade kFac = null;
                       SQL = SQL + " ) ";
                   }
               }
-               System.out.println("SQL : " + SQL);
+               //System.out.println("SQL : " + SQL);
                ps = c.prepareStatement(SQL);
                  rs = ps.executeQuery();
                    while (rs.next()) {
@@ -607,7 +597,6 @@ KeywordFacade kFac = null;
                         document.setFilename(rs.getString("filename"));
                         document.setKeywords(kFac.getKeywordsByDocument(document));
                     document.setFileDate(rs.getString("fileDate"));
-         
                     document.setIdArea(rs.getInt("idArea"));
                          document.setVisible(getVisible(rs.getInt("idArea"), areas));
                document.getArea().setName(rs.getString("nameArea"));
@@ -643,7 +632,6 @@ KeywordFacade kFac = null;
        kFac = new KeywordFacade ();
         ArrayList<DocumentDTO> documents = null;
      DocumentDTO document = null;
-       
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement ps = null;
@@ -703,12 +691,12 @@ KeywordFacade kFac = null;
     String savingUp = "";
     public String getFullPath (DocumentDTO dto, String aSumar) throws UnsupportedEncodingException{
       aSumar = dto.getFilename();
-        System.out.println("a sumar: " + aSumar);
+        //System.out.println("a sumar: " + aSumar);
        if (aSumar.length()>savingUp.length()){
            savingUp = aSumar;
-           System.out.println("savingUp : " + savingUp);
+           //System.out.println("savingUp : " + savingUp);
        }
-        System.out.println(" dto.getId() : " + dto.getId() + " " + dto.getFilename());
+        //System.out.println(" dto.getId() : " + dto.getId() + " " + dto.getFilename());
      ////########## VERIFICAR SI TIENE PADRES
      DocumentDTO document = null;
        
@@ -730,9 +718,9 @@ if (rs.next()) {
                    document.setId(rs.getInt("idDocumentParent"));
                    document.setFilename(rs.getString("fileName") + "/" +aSumar);
                    aSumar =rs.getString("fileName") + "/" +aSumar;
-                  System.out.println("rs.getBoolean(\"deleted\") : " + rs.getBoolean("deleted"));
+                  //System.out.println("rs.getBoolean(\"deleted\") : " + rs.getBoolean("deleted"));
                    ascendientes.add(rs.getBoolean("deleted"));
-                   System.out.println("document.getFilename() : " + document.getFilename());
+                   //System.out.println("document.getFilename() : " + document.getFilename());
                    getFullPath(document,document.getFilename());
     } while(rs.next());
 } else {
@@ -765,7 +753,7 @@ if (rs.next()) {
          }
        //setFileName el aSumar
        ////########## VERIFICAR SI TIENE PADRES
-       System.out.println("a sumar antes de regresar: " + aSumar);
+       //System.out.println("a sumar antes de regresar: " + aSumar);
         return aSumar;
         
     }
@@ -845,23 +833,17 @@ if (rs.next()) {
     }
         if (document.getIdFolderPadre() != 0){
             ascendientes = new ArrayList<Boolean>();
-            System.out.println("Estamos hablando que esta dentro de una carpeta");
+            //System.out.println("Estamos hablando que esta dentro de una carpeta");
             dtoFolder = new DocumentDTO();
             dtoFolder.setId(document.getIdFolderPadre());
             DocumentFacade fac = new DocumentFacade();
             dtoFolder = fac.getDocument(dtoFolder);
             ascendientes.add(dtoFolder.getDeleted());
-            try {
+            
                 //Para conseguir toda la liga de la garpeta
                 dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                System.out.println("dtoFolder a hacer: " + dtoFolder.getFilename());
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          
+         
              savingUp = "";
             try {
                 getFullPath(dtoFolder,dtoFolder.getFilename());
@@ -895,14 +877,12 @@ if (rs.next()) {
          File files = new File(document.getFullPathToFolder());
          files = fFac.getUniqueFilename(files);
          document.setFullPathToFolder(files.getAbsolutePath());
-    try {
+    
         document.setFilename(FilenameUtils.getName(files.getAbsolutePath()));
 //        if (fFac.verificaSiExiste(document.getFullPathToFolder())){
 //             document.setFullPathToFolder(fFac.retornaNombreBienParaCarpeta(document.getFullPathToFolder())); ;
 //          }
-    } catch (UnsupportedEncodingException ex) {
-        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    
          
          files.mkdirs();
          ///////////
@@ -910,7 +890,7 @@ if (rs.next()) {
          document.setId(oFac.createObject(document).getId()); 
       DocumentFacade dFac = new DocumentFacade();
        document =  dFac.createDocument(document);
-        System.out.println("document.getId() : " + document.getId());
+        //System.out.println("document.getId() : " + document.getId());
      if (document.getIdFolderPadre() != 0){
        DocumentRelationshipFacade  drfac = new DocumentRelationshipFacade();
        DocumentRelationshipDTO dDto = new DocumentRelationshipDTO ();
@@ -936,7 +916,7 @@ if (rs.next()) {
         Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
     }
          fullPath =savingUp;
-         System.out.println("fullPath archivo : " + fullPath);
+         //System.out.println("fullPath archivo : " + fullPath);
          DocumentDTO dtoFolder = null;
           if (document.getIdFolderPadre() != 0){
              ascendientes = new ArrayList<Boolean>();
@@ -946,16 +926,10 @@ if (rs.next()) {
             //Obtenemos info de la carpeta 
             dtoFolder = fac.getDocument(dtoFolder);
             ascendientes.add(dtoFolder.getDeleted());
-             try {
+         
                  dtoFolder.setFilename(dtoFolder.getFilename() + "/"+document.getFilename());
-             } catch (UnsupportedEncodingException ex) {
-                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-             }
-             try {
-                 System.out.println("dtoFolder : " + dtoFolder.getFilename());
-             } catch (UnsupportedEncodingException ex) {
-                 Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-             }
+           
+          
             savingUp = "";
              try {
                  getFullPath(dtoFolder,dtoFolder.getFilename());
@@ -963,7 +937,7 @@ if (rs.next()) {
                  Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
              }
             fullPath = savingUp;
-            System.out.println("fullPath : " + fullPath);
+            //System.out.println("fullPath : " + fullPath);
              for (Boolean b : ascendientes){
                  if (b){
                      ascendienteBorrado = true;
@@ -978,11 +952,9 @@ if (rs.next()) {
           aDto.setId(document.getIdArea());
           aDto  = aFac.getAreaByID(aDto);
          File afile = null;
-    try {
+  
         afile = new File(pFac.obtenerValorPropiedad("pathForTemporaryFiles") + document.getFilename());
-    } catch (UnsupportedEncodingException ex) {
-        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
+  
          String carpetaDestinoParaGrabar = "";
         //////////////////////////////////////////////////////
                 if (ascendienteBorrado){
@@ -992,16 +964,14 @@ if (rs.next()) {
               carpetaDestinoParaGrabar =  pFac.obtenerValorPropiedad("pathForFiles");
              }
          document.setFullPathToFolder( carpetaDestinoParaGrabar  + aDto.getFolderName()  + "/"+fullPath);
-         System.out.println("Documento final a querer grabar: " + document.getFullPathToFolder());
+         //System.out.println("Documento final a querer grabar: " + document.getFullPathToFolder());
          FilesFacade fac = new FilesFacade();
          File f = fac.getUniqueFilename(new File(document.getFullPathToFolder()));
-         System.out.println("FINAL : " + f.getAbsolutePath());
-         System.out.println("JUST THE NAME: " + FilenameUtils.getName(f.getAbsolutePath()));
-    try {
+         //System.out.println("FINAL : " + f.getAbsolutePath());
+         //System.out.println("JUST THE NAME: " + FilenameUtils.getName(f.getAbsolutePath()));
+   
         document.setFilename(FilenameUtils.getName(f.getAbsolutePath()));
-    } catch (UnsupportedEncodingException ex) {
-        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
+   
          document.setFullPathToFolder(f.getAbsolutePath());
          try{
          Files.createDirectories(Paths.get(document.getFullPathToFolder()).getParent()); 
@@ -1066,7 +1036,7 @@ if (document.getFolder().getId() != 0){
                  SQL = SQL + " AND ("; 
               }
                for (int a=0;a<dto.getAreas().size();a++){
-                 //  System.out.println("area : " + areas.get(a).getName() + "  " + areas.get(a).isUploadAndEdit());
+                 //  //System.out.println("area : " + areas.get(a).getName() + "  " + areas.get(a).isUploadAndEdit());
                   SQL = SQL + "\"document\".\"idArea\" = " + dto.getAreas().get(a).getId();
                   if (!(a == dto.getAreas().size()-1)){
                       SQL = SQL + " OR ";
@@ -1094,12 +1064,12 @@ if (document.getFolder().getId() != 0){
                   pFac = new PropertiesFacade();
                         String pathTrash = pFac.obtenerValorPropiedad("pathForTrash");
                         fullPathOriginal =  pFac.obtenerValorPropiedad("pathForFiles");
-                    System.out.println("#######################");
+                    //System.out.println("#######################");
                         savingUp = "";
                         getFullPath(document,document.getFilename());
                         String fp = savingUp;
                         document.setName(fp);
-                        System.out.println("ascendientes : " + ascendientes.size());
+                        //System.out.println("ascendientes : " + ascendientes.size());
                         for(Boolean b : ascendientes){
                             if (b){
                                 document.setAscendenteBorrado(true);
@@ -1107,12 +1077,12 @@ if (document.getFolder().getId() != 0){
                             }
                         }
                         
-                       System.out.println("FP : " + fp);
-                       System.out.println("#######################");
+                       //System.out.println("FP : " + fp);
+                       //System.out.println("#######################");
                     document.setFullPathToFolder( fp);
                     document.setFullPathToFolderInDeleted(fp);
-                    System.out.println("setFullPathToFolder : " + document.getFullPathToFolder());
-                     System.out.println("setFullPathToFolderInDeleted : " + document.getFullPathToFolderInDeleted());
+                    //System.out.println("setFullPathToFolder : " + document.getFullPathToFolder());
+                     //System.out.println("setFullPathToFolderInDeleted : " + document.getFullPathToFolderInDeleted());
                       documents.add(document);
                    }
          }
@@ -1145,9 +1115,13 @@ if (document.getFolder().getId() != 0){
     
     @Override
     public DocumentGovernmentDTO getDocumentGovernment( FilterForGovernmentDTO dto ) {
-        if (!dto.getDocument().getIsFolder()){
+        //System.out.println("dto.getDocument().getIdFolderPadre() : "+ dto.getDocument().getIdFolderPadre());
+        if (dto.getDocument().getIsFolder() && dto.getDocument().getIdFolderPadre()!= 0){
            dto.getDocument().setId(dto.getDocument().getIdFolderPadre());
         }
+//          if (dto.getDocument().getIsFolder()){
+//           dto.getDocument().setId(dto.getDocument().getIdFolderPadre());
+//        }
         DocumentGovernmentDTO dgDto = new DocumentGovernmentDTO();
         ArrayList<DocumentDTO> foldersRoot= new ArrayList<DocumentDTO>();
         foldersRoot = getFolders(dto);
@@ -1178,7 +1152,7 @@ if (document.getFolder().getId() != 0){
                  SQL = SQL + " AND ("; 
               }
                for (int a=0;a<fDto.getAreas().size();a++){
-                 //  System.out.println("area : " + areas.get(a).getName() + "  " + areas.get(a).isUploadAndEdit());
+                 //  //System.out.println("area : " + areas.get(a).getName() + "  " + areas.get(a).isUploadAndEdit());
                   SQL = SQL + "\"document\".\"idArea\" = " + fDto.getAreas().get(a).getId();
                   if (!(a == fDto.getAreas().size()-1)){
                       SQL = SQL + " OR ";
@@ -1233,9 +1207,6 @@ if (document.getFolder().getId() != 0){
     @Override
     public String moveDocuments(ArrayList<DocumentDTO> documents) {
         
-        
-           
-      
     try {
         //No esta agarrando bien el origen
         if (!verificaSiEsDescendiente(documents)){
@@ -1257,8 +1228,8 @@ if (document.getFolder().getId() != 0){
           
           ///////////////////////////////////
           documentoOriginal = doFac.getDocument(documentoOriginal);
-          System.out.println("documentoOriginal : " + documentoOriginal.getFullPathToFolder());
-            System.out.println("documentoOriginal : " + documentoOriginal.getFullPathToFolderInDeleted());
+          //System.out.println("documentoOriginal : " + documentoOriginal.getFullPathToFolder());
+            //System.out.println("documentoOriginal : " + documentoOriginal.getFullPathToFolderInDeleted());
           //////////////////////////////////
           DocumentRelationshipDTO drDto = new DocumentRelationshipDTO ();
           drDto.setIdDocumentChild(documentoOriginal.getId());
@@ -1280,6 +1251,10 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
               if (documentoOriginal.getIdArea()!= documentoDestino.getIdArea() ){
                
                   documentoOriginal.setIdArea(documentoDestino.getIdArea());
+                  if (documentoOriginal.getIsFolder()){
+                  getAllDescendants(documentoOriginal);    
+                  }
+                  
                   doFac.updateDocument2ParaMove(documentoOriginal);
                   
               }
@@ -1302,14 +1277,14 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
           
           String pathOrigen="";
           String pathDestino="";
-          System.out.println("Documento original");
+          
           if (documentoOriginal.getAscendenteBorrado()){
             pathOrigen = documentoOriginal.getFullPathToFolderInDeleted();
           }
           else{
               pathOrigen = documentoOriginal.getFullPathToFolder();
           }
-          System.out.println("Documento destino");
+          
           //Si el documento origen esta borrado...
           //checar si es necesario que los de documento original
             if (documentoDestino.getAscendenteBorrado() || documentoOriginal.getDeleted() ){
@@ -1322,17 +1297,15 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
               }
             FilesFacade fFac = new FilesFacade();
              if (fFac.verificaSiExiste(pathDestino)){
-                pathDestino = fFac.retornaNombreBienParaCarpeta(pathDestino) ;
+                    File f = fFac.getUniqueFilename(new File(pathDestino));
+                    pathDestino =   f.getAbsolutePath();
               String nuevoFileName = pathDestino.substring(pathDestino.lastIndexOf("/")+1, pathDestino.length());
               documentoOriginal.setFilename(nuevoFileName);
-              doFac.updateDocument2ParaMove(documentoOriginal);
+              doFac.updateDocumentFilename(documentoOriginal);
           }
             
-            System.out.println("pathDestino : " + pathDestino );
-            System.out.println("pathOrigen : " + pathOrigen );
        Files.createDirectories(Paths.get(pathDestino).getParent());
         Files.move(Paths.get(pathOrigen), Paths.get(pathDestino));
-         System.out.println("###########################");
               documentoDestino.setBackedUp(false);
               doFac.updateDocument2ParaMove(documentoDestino);
              return "success";
@@ -1343,7 +1316,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
     catch (Exception ex) {
         ex.printStackTrace();
     }
-        System.out.println("Error");
+        //System.out.println("Error");
     return "error1";
     }
 
@@ -1383,7 +1356,7 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
                  rs = ps.executeQuery();
                    while (rs.next()) {
                        if (rs.getInt("id") == d1.getId()){
-                           System.out.println("Es descendiente");
+                           //System.out.println("Es descendiente");
                            return true;
                        }
                        
@@ -1411,22 +1384,14 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
                  e2.printStackTrace();
              }
          }
-//         for (DocumentDTO doc :documents){
-//            doc.setChildren(verificaSiEsDescendiente (doc));
-//        }
+
         return false; }
 
     @Override
     public DocumentDTO updateDocument2ParaMove(DocumentDTO dDto) {
-    
-     
         
-        System.out.println("dDto.getDeleted() : " + dDto.getDeleted());
         DocumentDTO dtoViejo = getDocument(dDto);
-        
             DocumentDTO objectDto = null;
-               
-     
         ResultSet rs = null;
         Connection c = null;
         PreparedStatement preparedStmt = null;
@@ -1437,15 +1402,11 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
                 preparedStmt = c.prepareStatement(SQL);
          
             preparedStmt.setBoolean(1, dDto.getDeleted());
-             System.out.println("dDto.getBackedUp() : " + dDto.getBackedUp());
             preparedStmt.setBoolean(2, dDto.getBackedUp());
             preparedStmt.setInt(3, dDto.getIdArea());
             preparedStmt.setInt(4, dDto.getId());
                 preparedStmt.executeUpdate();
-                System.out.println("dDto.getVengoDeRootYPuedoCambiarDeArea() : " + dDto.getVengoDeRootYPuedoCambiarDeArea());
                 if (dtoViejo != null && dDto!= null){
-                    
-              
                 if ((dtoViejo.getIdArea() != dDto.getIdArea()) && (dDto.getVengoDeRootYPuedoCambiarDeArea())){
                      DocumentDTO dtoNuevo = getDocument(dDto);
                      if (dDto.getDeleted()){
@@ -1453,7 +1414,6 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
                             Files.move(Paths.get(dtoViejo.getFullPathToFolderInDeleted()), Paths.get(dtoNuevo.getFullPathToFolderInDeleted()));
                              }
                      else{
-                         //Si 
                          Files.createDirectories(Paths.get(dtoNuevo.getFullPathToFolder()).getParent()); 
                          Files.move(Paths.get(dtoViejo.getFullPathToFolder()), Paths.get(dtoNuevo.getFullPathToFolder()));
                         }
@@ -1493,6 +1453,411 @@ if (documentoDestino.getId() == documentoOriginal.getId()){
              }
          
          }
+         return dDto;
+    }
+
+    
+    
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendants(DocumentDTO dto) {
+       
+       
+
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement ps = null;
+       DocumentDTO newDto = null;
+       
+         try{
+              c = DataSourceSingleton.getInstance().getConnection(); 
+                String SQL = "SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\" WHERE \"documentRelationships\".\"idDocumentParent\" = ?";
+                ps = c.prepareStatement(SQL);
+               ps.setInt(1, dto.getId());
+                 rs = ps.executeQuery();
+                   while (rs.next()) {
+                       newDto = new DocumentDTO();
+                       newDto.setId(rs.getInt("idDocumentChild"));
+                       newDto.setIdArea(dto.getIdArea());
+                       updateDocumentArea(newDto);
+                       getAllDescendants(newDto);
+                   }
+         }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (ps != null){
+                     ps.close();
+                 }
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         }
+        
+        return null; 
+        
+    }
+
+    
+     @Override
+    public DocumentDTO updateDocumentArea(DocumentDTO dDto) {
+    
+        
+        //System.out.println("dDto.getDeleted() : " + dDto.getDeleted());
+        DocumentDTO dtoViejo = getDocument(dDto);
+        
+            DocumentDTO objectDto = null;
+               
+     
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement preparedStmt = null;
+     
+          try {
+          c = DataSourceSingleton.getInstance().getConnection(); 
+            String SQL = "update \"public\".\"document\" set \"idArea\"=? where \"id\"=? ";
+                preparedStmt = c.prepareStatement(SQL);
+            preparedStmt.setInt(1, dDto.getIdArea());
+            preparedStmt.setInt(2, dDto.getId());
+                preparedStmt.executeUpdate();
+    }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (preparedStmt != null){
+                     preparedStmt.close();
+                 }
+                    
+                
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         
+         }
          return dDto;}
+    
+    @Override
+    public DocumentDTO updateDocumentDeleted(DocumentDTO dDto) {
+    
+        
+        //System.out.println("dDto.getDeleted() : " + dDto.getDeleted());
+        DocumentDTO dtoViejo = getDocument(dDto);
+        
+            DocumentDTO objectDto = null;
+               
+     
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement preparedStmt = null;
+     
+          try {
+          c = DataSourceSingleton.getInstance().getConnection(); 
+            String SQL = "update \"public\".\"document\" set \"deleted\"=? where \"id\"=? ";
+                preparedStmt = c.prepareStatement(SQL);
+            preparedStmt.setBoolean(1, dDto.getDeleted());
+            preparedStmt.setInt(2, dDto.getId());
+                preparedStmt.executeUpdate();
+    }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (preparedStmt != null){
+                     preparedStmt.close();
+                 }
+                    
+                
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         
+         }
+         return dDto;}
+
+    @Override
+    public DocumentDTO updateDocumentFilename(DocumentDTO dDto) {
+   
+        
+        DocumentDTO dtoViejo = getDocument(dDto);
+        
+            DocumentDTO objectDto = null;
+               
+     
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement preparedStmt = null;
+     
+          try {
+          c = DataSourceSingleton.getInstance().getConnection(); 
+            String SQL = "update \"public\".\"document\" set \"fileName\"=? where \"id\"=? ";
+                preparedStmt = c.prepareStatement(SQL);
+            preparedStmt.setString(1, dDto.getFilename());
+            preparedStmt.setInt(2, dDto.getId());
+                preparedStmt.executeUpdate();
+    }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (preparedStmt != null){
+                     preparedStmt.close();
+                 }
+                    
+                
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         
+         }
+         return dDto; }
+
+    @Override
+    public DocumentDTO deleteDocument2(DocumentDTO dDto) {
+          try {  PropertiesFacade fac = new PropertiesFacade();
+        dDto = getDocument(dDto);
+        File file = new File (dDto.getFullPathToFolder());
+         String destino ="";
+        if (dDto.getIsFolder() && file.isDirectory()){
+            getAllDescendantsAndCopy(dDto);
+             destino = fac.obtenerValorPropiedad("pathForTrash")  + dDto.getFilename();
+                  Files.move(Paths.get(dDto.getFullPathToFolder()), Paths.get(destino));
+               File f1 = new  File (destino);
+               File f2= new  File ( fac.obtenerValorPropiedad("pathForTrash")  + dDto.getId());
+              boolean success = f1.renameTo(f2);
+               dDto.setDeleted(true);
+        updateDocumentDeleted(dDto);
+ //getAllDescendantsAndDelete(dDto);
+        }
+        else{
+           
+                String baseName = FilenameUtils.getBaseName( file.getName() );
+                String extension = FilenameUtils.getExtension( file.getName() );
+                destino = fac.obtenerValorPropiedad("pathForTrash") + dDto.getId() +"."+ extension;
+                
+                 Files.move(Paths.get(dDto.getFullPathToFolder()), Paths.get(fac.obtenerValorPropiedad("pathForTrash") + dDto.getFilename()));
+                
+                 File f1 = new  File (fac.obtenerValorPropiedad("pathForTrash") + dDto.getFilename());
+                  File f2= new  File (destino);
+                   boolean success = f1.renameTo(f2);
+                    dDto.setDeleted(true);
+        updateDocumentDeleted(dDto);
+                  
+        }
+       
+    } catch (IOException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+         
+        return dDto;
+    }
+
+    @Override
+    public DocumentDTO restoreDocument2(DocumentDTO dDto) {
+        PropertiesFacade fac = new PropertiesFacade();
+        dDto = getDocument(dDto);
+//          String baseName = FilenameUtils.getBaseName( file.getName() );
+//                String extension = FilenameUtils.getExtension( file.getName() );
+        if (dDto.isFolder){
+            File file = new File (fac.obtenerValorPropiedad("pathForTrash") +dDto.getId() );
+      try {
+                Files.move(Paths.get(file.getAbsolutePath()), Paths.get(dDto.getFullPathToFolder()));
+            
+            } catch (IOException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            
+            String extension =  dDto.getFilename().substring(dDto.getFilename().lastIndexOf("."), dDto.getFilename().length());
+            File file = new File (fac.obtenerValorPropiedad("pathForTrash") +dDto.getId() +  extension);
+         
+            try {
+                Files.move(Paths.get(file.getAbsolutePath()), Paths.get(dDto.getFullPathToFolder()));
+            
+            } catch (IOException ex) {
+                Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+            }
+        
+         dDto.setDeleted(false);
+        updateDocumentDeleted(dDto);
+        
+        
+       return dDto;
+    }
+
+    
+    //Copia a basura
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendantsAndCopy(DocumentDTO dto) {
+    
+       
+       
+
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement ps = null;
+       DocumentDTO newDto = null;
+       
+         try{
+              c = DataSourceSingleton.getInstance().getConnection(); 
+                String SQL = "SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\" WHERE \"documentRelationships\".\"idDocumentParent\" = ?";
+                ps = c.prepareStatement(SQL);
+               ps.setInt(1, dto.getId());
+                 rs = ps.executeQuery();
+                   while (rs.next()) {
+                       newDto = new DocumentDTO();
+                       newDto.setId(rs.getInt("idDocumentChild"));
+                       newDto = getDocument(newDto);
+                       copyDocumentToTrash(newDto);
+                       newDto.setDeleted(true);
+                       updateDocumentDeleted(newDto);
+                       getAllDescendants(newDto);
+                   }
+         }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (ps != null){
+                     ps.close();
+                 }
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         }
+        
+        return null;  }
+
+    @Override
+    public ArrayList<DocumentDTO> getAllDescendantsAndDelete(DocumentDTO dto) {
+   
+       
+       
+
+        ResultSet rs = null;
+        Connection c = null;
+        PreparedStatement ps = null;
+       DocumentDTO newDto = null;
+       
+         try{
+              c = DataSourceSingleton.getInstance().getConnection(); 
+                String SQL = "SELECT \"documentRelationships\".\"idDocumentChild\" FROM \"documentRelationships\" WHERE \"documentRelationships\".\"idDocumentParent\" = ?";
+                ps = c.prepareStatement(SQL);
+               ps.setInt(1, dto.getId());
+                 rs = ps.executeQuery();
+                   while (rs.next()) {
+                       newDto = new DocumentDTO();
+                       newDto.setId(rs.getInt("idDocumentChild"));
+                        newDto = getDocument(newDto);
+                       deleteDocumentFromSource(newDto);
+                      // getAllDescendants(newDto);
+                   }
+         }
+         catch (Exception e){
+             e.printStackTrace();
+         }
+         finally{
+             try{
+                 if (rs != null){
+                     rs.close();
+                 }
+                  if (c != null){
+                     c.close();
+                 }
+                   if (ps != null){
+                     ps.close();
+                 }
+             }
+             catch (Exception e2){
+                 e2.printStackTrace();
+             }
+         }
+        
+        return null;   }
+
+    @Override
+    public DocumentDTO copyDocumentToTrash(DocumentDTO dDto) {
+           try {  PropertiesFacade fac = new PropertiesFacade();
+        
+        File file = new File (dDto.getFullPathToFolder());
+         String destino ="";
+        if (dDto.getIsFolder() && file.isDirectory()){
+             destino = fac.obtenerValorPropiedad("pathForTrash")  + dDto.getFilename();
+                  Files.copy(Paths.get(dDto.getFullPathToFolder()), Paths.get(destino));
+               File f1 = new  File (destino);
+               File f2= new  File ( fac.obtenerValorPropiedad("pathForTrash")  + dDto.getId());
+              boolean success = f1.renameTo(f2);
+        }
+        else{
+           
+                String baseName = FilenameUtils.getBaseName( file.getName() );
+                String extension = FilenameUtils.getExtension( file.getName() );
+                destino = fac.obtenerValorPropiedad("pathForTrash") + dDto.getId() +"."+ extension;
+                
+                 Files.copy(Paths.get(dDto.getFullPathToFolder()), Paths.get(fac.obtenerValorPropiedad("pathForTrash") + dDto.getFilename()));
+                
+                 File f1 = new  File (fac.obtenerValorPropiedad("pathForTrash") + dDto.getFilename());
+                  File f2= new  File (destino);
+                   boolean success = f1.renameTo(f2);
+                    
+                  
+        }
+       
+    } catch (IOException ex) {
+        Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        return null;
+    }
+
+    @Override
+    public DocumentDTO deleteDocumentFromSource(DocumentDTO dDto) {
+      PropertiesFacade fac = new PropertiesFacade();
+        
+        File file = new File (dDto.getFullPathToFolder());
+        file.delete();
+        return null; }
     
 }
